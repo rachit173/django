@@ -1,0 +1,57 @@
+{%extends 'base.html'%}
+{%block navbarlink%}
+<!-- Dropdown Trigger -->
+<a class='dropdown-button btn green' href='#' data-activates='dropdown1'>Questions</a>
+  <!-- Dropdown Structure -->
+  <ul id='dropdown1' class=' dropdown-content'>
+    <li>Mathematics</li>
+    {%for que in ma%}
+    <li><a href="/dashboard/question/MA/{{testcode}}/{{forloop.counter}}/{{que.pk}}/">question {{forloop.counter}}</a></li>
+    {%endfor%}
+    <li class="divider"></li>
+    <li>Physics</li>
+    {%for que in ph%}
+    <li><a href="/dashboard/question/PH/{{testcode}}/{{forloop.counter}}/{{que.pk}}/">question {{forloop.counter}}</a></li>
+    {%endfor%}
+    <li class="divider"></li>
+    <li>Chemistry</li>
+    {%for que in ch%}
+    <li><a href="/dashboard/question/CH/{{testcode}}/{{forloop.counter}}/{{que.pk}}/">question {{forloop.counter}}</a></li>
+    {%endfor%}
+    <li class="divider"></li>
+    <li><a href="/submit/">submit</a></li>
+    <li><a href="/logout/">logout</a></li>
+  </ul>
+{%endblock%}
+{%block body%}
+  {%if questionSelected%}
+  <h3>
+    <h3>Test Code: {{testcode}}</h3><br>
+    <h5>Subject {{mcq.subject}}</h2><br>
+    <h5>Question {{question_number}}</h2><br>
+    <div class="questions" style="background-color: blue;height:500px;width: 80%px;margin-top: 4%;margin-left: 2%;margin-right: 2%" >
+      <p>{{mcq.question_text}}</p>  
+    </div>
+    <div class="optiona" style="background-color: green;height:300px;width: 80%px;margin-top: 4%;margin-left: 2%;margin-right: 2%">
+      <p>{{mcq.optionA}}</p>
+    </div>
+    <div class="optionb" style="background-color: green;height:300px;width: 80%px;margin-top: 4%;margin-left: 2%;margin-right: 2%">
+      <p>{{mcq.optionB}}</p>
+    </div>
+    <div class="optionc" style="background-color: green;height:300px;width: 80%px;margin-top: 4%;margin-left: 2%;margin-right: 2%">
+    <p>{{mcq.optionC}}</p>
+    </div>
+    <div class="optiond" style="background-color: green;height:300px;width: 80%px;margin-top: 4%;margin-left: 2%;margin-right: 2%">
+    <p>{{mcq.optionD}}</p>
+    </div>
+  <script type="text/javascript">
+    //ajax call
+  </script>
+  </h3>
+  {%else%}
+  <div class="container" style="padding:10px;">
+  <h3>Test Code: {{testcode}}</h3><br>
+  <h4>Choose a question from drop down list Questions to get started</h4>
+  </div>
+  {%endif%}
+{%endblock%}

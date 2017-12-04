@@ -1,0 +1,17 @@
+{%extends 'dashboard.html'%}
+{%block body%}
+{%if questionSelected%}
+<h3>
+  <h3>Test Code: {{testcode}}</h3><br>
+  <h5>Subject {{mcq.subject}}</h2><br>
+  <h5>Question {{answer.question_num}}</h2><br>
+  <p>{{mcq.question_text}}</p>
+  <!-- {%if mcq.image%}
+  <img src='/media/{{question.image}}'>
+  {%endif%} -->
+</h3>
+{%else%}
+<h3>Test Code: {{testcode}}</h3><br>
+<h4>Choose a question from drop down list Questions to get started</h4>
+{%endif%}
+{%endblock%}
