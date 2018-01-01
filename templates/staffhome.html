@@ -1,0 +1,32 @@
+{%extends 'base1.html'%}
+{%block body%}
+<h1>Welcome, Admin</h1><br>
+        <div id="Login" class="tabcontent">
+            <div class="col s12 m12 l12">
+                <div id="login_form">
+                    <div class="col s6 m4 l4 offset-s3 offset-m4 offset-l4">
+                    </div>
+                    <div class="row"></div>
+                    <div class="row">
+                        <form method="post" action='/test/creator/' novalidate>
+                            {%csrf_token%}
+                            <div class="input-field col s12 l12">
+                                <p text-color="black"> Test Code</p>
+                                <input id="username" name="testcode" type="text" placeholder="testcode">
+                            
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-block">Start Test</button>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+        
+</div>
+</div>
+{%endblock%}

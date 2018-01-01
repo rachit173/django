@@ -19,6 +19,8 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from .models import Test,MCQ,MCQProxy,TestProxy
+from polls.ndbmodels import *
+import json
 subjects = ['MA','PH','CH']
 def startpage(request):
     return render(request,'startpage.html',{'testInstructions':'This is a 3 hour test with 90 questions.Keep calm and give your best.'})
@@ -108,6 +110,14 @@ def dashboard01(request,sub,testcode,question_number,question_id):
     # except:
     #     return redirect('/dashboard/'+str(testcode)+'/')
     return render(request,'dashboard.html',haha)
+    json_dic = {}
+    json_dic['qnum'] = question_number
+    json_dic['question'] = mcq.question_text
+    json_dic['opA'] = mcq.optionA
+    json_dic['opB'] = mcq.optionB
+    json_dic['opC'] = mcq.optionC
+    json_dic['opD'] = mcq.optionD
+    return HttpResponse(json.dumps(json_dic),content_type='application/json')
 @login_required(login_url='/login/')
 def submit(request,testcode):
     testcode = int(testcode)
@@ -140,7 +150,7 @@ def submit(request,testcode):
                 stud_ans.marks_obtained = mcq.Marks
             else:
                 stud_ans.marks_obtained = mcq.NegativeMarks
-        haha['ma_score'].append({'qnum':i,'cans':mcq.correctAns.strip().upper(),'sans':stud_ans.answer,'marks':mcq.Marks,'nmarks':mcq.NegativeMarks,'smarks':stud_ans.NegativeMarks})
+        haha['ma_score'].append({'qnum':i,'cans':mcq.correctAns.strip().upper(),'sans':stud_ans.answer,'marks':mcq.Marks,'nmarks':mcq.NegativeMarks,'smarks':stud_ans.marks_obtained})
         haha['total_ma_score']+=stud_ans.marks_obtained
     i=1
     for mcq in haha['ph']:
@@ -153,7 +163,7 @@ def submit(request,testcode):
                 stud_ans.marks_obtained = mcq.Marks
             else:
                 stud_ans.marks_obtained = mcq.NegativeMarks
-        haha['ph_score'].append({'qnum':i,'cans':mcq.correctAns.strip().upper(),'sans':stud_ans.answer,'marks':mcq.Marks,'nmarks':mcq.NegativeMarks,'smarks':stud_ans.NegativeMarks})
+        haha['ph_score'].append({'qnum':i,'cans':mcq.correctAns.strip().upper(),'sans':stud_ans.answer,'marks':mcq.Marks,'nmarks':mcq.NegativeMarks,'smarks':stud_ans.marks_obtained})
         haha['total_ph_score']+=stud_ans.marks_obtained
     i=1
     for mcq in haha['ch']:
@@ -166,7 +176,25 @@ def submit(request,testcode):
                 stud_ans.marks_obtained = mcq.Marks
             else:
                 stud_ans.marks_obtained = mcq.NegativeMarks
-        haha['ch_score'].append({'qnum':i,'cans':mcq.correctAns.strip().upper(),'sans':stud_ans.answer,'marks':mcq.Marks,'nmarks':mcq.NegativeMarks,'smarks':stud_ans.NegativeMarks})    
+        haha['ch_score'].append({'qnum':i,'cans':mcq.correctAns.strip().upper(),'sans':stud_ans.answer,'marks':mcq.Marks,'nmarks':mcq.NegativeMarks,'smarks':stud_ans.marks_obtained})    
         haha['total_ch_score']+=stud_ans.marks_obtained
     haha['total_test_score'] = haha['total_ma_score']+haha['total_ch_score']+haha['total_ph_score']
     return render(request,'scorepage.html',haha)
+
+@login_required(login_url='/login/')
+def submitresponse(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            testcode = 1
+            stud_choice = 'A'
+            pk = 2
+            user = User.objects.get(username=request.user)
+            testparent = Test.objects.get(pk=testcode)
+            testproxy = user.testproxy_set.get(test=testparent)
+            mcq = testparent.MCQs.get(pk=question_id)
+            answer_mcq = mcq.mcqproxy_set.get(testproxy=testproxy)
+            answer_mcq.answer = stud_choice 
+            answer_mcq.save()
+            return HttpResponse("OK")
+    else:
+        return HTTPError()

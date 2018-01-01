@@ -1,0 +1,85 @@
+{%extends 'base.html'%}
+{%block body%}
+    <h3>Test Code: {{testcode}}</h3>
+    <h5>Total Score Obtained: {{total_test_score}}</h5>
+    <div class="container">
+        {%if ma_score%}
+        <h6>Mathematics</h6><br>
+        <table class="table">
+            <thead>
+                <th>Question Number</th>
+                <th>Correct Answer</th>
+                <th>Student Response</th>
+                <th>Marks alloted</th>
+                <th>Negative Marks alloted</th>
+                <th>Marks Obtained</th>
+            </thead>
+        <tbody>
+            {%for res in ma_score%}
+            <tr>
+                <td>{{res.qnum}}</td>
+                <td>{{res.cans}}</td>
+                <td>{{res.sans}}</td>
+                <td>{{res.marks}}</td>
+                <td>{{res.nmarks}}</td>
+                <td>{{res.smarks}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+        </table>
+        {%endif%}
+        
+        {%if ph_score%}
+        <br><br>
+        <h6>Physics</h6><br>
+        <table class="table">
+            <thead>
+                <th>Question Number</th>
+                <th>Correct Answer</th>
+                <th>Student Response</th>
+                <th>Marks alloted</th>
+                <th>Negative Marks alloted</th>
+                <th>Marks Obtained</th>
+            </thead>
+        <tbody>
+            {%for res in ph_score%}
+            <tr>
+                <td>{{res.qnum}}</td>
+                <td>{{res.cans}}</td>
+                <td>{{res.sans}}</td>
+                <td>{{res.marks}}</td>
+                <td>{{res.nmarks}}</td>
+                <td>{{res.smarks}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+        </table>
+        {%endif%}
+        {%if ch_score%}
+        <br><br>
+        <h6>Chemistry</h6>
+        <table class="table">
+            <thead>
+                <th>Question Number</th>
+                <th>Correct Answer</th>
+                <th>Student Response</th>
+                <th>Marks alloted</th>
+                <th>Negative Marks alloted</th>
+                <th>Marks Obtained</th>
+            </thead>
+        <tbody>
+            {%for res in ch_score%}
+            <tr>
+                <td>{{res.qnum}}</td>
+                <td>{{res.cans}}</td>
+                <td>{{res.sans}}</td>
+                <td>{{res.marks}}</td>
+                <td>{{res.nmarks}}</td>
+                <td>{{res.smarks}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+        </table>
+        {%endif%}
+    </div>
+{%endblock%}

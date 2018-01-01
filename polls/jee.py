@@ -1,0 +1,282 @@
+from django.http import HttpResponse,HttpRequest
+from django.shortcuts import render,redirect
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError
+from .models import Test,MCQ,MCQProxy,TestProxy
+from google.cloud import datastore
+import datetime
+import json
+client = datastore.Client()
+@login_required(login_url='/login/')
+def testcreator(request):
+    user = User.objects.get(username=request.user)
+    if user.is_staff==False:
+        return redirect('/login/')
+    if request.method=='POST':
+        testcode = request.POST['testcode']            
+        key = client.key('Test',testcode)
+        test = client.get(key)
+        if test==None:
+            test = datastore.Entity(key=key)
+        return render(request,'testgen.html',{"testcode":testcode})
+    return redirect('/login/')
+@login_required(login_url='/login')
+def getdata(request,testcode='bothra001'):
+    print testcode
+    testkey = client.key('Test',testcode)
+    test = client.get(testkey)
+
+    quests = {}
+    quests['keylst'] = []
+    print 'test'
+    print test
+    if test==None:
+        test = datastore.Entity(key=testkey)
+        client.put(test)
+        return HttpResponse(json.dumps(quests),content_type='application/json')
+    questquery = client.query(kind='Quest',ancestor=testkey)
+    iter_lst = questquery.fetch()
+    ##lst is an iterable 
+    # try:
+    quests['keylst'] = [e.key.id for e in iter_lst]
+    # except:
+    #     pass
+    print quests
+    return HttpResponse(json.dumps(quests),content_type="application/json")
+@login_required(login_url='/login')
+def getdata_student(request,testcode='bothra001'):
+    print 'getdata student'
+    testkey = client.key('Test',testcode)
+    test = client.get(testkey)
+
+    quests = {}
+    if test==None:
+        test = datastore.Entity(key=testkey)
+        client.put(test)
+        return HttpResponse(json.dumps(quests),content_type='application/json')
+    questquery = client.query(kind='Quest',ancestor=testkey)
+    iter_lst = questquery.fetch()
+    ##lst is an iterable 
+    # try:
+    subjects = ['1','2','3']
+    sections = ['1','2','3']
+    ##inititalise the lsts
+    mp = {}
+    mp['1'] = 'ma'
+    mp['2'] = 'ch'
+    mp['3'] = 'ph'
+    for sub in subjects:
+        for sect in sections:
+            quests[mp[sub]+sect] = []
+    for e in iter_lst:
+        try:
+            if str(e['subject']) in subjects and str(e['section']) in sections: 
+                quests[mp[str(e['subject'])]+str(e['section'])].append(e.key.id)
+        except: pass
+    # print quests
+    return HttpResponse(json.dumps(quests),content_type="application/json")
+@login_required(login_url='/login')
+def savedata(request):
+    print 'savedata'
+    # print request
+    if request.method=='POST':
+        print request.POST
+        data = request.POST['partial']
+        doc = request.POST['doc']
+        isquest = request.POST['isquest']
+        testcode = request.POST['testID']
+        questcode = request.POST['questID']
+        # testkey = client.key('Test',testcode)
+        # test = client.get(testkey)
+        questkey = client.key('Test',testcode,'Quest',int(questcode))
+        try:
+            quest = client.get(questkey)
+            print "questsave"
+            data = json.loads(data.encode('utf-8'))
+            doc = json.loads(doc.encode('utf-8'))
+            # print isquest
+            # print 'doc',
+            # print type(doc)
+            # print doc
+            if int(isquest)==-1:
+                try:
+                    quest[str(isquest)] = doc['answer']
+                    client.put(quest)
+                    return HttpResponse("CS") ##CS stands for correct structure
+                except:
+                    return HttpResponse("Answer Data Save Failed")
+            try:
+                # print "try saving quest"
+                # print quest[str(isquest)]
+                if doc!=None:
+                    quest[str(isquest)] = doc['ops']
+                else:
+                    quest[str(isquest)].extend(data['ops'])
+            except:
+                # print "exception thrown"
+                if doc!=None:
+                    quest[str(isquest)] = doc['ops']
+                else:
+                    quest[str(isquest)] = data['ops']
+        except:
+            # print "err"
+            return HttpResponse("Not OK")
+        client.put(quest)
+        return HttpResponse("OK")
+@login_required(login_url='/login/')
+def savedatamarks(request):
+    # print request
+    if request.method=='POST':
+        print request.POST
+        testcode = request.POST['testID']
+        questcode = request.POST['questID']
+        questkey = client.key('Test',testcode,'Quest',int(questcode))
+
+        try:
+            quest = client.get(questkey)
+            checklst = ["tmarks","nmarks","pmarks","section","subject"]
+            for e in checklst:
+                try:
+                    if request.POST[e]!=None and request.POST[e].isdigit()==True:
+                        quest[e] = int(request.POST[e])
+                except: pass
+            if request.POST["ans"] !=None:
+                quest["ans"] = request.POST["ans"]
+        except:
+            return HttpResponse("Error from the cloud datastore")
+        client.put(quest)
+        return HttpResponse("OK")
+@login_required(login_url='/login/')
+def getquest(request):
+    print request
+    if request.method=='POST':
+        # print request.POST['partial']
+        testcode = request.POST['testID']
+        questcode = request.POST['questID']
+        # testkey = client.key('Test',testcode)
+        # test = client.get(testkey)
+        questkey = client.key('Test',testcode,'Quest',int(questcode))
+        ret = {}
+        print questkey
+        try:
+            quest = client.get(questkey)
+            print quest
+            for i in range(5):
+                try:
+                    ret['opt'+str(i)] = quest[str(i)]
+                except:
+                    ret['opt'+str(i)] = []
+            try:
+                ret['ans'] = quest['ans']
+            except:
+                ret['ans'] = None
+            try:
+                ret["nmarks"] = quest["nmarks"]
+            except:
+                ret["nmarks"] = None
+            try:
+                ret["tmarks"] = quest["tmarks"]
+            except:
+                ret["tmarks"] = None
+            try:
+                ret["pmarks"] = quest["pmarks"]
+            except:
+                ret["pmarks"] = None
+            try:
+                ret["subject"] = quest["subject"]
+            except:
+                ret["subject"] = None
+            try:
+                ret["section"] = quest["section"]
+            except:
+                ret["section"] = None 
+        except:
+            return HttpResponse("err")
+        return HttpResponse(json.dumps(ret),content_type='application/json')
+@login_required(login_url='/login/')
+def getquest_student(request):
+    print request
+    if request.method=='POST':
+        # print request.POST['partial']
+        testcode = request.POST['testID']
+        questcode = request.POST['questID']
+        # testkey = client.key('Test',testcode)
+        # test = client.get(testkey)
+        questkey = client.key('Test',testcode,'Quest',int(questcode))
+        ret = {}
+        print questkey
+        try:
+            quest = client.get(questkey)
+            print quest
+            for i in range(5):
+                try:
+                    ret['opt'+str(i)] = quest[str(i)]
+                except:
+                    ret['opt'+str(i)] = []
+            try:
+                ret["nmarks"] = quest["nmarks"]
+            except:
+                ret["nmarks"] = None
+            try:
+                ret["tmarks"] = quest["tmarks"]
+            except:
+                ret["tmarks"] = None
+            try:
+                ret["pmarks"] = quest["pmarks"]
+            except:
+                ret["pmarks"] = None
+            try:
+                ret["subject"] = quest["subject"]
+            except:
+                ret["subject"] = None
+            try:
+                ret["section"] = quest["section"]
+            except:
+                ret["section"] = None 
+        except:
+            return HttpResponse("err")
+        return HttpResponse(json.dumps(ret),content_type='application/json')
+@login_required(login_url='/login/')
+def deletequest(request):
+    # print request
+    if request.method=='POST':
+        testcode = request.POST['testID']
+        questcode = request.POST['questID']
+        questkey = client.key('Test',testcode,'Quest',int(questcode))
+        try:
+            client.delete(questkey)
+            return HttpResponse("Delete OK")
+        except:
+            return HttpResponse("Delete fail")
+@login_required(login_url='/login/')
+def createquest(request):
+    # print request
+    if request.method=='POST':
+        testcode = request.POST['testID']
+        incomplete_key = client.key('Test',testcode,'Quest')
+        e = datastore.Entity(
+            incomplete_key,
+            # exclude_from_indexes=['0','1','2','3','4']
+            )
+        e.update({
+            '-1':[],
+            '0':[],
+            '1':[],
+            '2':[],
+            '3':[],
+            '4':[],
+            "nmarks":None,
+            "pmarks":None,
+            "tmarks":None,
+            "ans":None,
+            "subject":None,
+            "section":None,
+            'created': datetime.datetime.now()
+        })
+        client.put(e)
+        complete_id = e.key.id 
+        ret = {}
+        ret['questID'] = complete_id
+        return HttpResponse(json.dumps(ret),content_type='application/json')

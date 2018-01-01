@@ -15,18 +15,36 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-
-from polls.views import index,home
-from polls.testgen import startpage,dashboard,dashboard01,submit
+from polls.jee import testcreator,getdata,savedata,getquest,createquest,deletequest,savedatamarks,getdata_student,getquest_student
+from polls.views import index,home,testjson
+from polls.student import testdashboard,saveResponse,submitSuccess,result
+from polls.testgen import startpage,dashboard,dashboard01,submit,submitresponse
 urlpatterns = [
+    url(r'^testjson$',testjson),
     url(r'^$', index),
     url(r'^dashboard/$',dashboard),
     url(r'^dashboard/(\w+)/$',dashboard),
     url(r'^dashboard/question/(\w+)/(\w+)/(\w+)/(\w+)/$',dashboard01),
     url(r'^sampletest/$',startpage),
-    url(r'^login/$',auth_views.LoginView.as_view(template_name='login.html'),name='login'),
-    url(r'^logout/$',auth_views.LogoutView.as_view(template_name='logout.html'),name='logout'),
+    url(r'^login/$',auth_views.LoginView.as_view(template_name='login1.html'),name='login'),
+    url(r'^logout/$',auth_views.LogoutView.as_view(template_name='logout1.html'),name='logout'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^home/$',home),
-    url(r'submit/(\w+)',submit),
+    url(r'^submit/(\w+)/$',submit),
+    url(r'^submit/response/$',submitresponse),
+    url(r'^test/dashboard/$',testdashboard),
+    url(r'^test/creator/(\w+)/$',testcreator),
+    url(r'^test/creator/$',testcreator),
+    # url(r'^test/getdata/(\w+)/$',getdata),
+    url(r'^test/getdata/(\w+)/$',getdata),
+    url(r'^test/getdata/student/(\w+)/$',getdata_student),
+    url(r'^test/savedata/$',savedata),
+    url(r'^test/getquest/$',getquest),
+    url(r'^test/getquest/student/$',getquest_student),
+    url(r'^test/createquest/$',createquest),
+    url(r'^test/deletequest/$',deletequest),
+    url(r'^test/savedata/marks/$',savedatamarks),
+    url(r'^test/save/response/$',saveResponse),
+    url(r'^test/submit/result/$',submitSuccess),
+    url(r'^result/(\w+)/(\w+)/$',result),
 ]

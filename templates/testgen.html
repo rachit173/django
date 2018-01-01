@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{%csrf_token%}
+	<title>Test Creator</title>
+	  <meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Include stylesheet -->
+	<link href="https://cdn.quilljs.com/1.3.4/quill.snow.css" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<!-- Include the Quill library -->
+	<script src="https://cdn.quilljs.com/1.3.4/quill.js"></script>
+	<style>
+	/* Style the tab */
+/*#right {
+	text-align: right;
+	margin-top: 2px;
+	font-size: 22px;
+}*/
+/*.row{
+	display: inline;
+	float: left;
+}*/
+
+div.tab {
+    float: left;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    width: 30%;
+    height: 100vh;
+    overflow:scroll; 
+}
+
+/* Style the buttons inside the tab */
+.tablinks {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 22px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tablinks:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tablinks.active {
+    background-color: #ccc;
+}
+
+.tablinksmin {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 22px 16px;
+    width: 25%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tablinksmin:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tablinksmin.active {
+    background-color: #ccc;
+}
+/* Style the tab content */
+.tabcontent {
+    float: left;
+    padding: 0px 12px;
+    border: 1px solid #ccc;
+    width: 70%;
+    border-left: none;
+    height: 100vh;
+    overflow: scroll;
+}
+#header {
+	background: #29394A;
+	width: 100%;
+	padding :5px;
+	font-size: 26px;
+	color: #eee;
+	margin-bottom: 0px;
+}
+	</style>
+	<script>
+		var Delta = Quill.import('delta');
+		var testID = "{{testcode}}";
+	</script>
+	<script>
+		function binder(butid){
+			// console.log('#'+butid);
+			$('#'+butid).click(function(){
+				alert('button clicked');
+
+				switchQuestion(butid);
+			});
+		}
+		function initialiseTabs(){
+			var buttonlst;
+			$.getJSON({
+				url: '/test/getdata/'+testID,
+				success: function(result){
+					var i;
+					// console.log("success");
+					// console.log(result);
+					var navPane = document.getElementById('navpane');
+					navPane.innerHTML = '<button class="tablinks" id="addButton" onclick="addQuestion(event);"><span class="glyphicon glyphicon-plus"></span>  Add Question  </button>';
+					 var sz = result.keylst.length;
+					 console.log(result);
+					 console.log(sz);
+					 for(i=0;i<sz;i++){
+					 	var $button = document.createElement('button');
+					 	var $minusButton = document.createElement('button');
+					 	$minusButton.id='minus'+result.keylst[i];
+					 	$minusButton.type = "button";
+					 	var $span = document.createElement('span');
+					 	$span.className = "glyphicon glyphicon-minus";
+					 	$minusButton.appendChild($span);
+					 	// var $button  = $("<button onclick=switchQuestion(event)>");
+					 	$button.className="tablinks";
+					 	// button.=openCity(event,result.keylst[i]);
+					 	var j=i+1;
+					 	$button.innerHTML="Question "+j;
+					 	$button.id = result.keylst[i];
+					 	navPane.appendChild($button);	
+					 	navPane.appendChild($minusButton);		
+					 	var $pro = $('#'+result.keylst[i]);
+					 	var $pro1 = $('#minus'+result.keylst[i]);
+					 	$pro.attr({'onclick':'switchQuestion(event,'+result.keylst[i]+');'});
+					 	$pro1.attr({'onclick':'deleteQuestion(event,'+result.keylst[i]+');'});
+					 	// console.log(result.keylst[i]);
+					 }
+					},
+				error: function(result){
+					// console.log(result);
+					// console.log('in error');
+				},
+				});
+		}
+
+		
+	</script>
+</head>
+<body onload="initialiseTabs();">
+		<div class="row" id="header">
+		<!-- <div id="left" class="col s6"> -->
+			<p align="center">Bothra Classes</p>
+		<!-- </div> -->
+<!-- 		<div id="right" class="col s6">
+			<i class="fa fa-bar-chart"></i>&nbsp;
+			<i class="fa fa-sign-out"></i>
+		</div> -->
+		</div>
+		<div class="tab" id="navpane" >
+				<button class="tablinks" id="addButton" onclick="addQuestion(event);"><span class="glyphicon glyphicon-plus"></span>  Add Question  </button>
+	</div>
+	<div class="tabcontent" id="questPanel">
+		<div class="row">
+		<div class="col-xs-6">
+		<div class="marks">
+
+			<h6>Marks : </h6><input type="number" id="tmarks" name="tmarks"><br>
+			<h6>Negative Marks : </h6><input type="number" id="nmarks" name="nmarks"><br>
+			<h6>Partial Marks : </h6><input type="number" id="pmarks" name="pmarks"><br>
+			<h6>Answer : </h6><input type="text" id="ans" value="C" name="ans"> 
+		</div>
+		</div>
+		<div class="col-xs-6">
+				<div class="marks">
+		
+					<!-- <h6>Section : </h6><input type="choice" id="section" name="section"><br>
+					<h6>Subject : </h6><input type="number" id="nmarks" name="nmarks"><br> -->
+					<br>
+					<select id="section">
+						<option value="1">Section 1</option>
+						<option value="2">Section 2</option>
+						<option value="3">Section 3</option>
+						<option value="4">Section 4</option>
+						<option value="5">Section 5</option>
+					</select>
+					<br>
+					<br>
+					<br>
+					<select id="subject">
+							<option value="1">Mathematics</option>
+							<option value="2">Physics</option>
+							<option value="3">Chemistry</option>
+							<option value="4">General</option>
+							<!-- <option value="5">Section 5</option> -->
+						</select>
+						<br>
+						<br>
+					<button class="btn btn-save" id="questheaders" onclick="saveQuestHeaders(event);"> Save </button>
+				</div>
+				</div>
+				</div>
+				<br>
+				<br>
+<!-- 		<div id="editor-5" style="width:300px;height:30px;">
+		</div>
+		<h2><b>Question:</b></h2><br> -->
+		<div id="editor" style="height:100px;">
+		  <p>Select a question to start editing</p>
+		  <p>To create a question click the <strong>+ Add Question Button</strong></p>
+		  <p><br></p>
+		</div>
+		<br>
+		<h4><b>Option A:</b></h4><br>
+		<div id="editor-1" style="height:100px;">
+		</div>
+		<h4><b>Option B:</b></h4><br>
+		<div id="editor-2" style="height:100px;">
+		</div>
+		<h4><b>Option C:</b></h4><br>
+		<div id="editor-3" style="height:100px;">
+		</div>
+		<h4><b>Option D:</b></h4><br>
+		<div id="editor-4" style="height:100px;">
+
+	</div>
+	<script>
+	</script>
+		<script>
+					var toolbarOptions = [
+		  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+		  ['blockquote', 'code-block','image','formula'],
+
+		  [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+		  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+		  [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+		  [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+		  [{ 'direction': 'rtl' }],                         // text direction
+
+		  [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+		  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+		  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+		  [{ 'font': [] }],
+		  [{ 'align': [] }],
+
+		  ['clean']                                         // remove formatting button
+		];
+
+			var quill = new Quill('#editor', {
+		    	theme: 'snow',
+		    	modules: {
+		    		toolbar: toolbarOptions,
+		    	}
+		  	});
+			 var quill1 = new Quill('#editor-1', {
+			    theme: 'snow',
+			    modules: {
+			    	toolbar: toolbarOptions
+			    }
+			  });
+		 	 var quill2 = new Quill('#editor-2', {
+			    theme: 'snow',
+			    modules: {
+			    	toolbar: toolbarOptions
+			    }
+			  });
+			 var quill3 = new Quill('#editor-3', {
+			    theme: 'snow',
+			    modules: {
+			    	toolbar:toolbarOptions
+			    }
+			  });
+			var quill4 = new Quill('#editor-4', {
+			    theme: 'snow',
+			    modules: {
+			    	toolbar: toolbarOptions
+			    }
+			  });
+			// var quillAnswer = new Quill('#editor-5',{
+			// 	theme: 'snow',
+			// 	modules:{
+			// 		"toolbar":false,
+			// 	},
+			// 	placeholder: "Enter the answer to the question here"
+			// });
+			var change = new Delta();
+			var change1 = new Delta();
+			var change2 = new Delta();
+			var change3 = new Delta();
+			var change4 = new Delta();
+			// var changeAns = new Delta();
+		function saveQuestHeaders(event)
+		{
+			tmarks = $("#tmarks").val();
+			nmarks = $("#nmarks").val();
+			pmarks = $("#pmarks").val();
+			section = $('#section').val();
+			subject = $('#subject').val();
+			ans = $("#ans").val();
+			$.post('/test/savedata/marks/',{
+				testID: testID,
+				questID: parseInt($(".active")[0].id),
+				tmarks: parseInt(tmarks),
+				nmarks: parseInt(nmarks),
+				pmarks: parseInt(pmarks),
+				section: parseInt(section),
+				subject: subject,
+				ans: ans,
+				csrfmiddlewaretoken: '{{csrf_token}}'
+			}).done(function(result){
+
+			});
+		}
+		function switchQuestion(evt,questID)
+		{	
+		    var i, tabcontent, tablinks;
+		    tablinks = document.getElementsByClassName("tablinks");
+		    for (i = 0; i < tablinks.length; i++) {
+		        tablinks[i].className = tablinks[i].className.replace(" active", "");
+		        // $('#'+tablinks[i].id).off('click');
+		    }
+		    // console.log('switchQuestion'+questID);
+		    // Show the current tab, and add an "active" class to the link that opened the tab
+		    document.getElementById(questID).style.display = "block";
+		    evt.currentTarget.className += " active";
+		    //Now initialise the quill with data that of the question
+		    console.log(testID);
+				$.post('/test/getquest/',{
+					questID: questID,
+					testID: testID,
+					csrfmiddlewaretoken: '{{ csrf_token }}'
+				}).done(function(result){
+					wf(result,questID);
+				});
+				
+		}
+		function switchQuestionToNew(questID)
+		{	
+			console.log(questID);
+			questID = parseInt(questID);
+		    var i, tabcontent, tablinks;
+		    tablinks = document.getElementsByClassName("tablinks");
+		    for (i = 0; i < tablinks.length; i++) {
+		        tablinks[i].className = tablinks[i].className.replace(" active", "");
+		        // $('#'+tablinks[i].id).off('click');
+		    }
+		    // console.log('switchQuestion'+questID);
+		    // Show the current tab, and add an "active" class to the link that opened the tab
+		    document.getElementById(questID).style.display = "block";
+		    $("#"+questID).className += " active";
+		    //Now initialise the quill with data that of the question
+				$.post('/test/getquest/',{
+					questID: questID,
+					testID: testID,
+					csrfmiddlewaretoken: '{{ csrf_token }}'
+				}).done(function(result){
+					wf(result,questID);
+				});
+				
+		}
+		function deleteQuestion(evt,questID){
+			questID = parseInt(questID);
+			var i, tabcontent, tablinks;
+			// console.log(questID);
+		    tablinks = document.getElementsByClassName("tablinks");
+		    for (i = 0; i < tablinks.length; i++) {
+		        tablinks[i].className = tablinks[i].className.replace(" active", "");
+		        // $('#'+tablinks[i].id).off('click');
+		    }
+		    $.post('/test/deletequest/',{
+		    	testID: testID,
+		    	questID: questID,
+		    	csrfmiddlewaretoken: '{{csrf_token}}'
+		    }).done(function(){
+		    	initialiseTabs();
+		    });
+		}
+		function addQuestion(evt){
+			$.post('/test/createquest/',{
+				type: "MCQ",
+				testID: testID,
+				csrfmiddlewaretoken: '{{ csrf_token }}'
+			}).done(function(result){
+				// console.log("created question received",result);
+				qID = result.questID;
+				console.log(qID);
+				$.when(initialiseTabs()).done(switchQuestionToNew(qID));
+			});
+		}
+		function wf(result,questID){
+
+			$.when(quillSetContents(result)).done(function(){
+						quillAutoSave(questID);
+					});		
+		}
+		function quillSetContents(result){
+					quill.setContents({'ops':result.opt0||[]});
+					quill1.setContents({'ops':result.opt1||[]});
+					quill2.setContents({'ops':result.opt2||[]});
+					quill3.setContents({'ops':result.opt3||[]});
+					quill4.setContents({'ops':result.opt4||[]});
+					// quillAnswer.setText(result.answer);
+					//set number fields
+					console.log('nmarks',result.nmarks);
+					console.log('pmarks',result.pmarks);
+					console.log('tmarks',result.tmarks);
+					console.log('tmarks',result.section);
+					console.log('tmarks',result.subject);
+					$("#tmarks").val(result.tmarks);
+					$("#pmarks").val(result.pmarks);
+					$("#nmarks").val(result.nmarks);
+					$('#ans').val(result.ans);
+					$('#subject').val(result.subject);
+					$('#section').val(result.section);
+					//set the deltas for quills
+					change = quill.getContents();
+					change1 = quill1.getContents();
+					change2 = quill2.getContents();
+					change3 = quill3.getContents();
+					change4 = quill4.getContents();
+					// changeAns = quillAnswer.getContents();
+		}
+		function quillAutoSave(questID){
+
+				// console.log("change");
+				quill.on('text-change',function(delta){
+					change = change.compose(delta);
+					// console.log(0);
+					// console.log('change 0',change);
+				});
+				quill1.on('text-change',function(delta){
+					change1 = change1.compose(delta);
+					// console.log('change 1', change1);
+				});
+				quill2.on('text-change',function(delta){
+					change2 = change2.compose(delta);
+					// console.log('change 2',change2);
+				});
+				quill3.on('text-change',function(delta){
+					change3 = change3.compose(delta);
+					// console.log('change 3',change3);
+				});
+				quill4.on('text-change',function(delta){
+					change4 = change4.compose(delta);
+					// console.log('change 4',change4);
+				});
+				// quillAnswer.on('text-change',function(delta){
+				// 	changeAns = changeAns.compose(delta);
+				// });
+				//change to the numneric fields
+				// $("#tmarks").change(function(){
+				// 	var num = parseInt($(this).attr('value'));
+				// 	console.log("tmarks",num);
+				// 	$.post('/test/savedata/marks/',{
+				// 		testID: testID,
+				// 		questID: parseInt($(".active")[0].id),
+				// 		tmarks: num,
+				// 		csrfmiddlewaretoken: '{{ csrf_token }}',
+				// 		access: "tmarks"
+				// 	}).done(function(result){
+				// 		console.log(result);
+				// 	});
+				// });
+				// $("#nmarks").change(function(){
+				// 	var num = parseInt($(this).attr('value'));
+				// 	console.log("nmarks",num);
+				// 	$.post('/test/savedata/marks/',{
+				// 		testID: testID,
+				// 		questID: parseInt($(".active")[0].id),
+				// 		nmarks: num,
+				// 		csrfmiddlewaretoken: '{{ csrf_token }}',
+				// 		access: "nmarks"
+				// 	}).done(function(result){
+				// 		console.log(result);
+				// 	});
+				// });
+				// $("#pmarks").change(function(){
+				// 	var num = parseInt($(this).attr('value'));
+				// 	console.log("pmarks",num);
+				// 	$.post('/test/savedata/marks/',{
+				// 		testID: testID,
+				// 		questID: parseInt($(".active")[0].id),
+				// 		pmarks: num,
+				// 		csrfmiddlewaretoken: '{{ csrf_token }}',
+				// 		access: "pmarks"
+				// 	}).done(function(result){
+				// 		console.log(result);
+				// 	});
+				// });
+				// setInterval(function() {
+				// 	if(changeAns.length()>0){
+				// 		// console.log('Saving changes',change);
+				// 		//Sending partial changes
+				// 		var $text = 'A,B';
+				// 		var $doc = {
+				// 			answer: $text
+				// 		};
+				// 		$.post('/test/savedata/',{
+				// 			testID: testID,
+				// 			questID: parseInt($(".active")[0].id),
+				// 			doc: JSON.stringify($doc), 
+				// 			partial: JSON.stringify(change),
+				// 			csrfmiddlewaretoken: '{{ csrf_token }}',
+				// 			isquest: -1
+				// 		}).done(function(result){
+				// 			// console.log('sadf');
+				// 		}).error(function(err,result){
+				// 			// console.log(err);
+				// 		});
+				// 		changeAns = new Delta();
+				// 	}	
+				// },15*1000);
+				//Save periodically
+				setInterval(function() {
+					if(change.length()>0){
+						console.log('Saving changes',change);
+						//Sending partial changes
+						$.post('/test/savedata/',{
+							testID: testID,
+							questID: parseInt($(".active")[0].id),
+							doc: JSON.stringify(quill.getContents()), 
+							partial: JSON.stringify(change),
+							csrfmiddlewaretoken: '{{ csrf_token }}',
+							isquest: 0
+						}).done(function(result){
+							console.log('sadf');
+						}).error(function(err,result){
+							// console.log(err);
+						});
+						change = new Delta();
+					}	
+				},3*1000);
+				//Save periodically quill 1
+				setInterval(function() {
+					if(change1.length()>0){
+						// console.log('Saving changes',change1);
+						// console.log(1);
+						//Sending partial changes
+						$.post('/test/savedata/',{
+							testID: testID,
+							questID: parseInt($(".active")[0].id), 
+							partial: JSON.stringify(change1),
+							doc: JSON.stringify(quill1.getContents()),
+							csrfmiddlewaretoken: '{{ csrf_token }}',
+							isquest: 1
+						}).done(function(result){
+							// console.log('sadf');
+						}).error(function(err,result){
+							// console.log(err);
+						});
+						change1 = new Delta();
+					}	
+				},3*1000);
+				//Save periodically quill 2
+				setInterval(function() {
+					if(change2.length()>0){
+						// console.log('Saving changes',change2);
+						// console.log(2);
+						//Sending partial changes
+						$.post('/test/savedata/',{
+							testID: testID,
+							questID: parseInt($(".active")[0].id), 
+							partial: JSON.stringify(change2),
+							doc: JSON.stringify(quill2.getContents()),
+							csrfmiddlewaretoken: '{{ csrf_token }}',
+							isquest: 2
+						}).done(function(result){
+							// console.log('sadf');
+						}).error(function(err,result){
+							// console.log(err);
+						});
+						change2 = new Delta();
+					}	
+				},3*1000);
+								//Save periodically
+				setInterval(function() {
+					if(change3.length()>0){
+						// console.log('Saving changes',change3);
+						//Sending partial changes
+						// console.log(3);
+						$.post('/test/savedata/',{
+							testID: testID,
+							questID: parseInt($(".active")[0].id), 
+							partial: JSON.stringify(change3),
+							doc: JSON.stringify(quill3.getContents()),
+							csrfmiddlewaretoken: '{{ csrf_token }}',
+							isquest: 3
+						}).done(function(result){
+							// console.log('sadf');
+						}).error(function(err,result){
+							// console.log(err);
+						});
+						change3 = new Delta();
+					}	
+				},3*1000);
+								//Save periodically
+				setInterval(function() {
+					if(change4.length()>0){
+						// console.log('Saving changes',change4);
+						//Sending partial changes
+						// console.log(4);
+						$.post('/test/savedata/',{
+							testID: testID,
+							questID: parseInt($(".active")[0].id), 
+							partial: JSON.stringify(change4),
+							doc: JSON.stringify(quill4.getContents()),
+							csrfmiddlewaretoken: '{{ csrf_token }}',
+							isquest: 4
+						}).done(function(result){
+							// console.log('sadf');
+						}).error(function(err,result){
+							// console.log(err);
+						});
+						change4 = new Delta();
+					}	
+				},3*1000);
+				// window.onbeforeunload = function() {
+				//   if (changeAns.length() > 0) {
+				//     return 'There are unsaved changes. Are you sure you want to leave?';
+				//   }
+				// }
+							// Check for unsaved data
+				window.onbeforeunload = function() {
+				  if (change.length() > 0) {
+				    return 'There are unsaved changes. Are you sure you want to leave?';
+				  }
+				}
+											// Check for unsaved data
+				window.onbeforeunload = function() {
+				  if (change1.length() > 0) {
+				    return 'There are unsaved changes. Are you sure you want to leave?';
+				  }
+				}
+											// Check for unsaved data
+				window.onbeforeunload = function() {
+				  if (change2.length() > 0) {
+				    return 'There are unsaved changes. Are you sure you want to leave?';
+				  }
+				}
+											// Check for unsaved data
+				window.onbeforeunload = function() {
+				  if (change3.length() > 0) {
+				    return 'There are unsaved changes. Are you sure you want to leave?';
+				  }
+				}
+											// Check for unsaved data
+				window.onbeforeunload = function() {
+				  if (change4.length() > 0) {
+				    return 'There are unsaved changes. Are you sure you want to leave?';
+				  }
+				}
+
+				}
+	</script>
+	<script>
+
+	</script>
+</body>
+</html>

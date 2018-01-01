@@ -11,10 +11,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+from django import forms
 from django.contrib import admin
 from .models import Question
 from .models import Test,MCQ
+from .forms import TestForm
 # admin.site.register(Question)
-admin.site.register(Test)
+class TestAdmin(admin.ModelAdmin):
+    form = TestForm
+    # fieldsets = (
+    #     (None,{'fields':('test_code','standard','batch','description','teacher_name','MCQs')}),
+    # )
+admin.site.register(Test,TestAdmin)
 admin.site.register(MCQ)

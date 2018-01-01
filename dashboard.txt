@@ -1,0 +1,78 @@
+{%extends 'base.html'%}
+{%block navbarlink%}
+<!-- Dropdown Trigger -->
+<a class='dropdown-button btn green' href='#' data-activates='dropdown1'>Questions</a>
+  <!-- Dropdown Structure -->
+  <ul id='dropdown1' class=' dropdown-content'>
+    <li>Mathematics</li>
+    {%for que in ma%}
+    <li><a href="/dashboard/question/MA/{{testcode}}/{{forloop.counter}}/{{que.pk}}/">question {{forloop.counter}}</a></li>
+    {%endfor%}
+    <li class="divider"></li>
+    <li>Physics</li>
+    {%for que in ph%}
+    <li><a href="/dashboard/question/PH/{{testcode}}/{{forloop.counter}}/{{que.pk}}/">question {{forloop.counter}}</a></li>
+    {%endfor%}
+    <li class="divider"></li>
+    <li>Chemistry</li>
+    {%for que in ch%}
+    <li><a href="/dashboard/question/CH/{{testcode}}/{{forloop.counter}}/{{que.pk}}/">question {{forloop.counter}}</a></li>
+    {%endfor%}
+    <li class="divider"></li>
+    <li><a href="/submit/{{testcode}}">submit</a></li>
+    <li><a href="/logout/">logout</a></li>
+  </ul>
+{%endblock%}
+{%block body%}
+  {%if questionSelected%}
+  <h3>
+    <div class="container">
+    <h3>Test Code: {{testcode}}</h3><br>
+    <h5>Subject {{mcq.subject}}</h2><br>
+    <h5>Question {{question_number}}</h2><br>
+
+        <br>{{mcq.question_text}}</br>
+        <form>
+          <input type="radio" id="oa" name="options"><label for="oa">{{mcq.optionA}}</label>
+        <input type="radio" id="ob" name="options"><label for="ob">{{mcq.optionB}}</label>
+      <input type="radio" id="oc" name="options"><label for="oc">{{mcq.optionC}}</label>
+      <input type="radio" id="od" name="options"><label for="od">{{mcq.optionD}}</lebel>
+  </form>
+</div>
+    <script>
+      function marked_answers(){
+        var answer = 'N'
+        if(document.getElementById('oa').prop('checked',true)) answer='A';
+        if(document.getElementById('ob').prop('checked',true)) answer='B';
+        if(document.getElementById('ob').prop('checked',true)) answer='C';
+        if(document.getElementById('ob').prop('checked',true)) answer='D';
+        var pk = 2;
+        var testcode = 1;
+        // $.post("/submit/response/",{response:answer,pk:pk,testcode:testcode})
+        //   .done(function(data){
+        //     alert("Data Loaded");
+        //   });
+        $.ajax({
+			url: "/submit/response/",
+			method: POST,
+			data:{answer:answer},
+			success: function(result){
+				if(result)window.alert("Your Answer is correct");
+				else window.alert("Your Answer is wrong");
+	    	},
+	    	error: function(result){
+	    		console.log('in error');
+	    	},
+		});
+      }
+  </script>
+  </h3>
+  {%else%}
+  <div class="container" style="padding:10px;">
+  <h3>Test Code: {{testcode}}</h3><br>
+  <h4>Choose a question from drop down list Questions to get started</h4>
+  </div>
+  {%endif%}
+{%endblock%}
+{%block footer%}
+{%endblock%}

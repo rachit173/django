@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://use.fontawesome.com/1da6d29d9e.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <!-- Include Editor style. -->
+<link href='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.2/css/froala_editor.min.css' rel='stylesheet' type='text/css' />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.2/css/froala_style.min.css' rel='stylesheet' type='text/css' />
+ 
+<!-- Include JS file. -->
+<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.2/js/froala_editor.min.js'></script>
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+      background-color: #173e43;
+    }
+    
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 1000px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #3fb0ac;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }
+    .panel
+    {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 15px;
+    }
+  </style>
+  <script>
+      //Initialise data from json testcode
+    //   function initialisePage(){
+    //     $.getJSON({
+	//     url: "/test/getdata/{{testcode}}",
+	// 	success: function(result){
+	// 	console.log(result);
+
+	// 	},
+	// 	error: function(result){
+	// 		console.log(result);
+	// 		console.log('in error');
+	// 	},
+    //     });
+    //   }
+
+  </script>
+</head>
+<body onload="initialisePage();">
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">Logo</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <!-- <li><a href="#">About</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Contact</a></li> -->
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-12 text-left" id="board"> 
+      <div ng-app="myApp" ng-controller="myCtrl">
+        <h5>Test Code:<input type="text" ng-model="testcode"><br></h5>
+        <h1>Test Code : {{testcode}}</h1>
+      </div>
+      <hr>
+        <div class="panel" text=""; style="background-color: rgb(146, 146, 143);min-height:100px;">
+          <h3><b>Question : </h3></b><br>
+          <textarea></textarea>
+          <h3><b>option A: </b></h3><br>
+          <textarea></textarea>
+          <h3><b>option B: </b></h3><br>
+          <textarea></textarea>
+          <h3><b>option C: </b></h3><br>
+          <textarea></textarea>
+          <h3><b>option D: </b></h3><br>
+          <textarea></textarea>
+        </div>
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid text-center">
+  <p>Footer Text</p>
+</footer>
+<script>
+    $(function(){
+      $('textarea').froalaEditor({
+        //Savv interval
+        saveInterval: 2500,
+        //save params
+        saveParam: 'content',
+        saveURL: '/api/'
+      })
+    });
+    var app = angular.module('myApp',[]);
+    app.controller('myCtrl',function($scope){
+      $scope.testcode= "Star11";
+    });
+    var qapp = angular.module('questApp',[]);
+    app.controller('myQuest',function($scope){
+        
+    })
+</script>
+</body>
+</html>

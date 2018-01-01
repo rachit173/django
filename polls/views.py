@@ -18,15 +18,26 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from student import studenthome
+import json
 import datetime
+from polls.ndbmodels import *
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
-
+@login_required()
 def home(request):
-    if request.user.is_authenticated:
-        tmp = User.objects.get(username=request.user)
-        return render(request,'home.html')
-    else:
-        return redirect('/login/')
+        user = User.objects.get(username=request.user)
+        if user.is_staff:
+            return render(request,'staffhome.html')
+        else:
+            return studenthome(request)
 def login_redirect(request):
     return redirect('/login/')
+def testjson(request):
+    json_dic={}
+    json_dic['question']='what to do?'
+    json_dic['answer'] = 'ask google'
+    sandy = Account(username='rachit',userid=123,email='r@t.com')
+    sandy_key = sandy.put()
+    print sandy_key
+    return HttpResponse(json.dumps(json_dic),content_type='application/json')

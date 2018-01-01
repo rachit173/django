@@ -1,0 +1,69 @@
+{%extends 'base1.html'%}
+{%block body%}
+        <div id="Login" class="tabcontent">
+            <div class="col s12 m12 l12">
+                <div id="login_form">
+                    <div class="col s6 m4 l4 offset-s3 offset-m4 offset-l4">
+                    </div>
+                    <div class="row"></div>
+                    <div class="row">
+                        <form method="post" action='/test/dashboard/'>
+                            {%csrf_token%}
+                            <div class="input-field col s12 l12">
+                                <p text-color="black"> Test Code</p>
+                                <input id="username" type="text" name="testcode" placeholder="testcode">
+                            
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-block">Start Test</button>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <style>
+                table-responsive{
+                    max-height: 50px;
+                }
+            </style>
+            <div class="container">
+                <font color="black">
+            <div style="padding:10px;">
+                <!-- <div class="col-sm-5 col-md-5 col-l-5" style="padding: 10px;"> -->
+                    <table class="table table-fixed">
+                        <thead bgcolor="#29394A">
+                            <tr>
+                                <th>Test Code</th>
+                                <th>Submitted</th>
+                                <th>Start Time</th>
+                                <th>Action</th>                              
+                            </tr>
+                        </thead>
+                        <tbody style="color:black;">
+                            {%for test in tests%}
+                            <tr>
+                                <td>{{test.Test}}</td>
+                                <td>{{test.submit}}</td>
+                                <td>{{test.start}}</td>
+                                <td><form action='/result/{{test.Test}}/{{test.Sess}}/'><button type="submit" class="btn btn-primary" >Result</button></form></td>
+                            </tr>
+                            {%endfor%}
+                            <!-- <tr>
+                                    <td>bothra001</td>
+                                    <td>True</td>
+                                    <td>asdfads</td>
+                                    <!-- {%if test.submit%} -->
+                                    <td><button type="button" class="btn btn-primary">Enter</button></td>
+                                    <!-- {%else%} -->
+                                    <!-- <td><button type="button" class="btn btn-primary">Result</button></td> -->
+                                    <!-- {%endif%} -->
+                                </tr> -->
+
+                        </tbody>
+                    </table>
+                <!-- </div> -->
+                </div>
+            </font>
+            </div>
+{%endblock%}

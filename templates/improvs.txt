@@ -1,0 +1,3 @@
+Increase the auto save time by 
+calling the save quills function whenever any tablinks is pressed
+so that previouus data is saved before it is active

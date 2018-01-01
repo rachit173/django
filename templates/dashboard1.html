@@ -1,0 +1,2233 @@
+<!DOCTYPE html>
+{%load static%}
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1">
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<title>  </title>
+<!--CSS for protactor-->
+<link rel="stylesheet" type="text/css" href="{%static 'skin/blue.monday/jplayer.blue.monday.css'%}" />
+<link href="https://cdn.quilljs.com/1.3.4/quill.snow.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- Include the Quill library -->
+<script src="https://cdn.quilljs.com/1.3.4/quill.js"></script>
+<script>
+var isUsefullDataMedia = false;
+var date = new Date();
+var jsVersion = date.getTime();
+document.write('<link rel="stylesheet" type="text/css" href="{%static 'css/mock_style.css'%}"\>');
+document.write('<link rel="stylesheet" href="{%static 'css/jquery.freetrans.css'%}"\>');
+document.write('<link rel="stylesheet" href="{%static 'css/jquery-ui-1.10.4.custom.min.css'%}"\>');
+document.write('<link rel="stylesheet" href="{%static 'css/jquery.ui.rotatable.css'%}"\>');
+document.write('<link type="text/css" rel="stylesheet" href="{%static 'css/calc.css'%}"\>');
+document.write('<link type="text/css" rel="stylesheet" href="{%static 'css/screen.css'%}"\>');
+document.write('<link type="text/css" rel="stylesheet" href="{%static 'css/scratchpad.css'%}"\>');
+document.write('<link rel="stylesheet" href="{%static 'css/nanoscroller.css'%}"\>');
+document.write('<link rel="stylesheet"  type="text/css" media="all" href="{%static 'css/style.css'%}"\>');
+document.write('<link rel="stylesheet" type="text/css"  href="{%static 'css/thickbox.css'%}"\>');
+document.write('<link rel="stylesheet" type="text/css" href="{%static 'css/jquery.alerts.css'%}"\>');
+document.write('<link rel="stylesheet" type="text/css" href="{%static 'css/aecInstructions.css'%}"\>');
+document.write('<link rel="stylesheet" type="text/css" href="{%static 'css/codemirror.css'%}"\>');
+document.write('<link rel="stylesheet" type="text/css" href="{%static 'css/keyboard_style.css'%}"\>');
+document.write('<link rel="stylesheet" type="text/css" href="{%static 'css/jquery.jqzoom.css'%}"\>');
+document.write('<link rel="stylesheet" type="text/css" href="{%static 'css/jcarousel.connected-carousels.css'%}"\>');
+document.write('<link rel="stylesheet" type="text/css" href="{%static 'css/popupwindow.css'%}"\>');
+
+document.write('<script type="text/javascript" src="{%static 'js/jquery-1.8.0.min.js'%}"\><\/script>');
+document.write('<script type="text/javascript" src="{%static 'js/jquery.cookie.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/bean.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/top.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/jquery-ui-1.10.4.min.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/jquery.ui.touch-punch.min.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/jquery.nanoscroller.min.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/jquery.corner.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/jquery.caret.min.js'%"}\><\/script>')
+// document.write('<script type="text/javascript" src="{%static 'js/virtual_keyboard.js'%}\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/jquery.actual.min.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/typing.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/restrictedTyping.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/codemirror.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/javascript.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/active-line.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/matchbrackets.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/jwplayer.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/jwplayer.html5.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/thickbox-compressed.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/jquery.ui.rotatable.min.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/jquery.jqzoom-core.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/popupwindow.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/jquery.jcarousel.min.js'%}"\><\/script>');
+// document.write('<script type="text/javascript" src="{%static 'js/jcarousel.connected-carousels.js'%}"\><\/script>');
+
+
+</script><!--[if IE]><script type="text/javascript" src="js/excanvas.js"></script><![endif]-->
+<!--[if IE]><script type="text/javascript" src="js/jQueryRotate.js"></script><![endif]-->
+<!--[if IE]><script type="text/javascript" src="js/raphael.js"></script><![endif]-->
+<!--[if IE 8 ]><html class="ie ie8 no-js" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie ie9 no-js" lang="en"> <![endif]-->
+
+<script>
+		
+		$('a').mousedown(function(event){
+			avoidKeyPressing(event);
+		});
+		var editor;
+		
+	/*	$( document ).ready(function() {
+			var url = document.URL;
+			var orgId = "";
+			var mockId = "";
+			if(url.indexOf("quiz.html?") >= 0){
+			var params = url.split("quiz.html?");
+			 orgId =  $.trim(params[1]).split("@@")[0];
+			 mockId = $.trim(params[1]).split("@@")[1];
+			} else {
+				orgId = $.cookie("orgId");
+				mockId = $.cookie("assessmentId");
+			}
+			
+			if(mockId.indexOf("M")==-1){
+				var attemptNo = $.cookie("attemptId");
+				var candMasterId = $.cookie("cand_master_id");
+				saveSysConfig(orgId,mockId,candMasterId,attemptNo);
+			}
+
+		});*/
+	</script>
+	<script>
+$(document).ready(function () {
+
+$('.UsefulInfo').click(function (e) {
+	e.preventDefault();
+	$('#modal-content').popUpWindow({
+		action: "open", // open or close
+		modal: true, // modal mode
+		size: "large" // large, medium or large
+	});
+});
+
+if (document.addEventListener)
+{
+    document.addEventListener('webkitfullscreenchange', exitHandler, false);
+    document.addEventListener('mozfullscreenchange', exitHandler, false);
+    document.addEventListener('fullscreenchange', exitHandler, false);
+    document.addEventListener('MSFullscreenChange', exitHandler, false);
+}
+
+function exitHandler()
+{
+    if (document.webkitIsFullScreen === false)
+    {
+		resetCarousel();
+    }
+    else if (document.mozFullScreen === false)
+    {
+		resetCarousel();
+    }
+    else if (document.msFullscreenElement === false)
+    {
+		resetCarousel();
+    }
+	
+	
+}  
+function resetCarousel(){
+		$('.connected-carousels .prev-stage, .connected-carousels .next-stage').removeClass('fullsn');
+		/* if($(window).width()> 768){
+			$('#pop-up').css('top','64px').css('left','50%').css('margin-left','-350px').css('max-width','700px').css('width','90%');
+			$('.connected-carousels').css('padding','20px 0px 15px');
+			$('.pop-up-content').css('padding','24px');
+			$('#stage').css('width', '620px');
+		}
+		else if($(window).width()< 768){
+			$('#stage').css('width', 'auto');
+		} */
+		
+		$('.carousel-stage').css('height', '400px');
+		/*$('.connected-carousels .prev-stage, .connected-carousels .next-stage').css('height','410px');*/
+		$('.connected-carousels ul li img').css('height','400px').css('width','600px');
+		$('#stage .pop-up-close-triggerfull').remove();///fire your event
+		$('.maximizeicon, .pop-up-header, .connected-carousels .navigation, .pop-up-close-trigger').show();
+		if(hasNavigationBar){
+		$('.navigation').show();
+		}else{
+		$('.navigation').hide();
+		}
+		
+		if(isUsefullDataMedia){
+			$('.maximizeicon').hide();
+			
+		} else {
+			$('.maximizeicon').show();
+			
+		}
+		
+}
+$(document).on('click','.pop-up-close-triggerfull',function(){	
+
+	 var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
+
+     if(isSafari) {
+     $(document).on('click','.pop-up-close-triggerfull',function(){
+   	 alert("Safari browser detected");
+	  $('.pop-up-background pop-up-background-modal').css('display','none');
+	  $('.carousel').remove();
+	  $('.pop-up-header').remove();
+	  $('.pop-up-content').remove();
+	  $('.pop-up').remove();
+	  $('.connected-carousels').remove();
+  });
+	}
+	$(".headergrup").removeClass("fullzoom");
+	$(".btntab").removeClass("fullzoom");
+	$(".Rght_Section").removeClass("fullzoom");
+	$(".profile-grouping-section").removeClass("fullzoom");
+	$(".questiontype-markpanel").removeClass("fullzoom");
+	$("#Questn_Innr_Div_section").removeClass("fullzoom");
+	$(".buttons-div").removeClass("fullzoom");
+	$("#footer").removeClass("fullzoom");
+	$(".Ans_Area").removeClass("zoomscreen");
+	/* To exit Full Screen */
+	if (document.exitFullscreen) {
+	document.exitFullscreen();
+	} else if (document.webkitExitFullscreen) {
+	document.webkitExitFullscreen();
+	} else if (document.mozCancelFullScreen) {
+	document.mozCancelFullScreen();
+	} else if (document.msExitFullscreen) {
+	document.msExitFullscreen();
+	}else{var shell = new ActiveXObject("WScript.Shell");
+		shell.SendKeys("{F11}");
+	}
+	$(".maximizeicon").show();
+	resetCarousel();
+	$(".connected-carousels .carousel li img").removeClass("fullzoomimg");
+});
+});
+
+
+$( document ).ready(function() {
+	var btn = document.getElementsByClassName('maximizeicon');
+
+	$('.maximizeicon').on('click',function() {
+	    var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+	    var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
+	    
+
+	    if (isSafari) {
+	      	$('.pop-up-close-triggerfull').css('visibility','hidden');
+	       $('.pop-up-header').css('visibility','hidden');
+	       $('.pop-up-close-trigger').css('margin-top','30px');
+	       $('.pop-up-close-trigger').css('margin-right','10px');
+	       $('.pop-up-close-trigger').css('background-color','black');
+	       $('.navigation').css('visibility','hidden');
+
+	        $('.prev').css('margin-left', '-20px');
+	       $('.next').css('margin-right', '-20px');
+
+
+
+	       if ($(window).width() < 769) {
+	           $('.connected-carousels ul li img').height(auto);
+				 }
+
+	          if ($(window).width() < 381) {
+	          $('.connected-carousels img').height(auto);
+				}    
+
+
+	    }
+	});
+
+	});
+
+</script>
+<style>
+.connected-carousels .carousel-navigation li{display: inline-block; padding: 0px 10px; line-height:2.2em;border: 1px #cbcbcb solid; color:#999999; margin: 0px 5px; font-size:12px}
+.connected-carousels .carousel-navigation li.active{ background:#72a6fb; color:#fff; border: 1px #72a6fb solid;}
+.maximizeicon{display: inline-block;position: absolute;right: 35px;top: 15px; cursor:pointer;
+	background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("{%static 'images/Icon-sprite.png'%}");
+    background-origin: padding-box;
+    background-position-x: -306px;
+    background-position-y: -75px;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    cursor: pointer;
+    height: 20px;
+     width: 22px;
+ 	margin:0px auto;
+	 padding: 0px 8px;    line-height: 1em;}
+.connected-carousels img{ width: 100%; height:auto;}
+.pop-up-close-triggerfull{    background-image: url({%static 'images/fullcross.png' %})!important; background-repeat:no-repeat;
+    position: absolute;right: 35px; top: 4%; width: 32px !important;  height: 34px !important; z-index:10000000000; cursor:pointer; outline:none !important}
+.pop-up-close-trigger{    background-image: url({%static 'images/menuclose.png'%})!important; background-repeat:no-repeat;width: 18px !important;  height: 18px !important;outline:none !important; z-index:10000000000; cursor:pointer;}
+
+</style>
+<!-- Script created by Rachit Tibrewal -->
+{% csrf_token %}
+<script>
+		///------------------------------------------------
+		///------------------------------------------------
+		var testID = '{{testID}}';
+		localStorage.sesskey = {{sesskey}};
+		var QP;
+		var quill,quill1,quill2,quill3,quill4;
+		//finding the question code
+		//for questions in sections of 
+		//all subjects
+		//stored them in global variable QP
+		function initialiseQP(){
+			if(typeof(Storage)=='undefined'){
+				alert('This browser does not support local storage please try with some other browser');
+			}
+			quill = new Quill('#quest',{
+				theme:'snow',
+				modules: {
+					toolbar: false
+				},
+				readOnly: true,
+			});
+			quill1 = new Quill('#opt1',{
+				theme:'snow',
+				modules: {
+					toolbar: false
+				},
+				readOnly: true,
+			});
+			quill2 = new Quill('#opt2',{
+				theme:'snow',
+				modules: {
+					toolbar: false
+				},
+				readOnly: true,
+			});
+			quill3 = new Quill('#opt3',{
+				theme:'snow',
+				modules: {
+					toolbar: false
+				},
+				readOnly: true,
+			});
+			quill4 = new Quill('#opt4',{
+				theme:'snow',
+				modules: {
+					toolbar: false
+				},
+				readOnly: true,
+			});
+			var foo = '/test/getdata/student/'+testID; 
+			console.log(typeof testID);
+			console.log("here here here here here here here here here");
+		$.ajax({
+			url: foo,
+			success: function(result) {
+				console.log(result);
+				QP = result;
+				try{
+				document.getElementById('ma1').click();
+				$('.numberpanelQues').children()[0].click();
+				}
+				catch(err){
+					console.log(err);
+				}
+			},
+			error: function(result) {
+				
+			},
+		});
+		}
+		//Onclick function for different sections 
+		//On clicking the particular section the
+		//Question Number Panel is initialized
+		//accordingly
+		function switchSection(evt,sectID)
+		{
+			$('#MSQ').hide();
+				$('#IntegerType').hide();
+				$('#MCQ').hide();
+				$("#quest").hide();
+				$("#opt1").hide();
+				$("#opt2").hide();
+				$("#opt3").hide();
+				$("#opt4").hide();				
+			console.log(QP[sectID]);
+			var $numberPanel = $('.numberpanelQues')[0];
+			$numberPanel.innerHTML='';
+			for(var i=0;i<QP[sectID].length;i++){
+					localStorage[String(QP[sectID][i])] = [sectID[0]+sectID[1],parseInt(sectID[2])];
+					var $span = document.createElement('span');
+					$span.className = "not_visited notVisitedCount";
+					$span.id = QP[sectID][i];
+					$span.innerHTML = i+1
+					$numberPanel.appendChild($span);
+					$span = $('#'+QP[sectID][i]);
+					$span.attr({'onclick':'switchQuestion(event,'+QP[sectID][i]+');'});
+				}
+			try{
+				console.log(QP[sectID][0]);
+				document.getElementById(QP[sectID][0]).click();
+			}
+			catch(err){
+				console.log('The section seems to be empty');
+			}
+		}
+		function switchQuestion(evt,questID){
+			$span = $('#'+questID);
+			$span.className = 'not_answered notAnsweredCount';
+			$.post('/test/getquest/student/',{
+				questID: questID,
+				testID: testID,
+				csrfmiddlewaretoken: '{{csrf_token}}'
+			}).done(function(result){
+				setQuestion(result,questID);
+			});
+		}
+		function setQuestion(result,questID){
+			console.log(result);
+			var $questionArea = $('#Questn_Area');
+			var $currQuest = document.getElementById('currentQues');
+			//link the submit buttons 
+			$button_grp = $('.other_buttoncontainer')[0];
+			$button_grp.id = questID;
+			// $button_grp.val(result.section)
+			//fill the quest and options
+			console.log(result.opt0);
+			if(parseInt(result.section)==1){
+				//MCQ type Question 
+				//setting question
+				$("#quest").show();
+				$("#opt1").show();
+				$("#opt2").show();
+				$("#opt3").show();
+				$("#opt4").show();
+				quill.setContents({'ops':result.opt0});
+				quill1.setContents({'ops':result.opt1});
+				quill2.setContents({'ops':result.opt2});
+				quill3.setContents({'ops':result.opt3});
+				quill4.setContents({'ops':result.opt4});
+				$('#MSQ').hide();
+				$('#IntegerType').hide();
+				$('#MCQ').show();
+			}
+			else if(parseInt(result.section)==2){
+				//MSQ type Question
+				//setting question
+				$("#quest").show();
+				$("#opt1").show();
+				$("#opt2").show();
+				$("#opt3").show();
+				$("#opt4").show();
+				quill.setContents({'ops':result.opt0});
+				quill1.setContents({'ops':result.opt1});
+				quill2.setContents({'ops':result.opt2});
+				quill3.setContents({'ops':result.opt3});
+				quill4.setContents({'ops':result.opt4});
+				$('#MCQ').hide();
+				$('#IntegerType').hide();
+				$('#MSQ').show();
+			}
+			else if(parseInt(result.section)==3){
+				//Integer Type Question
+				//Setting Question
+				$("#quest").show();
+				$("#opt1").hide();
+				$("#opt2").hide();
+				$("#opt3").hide();
+				$("#opt4").hide();
+				quill.setContents({'ops':result.opt0});
+				quill1.setContents({'ops':result.opt1});
+				quill2.setContents({'ops':result.opt2});
+				quill3.setContents({'ops':result.opt3});
+				quill4.setContents({'ops':result.opt4});
+				$('#MSQ').hide();
+				$('#MCQ').hide();
+				$('#IntegerType').show();
+			}
+			// $('#quest').innerHTML = quill.innerHTML;
+			$('#quest').show();
+		}
+		function saveResponse(){
+			$button_grp = $('.other_buttoncontainer')[0];
+			var quest_ID = $button_grp.id;
+			var sectID;
+			//find the sectID of the quest
+			// var vec = new Array(9);
+			// for(var i=0;i<9;i++){
+			// 	vec[i] = 0;
+			// }
+			//vec[0] = vec[1] = 0 ==> no answer
+			//vec[0] = 0
+			// vec[0] = 1;
+			var attempt = 1;
+			var num = 0;
+			try{
+				var sectID = localStorage[String(quest_ID)][3];
+				console.log(sectID);
+			}
+			catch(err){
+				console.log("The section of the quest could not be found");
+			}
+			if(sectID==1){
+				num = 0;
+				console.log("MCQ processing ");
+				var it = $('input[name=grp1]:checked').val();
+				// console.log(it);
+				it = parseInt(it)-1;
+				console.log(it);
+				attempt = 1;
+				section = 1;
+				num = 0;
+				num = num|(1<<it);
+			}
+			else if(sectID==2){
+				// for(var i=0;i<vec.length;i++) vec[i] = 0;
+				attempt = 1;
+				section = 2;
+				num = 0;
+				$('input[name=grp2]:checked').each(function(){
+					var tmp = parseInt($(this).val())-1;
+					num = num|(1<<tmp);
+				});
+			}
+			else if(sectID==3){
+				var it = $('#numbertype').val();
+				attempt = 1;
+				section = 2;
+				num = 0;
+				try{
+					num = parseInt(it);
+
+				}
+				catch(err){
+					console.log("The entered value is bot a number");
+				}
+			}	
+			console.log(attempt);
+			console.log(section);
+			console.log(num);
+			$.post('/test/save/response/',{
+				testID: testID,
+				questID: parseInt(quest_ID),
+				sesskey: parseInt(localStorage.sesskey),
+				attempt: attempt,
+				section: section,
+				number: num,
+				csrfmiddlewaretoken: '{{csrf_token}}'
+			}).done(function(){
+				console.log('response saved');
+			}).error(function(){
+				alert('The answer could not be saved,try again');
+			});
+		}
+		function submitConfirmation(){
+			console.log("The user wishes to submit");
+			var retVal = confirm("Do you wish to submit");
+			if(retVal== true){
+				window.location.href = '/test/submit/result/';
+			}
+			else{
+				console.log("The user wishes to check the answers once again");
+			}
+		}
+	</script>
+</head>
+<body onload="initialiseQP();" onselectstart="return true;">
+<div id="hidden" style="display:none;"></div>
+<div id="wrapper">
+	<div id="minwidth">
+    <!-- Hamburger Contents -->
+  <div class="canvasmenu">        
+                  <div class="hamburgerBar canvas"> <i class="hamicon hamclose"></i></div>
+                  <div class="menu_title">
+                  			<span class="selection"> Your Selection </span>
+                            
+                            <ul class="user_select">
+                            	<!--li>
+                                <div class="menubx grupbx">
+                                	<i class="gb"></i>
+                                	<span>GROUP</span>
+                                </div>
+                                </li -->
+                                
+                                <li>
+                                <div class="menubx userbx selected">
+                                	<i class="gb"></i>
+                                	<span>PROFILE</span>
+                                </div>
+                                </li>
+                                <li>
+                                	<div class="menubx morebx">
+                                    <i class="mp"></i>
+                                	<span>MORE</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            
+                  </div>  
+                  
+                  <div class="menu_descp">
+        
+                        <div class="sections section1" style="display:block">
+                        		
+                                <div class="pic_box">
+                                	<div class="pics pic1">
+                                    <img class="candidateImg" width="94" height="101" />
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                
+                                <div class="user_dtls">
+                                	<div class="details mockLoginIdSpan" style="display:none">
+                                    <span class="loginName"></span>
+                                    <span class="mockCandId">11111</span>
+                                    </div>
+                                    
+                                    <div class="details assessmentCandidateIdSpan" style="display:none">
+                                    <span class="CandidateIdText"></span>
+                                    <span class="candId"></span>
+                                    </div>
+
+                                    <div class="details">
+                                    <span class="candName"></span>
+                                    <span class="candOrigName"></span>
+                                    </div>
+
+                                   
+                                    <div class="details DOBSpan" style="display:none">
+                                    <span class="dobText"></span>
+                                    <span class="dob"></span>
+                                    </div>
+                                    
+                                    <div class="details LoginIdSpan" style="display:none">
+                                    <span class="loginIdText"></span>
+                                    <span class="loginId"></span>
+                                    </div>
+
+                                    <div class="details EmailIdSpan" style="display:none">
+                                    <span class="emailIdText">Email Id</span>
+                                    <span class="emailId"></span>
+                                    </div>
+
+                                    <div class="details ContactNumSpan" style="display:none">
+                                    <span class="contactNoText"></span>
+                                    <span class="contactNo"></span>
+                                    </div>
+                                   
+                                
+                                </div> 
+                              
+                            
+                        </div>       
+                        
+                        <div class="sections section2" >   
+                        	
+                            <div class="moresections ques viewquestion_div auditlogButton" onclick="showQP()" id="viewQPButtonMbl">
+                            <span> Question Paper </span>
+                            </div>
+                        	
+                            <div class="moresections instr auditlogButton" onclick="showInstruction()" id="VIMbl">
+                            <span> View Instruction </span>
+                            </div>
+                            
+                            <div class="moresections info usefulDataDiv auditlogButton" onclick="showHelpContent(event);"  style="display:none" id="usefulDataMbl">
+                            <span> Useful Data </span>
+                            </div>
+
+
+                                <div class="lang multilingualDropdown" style="display:none">
+                                 <span id="mLangName">  </span>
+                                 <i class=""></i>
+                                </div> 
+                                
+                                                                
+                                 <div class="langselect">
+
+                                </div> 
+                         
+                        </div>    
+                  </div>
+                  
+                  
+        </div>
+     <!-- Hamburger Contents -->   
+<div class="headergrup">
+			<div id="header">
+			
+					<div align="left" id="bannerImage" style="float:left">
+						<div id="bannerImg" style="float:left"></div>
+						<div id="bannerText" align="center" style="margin-top:10px; font-weight:bold;"><p><font size="4" color="#ffffff">	Bothra Classes </font></p></div>
+					</div>
+					<div class="hamburgerBar"> <i class="hamicon"></i></div>
+				 
+		</div>
+
+    <div id="sub-header">
+		<div class="exam_name" ><span class="test-header">JEE Advanced Online</span>
+		<!-- <p text-color="black"><h6>JEE Advanced Online </h6></p> -->
+		</div>
+		<div class="helpinstruction_div"><div class="help_div usefulDataDiv" id="usefulDataDiv" style="display:none;"><span class="help_icon"></span><a class="test-instruct" onclick="showHelpContent(event);"><span  class="auditlogButton UF" id="usefulData">Useful Data</span></a>
+		</div>
+		<div class="instruction_div" title=""><span class="instruction_icon">
+		</span><a class="test-instruct thickbox"  onclick="activeLink('VI')"><span  id="VI" class="auditlogButton" >View Instruction</span></a>
+		</div>
+		<div class="viewquestion_div" id="viewQPTD"><span class="questionpaper_icon"></span><a class="test-instruct thickbox"  onclick="showQP();activeLink('viewQPButton')"><span id="viewQPButton" class="auditlogButton" title="View Entire Question Paper">Question Paper</span></a></div></div>
+    </div>
+
+    <!-- Sub header Tab-->
+    
+     <div class="subheader_tab">        
+        
+        <div class="grupname1 grups" id="groupsResp"> 
+			</div> 
+        
+        <div class="grupname2 grups" id="secResp"> 
+		</div>
+           <div class="clear"></div>
+         </div>
+     
+	 <div class="grup_components">
+			<div class="subjectsResp subjects" id="" data-normGrpSec="true" ><span>Section 1</span></div>
+     <div class="" id="mKeybrdLayt"></div>
+	  <div class="panel_time time-details" id="timeResp">
+            	
+            </div>
+            
+            <div class="panel_icons_sm">
+            	<div class="piconsm_5 picons textarea-icon-container" title="Notepad" style="display:none;"></div>
+                <div class="piconsm_6 picons scratchpad-icon-container" title="Scratchpad" style="display:none;"></div>
+                <div class="piconsm_2 picons ruler-icon-container" title="Ruler" style="display:none;"></div>
+                <div class="piconsm_3 picons protactor-icon-container" title="Protractor" style="display:none;"></div>
+         <div class="piconsm_7 picons zoomin-icon-container" title="ZoomIn" style="display:none;"></div>
+        <div class="piconsm_4 picons zoomout-icon-container" title="ZoomOut" style="display:none;"></div>
+                <div class="piconsm_1 picons calculator-icon-container" title="calculator" onclick="loadCalculator()" style="display:none;"></div>
+                <div class="clear"></div>
+            </div>
+              
+              <div class="picons_scroll">
+            		<div class="icncont"><span class="calc_icon iconholder"></span> <i class="smicon"></i> <div class="clear"></div></div>
+                    
+                    <div class="piconsscroll_box">
+                    		
+                    		<div class="scroll_bars calculator-icon-container" onclick="loadCalculator()" style="display:none"> <div class="sel_icon"></div><span class="calc_icon"></span>Calculator</div>
+                            <div class="scroll_bars ruler-icon-container" style="display:none"> <div class="sel_icon"></div><span class="scale_icon"></span>Scale</div>
+                            <div class="scroll_bars protactor-icon-container" style="display:none"> <div class="sel_icon"></div><span class="protector_icon"></span>Protector</div>
+                            <div class="scroll_bars zoomin-icon-container" style="width:160px;display:none"> <div class="sel_icon"></div><span class="zoom_icon "></span>Zoom In</div>
+                            <div class="scroll_bars zoomout-icon-container" style="width:160px;display:none"> <div class="sel_icon"></div><span class="zoomOut_icon"></span>Zoom Out</div>
+                            <div class="scroll_bars textarea-icon-container" style="display:none"> <div class="sel_icon"></div><span class="note_icon"></span>Note</div>
+                            <div class="scroll_bars scratchpad-icon-container" style="display:none"> <div class="sel_icon"></div><span class="draw_icon "></span>Draw</div>
+                    		
+                    </div>
+                    
+           		</div>
+				<div class="clear"></div>
+	 </div>
+        <!-- Question Panel with Question Nos.-->
+    <div class="q_tab question_area">
+        <div class="qarea_resp">
+       </div>
+        
+        <div class="stngsection">
+        <div class="setngico"> <i class="seticon"></i> </div>
+        <i class="setng_arrow"></i>
+        <div class="setngbx">
+            <div class="mrks_info" id="resp_mrks_info">
+               
+                 <div class="clear"></div>
+            </div>
+            
+            <div class="filter_section" >
+                    
+                   
+                     
+                    <div class="filter_descp clear"> 
+                        <div class="fltrs">
+                            <div class="answered sm_bxes answeredCount"></div>
+                            <div class="type_title answeredLabel">  </div>
+                            <div class="clear"></div> 
+                        </div>
+                        
+                        <div class="fltrs">
+                            <div class="nt_answered sm_bxes notAnsweredCount"></div>
+                            <div class="type_title notAnsweredLabel"> </div>
+                            <div class="clear"></div> 
+                        </div>
+                        
+                          <div class="fltrs mNotVisited">
+                            <div class="nt_visit sm_bxes notVisitedCount"></div>
+                            <div class="type_title notVisitedLabel"> </div>
+                            <div class="clear"></div> 
+                        </div>
+                        
+                          <div class="fltrs mMarkReview">
+                            <div class="mfr sm_bxes markedCount"></div>
+                            <div class="type_title markedLabel"> </div>
+                            <div class="clear"></div> 
+                        </div>
+                        
+                          <div class="fltrs review_answer mReviewAnswered">
+                            <div class="mfr_ans_eval sm_bxes markedAnsweredCount"></div>
+                            <div class="type_title markedAndAnsweredLabel"> </div>
+                            <div class="clear"></div> 
+                        </div>
+                        
+                          <div class="fltrs review_mark mReviewMarked">
+                            <div class="mfr_ans sm_bxes markedReviewCount"></div>
+                            <div class="type_title markedAndAnsweredLabel"> </div>
+                            <div class="clear"></div> 
+                        </div>
+
+
+                      <div class="clear"></div>   
+
+                    </div>
+                    
+                    <div class="clear"></div>
+            </div>
+            
+        </div>
+        
+           <div class="clear"></div>
+        </div>
+        
+   <div class="clear"></div>
+    </div>
+        </div><div class="clear"></div>
+		 
+   
+    <!-- header ends-->
+ 
+	<!--Container starts-->
+    <div class="Container">
+      <!--Center Container Starts-->
+	  <div id="questionContent">
+		<div class="profile-grouping-section">
+		<div class="Rght_Section column" id="col2">
+              <div id="User_Hldr">
+				<div class="profile_image">
+					<img width="94" height="101" align="absmiddle" class="candidateImg">
+				</div>
+				<div class="profile_details">
+					<div id="Username" class="candOriginalName"></div>
+					<div id="viewProButton"><a id = "VPT" class="viewProfile auditlogButton thickbox" onclick="showModule('profileDiv');activeLink(this.id)">View Profile</a></div>
+					
+				</div>
+                <div class="clear"></div>
+                
+              </div> 
+		</div>
+		            <div class="Lft_Section column" id="col1">
+                      <div class="nav-container">
+					    
+						<div class="group-panel">
+			<div class="group-arrow-left-disabled"></div>
+			<div id="groups">
+				<div>
+					<div class="allSections" data-normGrpSec="false" id="ma1" onclick="switchSection(event,'ma1')" title="Maths Section 1">
+						<span style="vertical-align:middle">Maths Sec 1</span>
+						<div class="subject_instruction_icon1"></div>
+					</div>
+					<div class="allSections" data-normGrpSec="false" id="ma2" onclick="switchSection(event,'ma2')" title="Maths Section 2">
+							<span style="vertical-align:middle">Maths Sec 2</span>
+							<div class="subject_instruction_icon1"></div>
+						</div>
+						<div class="allSections" data-normGrpSec="false" id="ma3" onclick="switchSection(event,'ma3')" title="Maths Section 3">
+								<span style="vertical-align:middle">Maths Sec 3</span>
+								<div class="subject_instruction_icon1"></div>
+							</div>
+							<!-- <div class="allSections" data-normGrpSec="false" id="ma4" title="Maths Section 4">
+									<span style="vertical-align:middle">Maths Sec 4</span>
+									<div class="subject_instruction_icon1"></div>
+								</div>
+								<div class="allSections" data-normGrpSec="false" id="ma5" title="Maths Section 5">
+										<span style="vertical-align:middle">Maths Sec 5</span>
+										<div class="subject_instruction_icon1"></div>
+									</div> -->
+						
+						<div class="allSections" data-normGrpSec="false" id="ph1" onclick="switchSection(event,'ph1')" title="Physics Section 1">
+							<span style="vertical-align:middle">Physics Sec 1</span>
+							<div class="subject_instruction_icon1"></div>
+						</div>
+						<div class="allSections" data-normGrpSec="false" id="ph2" onclick="switchSection(event,'ph2')" title="Physics Section 2">
+								<span style="vertical-align:middle">Physics Sec 2</span>
+								<div class="subject_instruction_icon1"></div>
+							</div>
+							<div class="allSections" data-normGrpSec="false" id="ph3" onclick="switchSection(event,'ph3')" title="Physics Section 3">
+									<span style="vertical-align:middle">Physics Sec 3</span>
+									<div class="subject_instruction_icon1"></div>
+								</div>
+								<!-- <div class="allSections" data-normGrpSec="false" id="ph4" title="Maths Section 4">
+										<span style="vertical-align:middle">Physics Sec 4</span>
+										<div class="subject_instruction_icon1"></div>
+									</div>
+									<div class="allSections" data-normGrpSec="false" id="ph5" title="Maths Section 5">
+											<span style="vertical-align:middle">Physics Sec 5</span>
+											<div class="subject_instruction_icon1"></div>
+										</div> -->
+							<div class="allSections" data-normGrpSec="false" id="ch1" onclick="switchSection(event,'ch1')" title="Chemistry Section 1">
+								<span style="vertical-align:middle">Chemistry Sec 1</span>
+								<div class="subject_instruction_icon1"></div>
+							</div>
+							<div class="allSections" data-normGrpSec="false" id="ch2" onclick="switchSection(event,'ch2')" title="Chemistry Section 2">
+									<span style="vertical-align:middle">Chemistry Sec 2</span>
+									<div class="subject_instruction_icon1"></div>
+								</div>
+								<div class="allSections" data-normGrpSec="false" id="ch3" onclick="switchSection(event,'ch3')" title="Chemistry Section 3">
+										<span style="vertical-align:middle">Chemistry Sec 3</span>
+										<div class="subject_instruction_icon1"></div>
+									</div>
+									<!-- <div class="allSections" data-normGrpSec="false" id="ch4" title="Chemistry Section 4">
+											<span style="vertical-align:middle">Chemistry Sec 4</span>
+											<div class="subject_instruction_icon1"></div>
+										</div>
+										<div class="allSections" data-normGrpSec="false" id="ch5" title="Chemistry Section 5">
+												<span style="vertical-align:middle">Chemistry Sec 5</span>
+												<div class="subject_instruction_icon1"></div>
+											</div> -->
+								
+						</div>
+			</div>
+						</div>
+						<div class="group-panel-mobile">
+							<div class="group-arrow-right-disabled"></div>
+						</div>
+					 <div class="components-section">
+							<div class="group-arrow-right-disabled"></div>
+							
+							<div class="component-icon-container textarea-icon-container" style="display:none;"><div align="center"><span class="icon-1"></span></div></div>
+							<div class="component-icon-container scratchpad-icon-container"  style="display:none;"><div align="center"><span class="icon-2"></span></div></div>
+							<div class="component-icon-container ruler-icon-container"  style="display:none;"><div align="center"><span class="icon-3"></span></div></div>
+							<div class="component-icon-container protactor-icon-container"  style="display:none;"><div align="center"><span class="icon-4"></span></div></div>
+							<div class="component-icon-container zoom-icon-container" title="Zoom" style="display:none;"><div align="center"><span class="icon-5"></span></div></div>
+							<div class="component-icon-container zoomin-icon-container"  style="display:none;"><div align="center" class="zoominCursor"><span class="icon-6"></span></div></div>
+							<div class="component-icon-container zoomout-icon-container"  style="display:none;" ><div align="center" class="zoomoutCursor disableCursor"><span class="icon-9"></span></div></div>
+							<div class="component-icon-container calculator-icon-container"  onclick="loadCalculator()" style="display:none;"><div align="center"><span class="icon-0"></span></div></div>
+					   </div>
+                      </div>
+					  <div class="section-timepanel">
+							<div class="section-details"  id="sectionsField">
+								<span class="sect"><b>Sections</b> </span><span id="showOptionalSecSummary" style="display:none"> [Attempt any <span id="maxOptSec"></span>&nbsp;of the <span id="noOptSec"></span>&nbsp;optional sections] </span>
+							</div>
+							<div class="time-details">
+							<div id="showTime" style="float:right;"> &nbsp;</div>
+							</div>
+					  </div>
+                    <div class="subject-selection">
+						 <div class="subject-arrow-left-disabled"></div>
+						<div  id="sections"></div>
+					</div>
+					<div class="subject-section-rightarrow">
+						<div class="subject-arrow-right-disabled"></div>
+					</div>
+                    <div class="clear"></div>
+                 
+					
+            </div>
+		</div>
+            
+        <div class="question_description_number_panel" id="rightDivision">
+            <div class="Rght_Section column" id="col2">
+			  <div class="collapsebel_panel">
+				<span class="collapse_icon"></span>
+              <div class="diff_type_notation_area_outer">
+                    <div class="diff_type_notation_area_inner">
+                      <div class="notation_type_description">
+                        <div class="notation_typeDiv leftdiv_notation"> <span class="answered answeredCount" id=""></span> <span class="type_title answeredLabel" id=""> Answered </span> </div>
+						<div class="notation_typeDiv"> <span class="not_answered notAnsweredCount" id=""></span> <span class="type_title notAnsweredLabel" id=""> Not Answered </span> </div>
+					
+                        <div class="clear"></div>
+						   <div class="notation_typeDiv leftdiv_notation"> <span class="not_visited notVisitedCount" id=""></span> <span class="type_title notVisitedLabel" id="">Not Visited </span> </div>
+						    <div class="notation_typeDiv"> <span class="review markedCount" id=""></span> <span class="type_title markedLabel" id=""> Marked for Review</span> </div>
+						   
+							 <div class="clear"></div>
+							    <div class="notation_typeDiv answered_review_container review_mark" id=""> <span class="review_marked markedReviewCount" id=""></span> <span class="type_title markedAndAnsweredLabel" id="">Answered & Marked for Review</span> </div>
+								 <div class="notation_typeDiv answered_review_container review_answer" id=""> <span class="review_answered markedAnsweredCount" id=""></span> <span class="type_title markedAndAnsweredLabel" id="">Answered & Marked for Review</span> </div>
+							<div class="clear"></div>
+             </div>
+                    </div>
+                  </div>
+              <div class="rightSectionDiv" id="rightSectionDiv1">
+               
+                <div class="content">
+                  
+                </div>
+              </div>
+              <div class="rightSectionDiv" id="rightSectionDiv2">
+                <div class="header">&nbsp;<span  class="viewSection"><b></b> </span>
+				</div>
+                <div class="subheader" id="chooseQuestion">Choose a Question</div>
+                <div class="content nano" id="question_area" style="height: 200px;" >
+                  <div class="question_area nano-content" > 
+                     <div class="numberpanelQues"></div> 
+                  </div>
+                </div>
+              </div>
+			  <div id="typingInstDiv" class="rightContainerText" style="display:none;overflow:auto">
+					<div class="viewSection"> <span id="viewingSect"></span>&nbsp;<b></b>&nbsp;<span class="sect"></span>
+				</div>
+					<div id="dataDisplayDiv" style="display:none"></div>
+					<div class="question_area1" >
+						<div class="question_area1">
+						
+							<div><div class='keyStrokesCount'><span class="keyStrokesCountTd">Keystrokes Count</span><span>:</span><span class="totalKeyStrokesCount"></span></div>
+							<div class="textRight errorCount"><span class="errorCountTd">Error Count</span><span>:</span><span class="errorCountValue"></span></div>
+							<div class="textRight backspaceCount"><span class="backspaceCountTd">Error Count</span><span>:</span><span class="backspaceCountValue"></span></div>
+							<div class='totalCount'><span class="totalWordCount">Total Word Count</span><span>:</span><span class="totalWordCountVal"></span></div>
+							<div class='typedCount'><span class="typedWordCount">Typed Word Count</span><span>:</span><span class="typedWordCountVal"></span></div>
+							<div class='remainingCount'><span class="remainingWordCount textRight" class="">Pending Word Count</span><span>:</span><span class="remainingWordCountVal"></span></div></div>
+						<br>
+						<div id="typingInstruSpan"><b>Instructions</b></div>
+						<div id="restrictedInstr" style="margin-top: 10px;">
+							<div><!-- <span style="vertical-align:top"><b>1.</b></span> --><span>&nbsp;</span><span id="resInstru1">Type the highlighted character to proceed further.</span></div>
+							<div><!-- <span style="vertical-align:top"><b>2.</b></span> --><span>&nbsp;</span><span id="resInstru2">You cannot edit the typed text.</span></div>
+							<div><!-- <span style="vertical-align:top"><b>3.</b></span> --><span>&nbsp;</span><span id="resInstru3">You are not allowed to submit before typing the entire text.</span></div>
+							<div><!-- <span style="vertical-align:top"><b>4.</b></span> --><span>&nbsp;</span><span id="resInstru4">On timeout, your answer will be saved automatically.</span></div>
+						</div>
+						<div id="unrestrictedInstr" style="display:none;margin-top:10px">
+							<div><!-- <span style="vertical-align:top"><b>1.</b></span> --><span>&nbsp;</span><span id="unresInstru1">Type the highlighted word.</span></div>
+							<div class="unresInstru2"><!-- <span style="vertical-align:top"><b>2.</b></span> --><span>&nbsp;</span><span id="unresInstru2">You can edit the typed text.</span></div>
+							<div class="unresInstru3"><!-- <span style="vertical-align:top"><b>3.</b></span> --><span>&nbsp;</span><span id="unresInstru3">Correct/Wrong words turn Green/Red respectively.</span></div>
+							<div><!-- <span style="vertical-align:top"><b>4.</b></span> --><span>&nbsp;</span><span id="unresInstru4">You are not allowed to submit before typing the entire text.</span></div>
+							<div><!-- <span style="vertical-align:top"><b>5.</b></span> --><span>&nbsp;</span><span id="unresInstru5">On timeout, your answer will be saved automatically.</span></div>
+						</div>
+						<div id="stanographyInstr" style="display:none;margin-top:10px">
+							<div><!-- <span><b>1.</b></span> --><span>&nbsp;</span><span id="stanographyInstr1">You can edit the typed text.</span></div>
+							<div><!-- <span><b>2.</b></span> --><span>&nbsp;</span><span id="stanographyInstr2">You are not allowed to submit before typing the entire text.</span></div>
+							<div><!-- <span><b>3.</b></span> --><span>&nbsp;</span><span id="stanographyInstr3">On timeout, your answer will be saved automatically.</span></div>
+						</div>
+					</div>
+					</div>
+				</div> <div class="clear"></div>
+			  </div>
+            </div>
+		</div>
+	<!--Center Container Ends-->
+	<!-- Question Area with the save submit and clear response button  -->
+	<!-- hahakar use this to find the Question Area in
+		the large script -->
+	<div class="Questn_Area" id="Questn_Area">
+		<!-- time pass divisions -->
+	 	<span class="expand_icon"></span>
+		<div id="currentQues" scrollable="true" style="">
+			<h4>
+			<div id="quest" style="";>
+
+			</div>
+			<div id="opt1" style="";>
+					
+			</div>
+			<div id="opt2" style="";>
+					
+			</div>
+			<div id="opt3" style="";>
+					
+			</div>
+			<div id="opt4" style="";>
+					
+			</div>
+			<h4>
+		</div>
+		<div id="optionSets" style="padding:10px;">
+			<h4>
+			<div id="MCQ" style="display:none;">
+				<form id="MCQform">
+					<input type="radio" name="grp1" value="1">  A	<br><br>
+					<input type="radio" name="grp1" value="2">  B   <br><br>
+					<input type="radio" name="grp1" value="3">	C 	<br><br>
+					<input type="radio" name="grp1" value="4">	D 	<br><br>
+				</form>
+			</div>
+			<div id="MSQ" style="display:none;">
+					<form id="MSQform">
+							<input type="checkbox" name="grp2" value="1">A	<br>
+							<input type="checkbox" name="grp2" value="2">B <br>
+							<input type="checkbox" name="grp2" value="3">C <br>
+							<input type="checkbox" name="grp2" value="4">D <br>
+						</form>
+			</div>
+			<div id="IntegerType" style="display:none;">
+				<input type="number" name="number" id="numbertype"><br>
+			</div>
+			</h4> 
+		</div>
+		<!-- time pass ends here -->
+		<!--button Division All save related buttons-->
+		<div class="buttons-div">
+			<div class="Bttn_Area" id="Bttn_Area2">
+				<div class="finalSubmit" id="submitTD " align="">
+					<input type="button" class="btn btn-primary-blue auditlogButton" id="finalSubmit"  onclick="submitConfirmation(event)" value = "Submit"/>
+				</div>
+				<div class="other_buttoncontainer">
+					<input type="button" onclick="markReview()" id="markReviewBtn" class="normalBtn btn btn-primary auditlog underreview" value="Mark for Review" style="margin-left:1%"/>
+					<input type="button" id="clearResponseBtn" onclick = "clearResponse()" class="normalBtn btn btn-primary auditlog clearResponse" value="Clear Response" style=""/>
+					<input type="button" onclick="saveResponse();" id="saveResponseBtn()" class="progrmngBtn btn btn-primary btn-primary-blue btnEnabled auditlog submitCodeBtn" value="Save" style=""/>					
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<!--Button Divsion Ends Here-->	
+	</div>
+	<!-- Quetion Area Ends Here -->
+
+	<div id="sectionSummaryDiv"></div>
+	<div id="breakTimeDiv" style="display : none" align="center">
+			<div id="breakContentDiv" style="">
+				<div  id="breakTimeCountDiv">
+					<div style="width:100%;" id="breakTimeCounter"> &nbsp;</div>
+				</div>
+				<div id="breakSummaryDiv" style="height:90%"></div>
+			</div>
+			<div id="brkPrcdBtnDiv" class='buttonDiv'><input id="proceedToNextGrp" onclick='submitGroup()' type='button' class='btn btn-primary' value='Proceed to Next Group'/></div>
+			<div class="clear"></div>
+		</div>
+	<div id="instruTimeDiv" class="preGrpInstruL">
+            <div class="titlepath preGrpInst">Group Instructions</div>
+            <div  id="mobPreGrpInstru" class="instruTimeCounter"> &nbsp;</div>
+			<div id="instruContentDiv" style="border-bottom:1px solid #c3c3c1;overflow:auto">
+			    <div id="instView">
+                    <span class="viewIn">View In : </span>&nbsp;
+                    <select id="grpInst" onchange="changeGrpInst(this.value)"></select>
+                </div>
+	            <div id="InstruContent" class="preGrpinstruContent" ></div>
+			</div>
+			<div id="instruPrcdBtnDiv" class='buttonDiv'><input id="proceedToGrp"  type='button' class='btn btn-primary' value='Proceed to Next'/></div>
+			<div class="clear"></div>
+    </div>
+	<div id="instruright" class="preGroupInstR">
+		<div  class="instruTimeCountDiv">
+			<div  class="instruTimeCounter"> &nbsp;</div>
+		</div>
+        <div style="height:107px;position:relative">
+			<div style="text-align:center" >
+				 <img class="candidateImg" src="{%static 'images/NewCandidateImage.jpg'%}" width="94" align="absmiddle" height="101">
+			     <div id="Username" class="candOriginalName" title="John Smith ">John Smith </div>
+		    </div>
+            <div class="clear"></div>
+        </div> 
+	</div>
+	<div id="loadCalc" style="display:none;position:fixed;z-index:999;padding-top:1%;"></div>
+	</div>
+		<div id="scoreCardDiv" style="display : none" align="center">
+			<div id="scoreSummaryDiv"></div>
+			<div id="scoreCardBtnDiv" style="text-align:center;"><input onclick='moveToFeedback();' id="scoreCardPrcdBtn" type='button' class='btn btn-primary' value='Proceed'/></div>
+			<div class="clear"></div>
+		</div>
+		  <!-- Buttons for tab -->
+        
+        <div class="buttons-div btntab">
+        
+        		
+				
+                
+                  <div class="save_buttoncontainer_2">
+                     
+					 <input type="button" class="btn btn-primary-blue sve_nxt  auditlogButton" onclick="submitConfirmation('submit')" value = "Submit" title="Submit Group" id="finalSubmitMbl"></input>
+					 <input type="button" class="groupBtn btn btn-primary-blue sve_nxt lst auditlog savenextGroup"  style="display:none;" id="savenextGroupMbl" onclick = "fnsubmitGroupQuestion('NEXT')"></input>
+					 <input type="button" class="progrmngBtn btn btn-primary-orange sve_nxt auditlogSaveAndNext auditlog saveProgram lst"  style="display:none;color:#fff" onclick = "fnSubmit('NEXT')" id="saveProgramMbl"></input>
+                 	 <input  type="button" class="normalBtn btn btn-primary-blue sve_nxt lst auditlog  savenext" id="savenextMbl" style="display:none;" onclick = "fnSubmit('NEXT')"></input>
+					 <div id="typingSubmitMbl" class="typingSubmit" style="display:none; text-align:center;">
+                     <input type="button" class="btn btn-primary-blue sve_nxt lst typing auditlogButton " onclick="fnSubmit('NEXT');calculateEllapsedTime();submitConfirmation('submit');activeLink(this.id);" value = "Submit" title="Submit Group" disabled/></input>
+				     </div>
+                 	
+                	</div>
+                    
+                    <div class="mob_save">
+                    <div class="other_buttoncontainer">
+						<input type="button" class="normalBtn btn btn-primary reset-btn auditlog clearResponse" onclick = "resetOption()" value="Clear Response" id="clearResponseMbl" style="display:none;margin-left:2px;margin-right:2px"></input>
+						<input type="button" class="progrmngBtn btn btn-primary reset-btn auditlog " onclick = "resetProgramming()" value="Reset" style="display:none;" id="resetMbl"></input>
+						
+                     </div> 
+                
+                	<div class="save_buttoncontainer">
+                     <input type="button" class="btn btn-primary skip-btn auditlog previousBtnGroup" onclick = "fnsubmitGroupQuestion('PREVIOUS')" id="previousBtnGroupMbl" value="Previous" style="display:none"></input>
+					 <input type="button" class="btn btn-primary skip-btn auditlog previousBtn" onclick = "fnSubmit('PREVIOUS')" id="previousBtnMbl" value="Previous" style="display:none"></input>
+                     <input type="button" class="normalBtn btn btn-primary auditlog underreview" onclick="fnSubmit('MARK')" id="underreviewMbl" value="Mark for Review & Next" style="display:none;"></input>
+					 <input  type="button" class="progrmngBtn btn btn-primary reset-btn auditlog compileCodeBtn" onclick = "compileCode()" value="Compile" style="display:none;"></input>
+						<input type="button" class="progrmngBtn btn btn-primary  auditlog submitCodeBtn" onclick = "executeCode()" value="Submit" style="display:none;"></input>
+                     </div>
+              		</div>
+                 					
+                    <div class="clear"></div>
+
+	  	</div>
+        
+          <!-- Buttons for tab -->
+		<div class="overlaymenu"></div>
+	</div>
+	</div>
+	 </div>
+    <!-- Container Ends---->
+    <!-- Footer Starts ---->
+    <div id="footer">
+    <center>
+	<div class="footerCopywright"><!-- Copyright &copy; 2015 Tata Consultancy Services | <a href="http://www.tcsion.com/dotcom/TCSSMB/Login/terms_of_use.html" target="_blank">Terms of Use</a> | <a href="http://www.tcsion.com/dotcom/TCSSMB/Login/privacy_policy.html" target="_blank">Privacy Policy</a> |  -->Version 2.3</div>
+    <!-- <div class="footerTataLogo"><img src="images/tata-logo.png" /></div> --></center>
+    <div class="clear"></div>
+</div>
+    <!-- Footer Ends ---->
+  </div>
+  <div class="clear"></div>
+
+<!---Popup Content Starts -->
+<div class="portlet" id="hiddenModal1" style="display: none;">
+  <div class="portlet_topper">
+    <div class="popupheader sysInstruLabel" id="Instruction1" >Instruction</div>
+    <div  class="arrowplace"><a  onclick="tb_remove();removeActiveLinks()" id="closeInstru">Close</a> </div>
+  </div>
+  <div class="popup_content">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td valign="top"><div class="content" id="instructionsDiv" style="height:385px;">
+			<div style="height:100%;padding-top:5px" id="quizInstruDiv">
+				
+				<!--<div id="firstPage" style="padding:2px">
+					<span style="float:right;display:none;"><span class="viewIn">View In : </span><select id="basInst" onchange="changeSysInst(this.value,'sysInstText','cusInstText')"></select></span>
+					<br/>
+					<br/>
+				</div>
+				<br/>
+				<br/>
+				<center><span><b><font size="4em" color="#2F72B7" class="otherInstruLabel">Other Important Instructions</font></b></span></center>
+				<div id="secondPagep1" style="padding:2px">
+					<span style="float:right;display:none;"><span class="viewIn">View In : </span><select id="cusInst" onchange="changeSysInst(this.value,'cusInstText','sysInstText')"></select></span>
+					<br/>
+					<br/>
+				</div>-->
+				
+			</div>
+          </div></td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="portlet" id="hiddenModal3" style="display: none;">
+  <div class="portlet_topper">
+    <div class="popupheader" id="questionP">Question Paper</div>
+    <div  class="arrowplace"><a onclick="tb_remove();removeActiveLinks()" title="Close" id="questionPclose">Close</a> </div>
+  </div>
+  <div class="popup_content">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td valign="top"><div class="content" id="QPDiv" style="height:385px;">
+				<div class="viewQPDiv" style="" > 
+			</div>
+				</div>
+		</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<!--  <div class="portlet" id="hiddenModal5" style="display: none;">
+  <div class="portlet_topper">
+    <div class="popupheader">Question Paper</div>
+    <div  class="arrowplace"><a href=# onclick="tb_remove();removeActiveLinks()">Close</a> </div>
+  </div>
+  <div class="popup_content">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td valign="top"><div class="content" id="QPDiv">
+				<div id="viewQPDiv" style="" > 
+			</div>
+				</div>
+		</td>
+      </tr>
+    </table>
+  </div>
+</div>-->
+<div class="portlet" id="hiddenModal4" style="display: none;">
+  <div class="portlet_topper">
+    <div class="popupheader UF">Useful Info</div>
+    <div  class="arrowplace"><a onclick="tb_remove();removeActiveLinks()">Close</a> </div>
+  </div>
+  <div class="popup_content">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td valign="top"><div class="content" id="sectionSummary" style="height:435px;">
+			</div>
+		</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="portlet" id="hiddenModal2" style="display: none;">
+  <div class="portlet_topper">
+    <div class="popupheader" id="profilePop">Profile</div>
+    <div  class="arrowplace"><a  onclick="tb_remove();removeActiveLinks()" id="profileClose">Close</a> </div>
+  </div>
+  <div class="popup_content">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+         <td valign="top"><div class="userimage"><img width="94" height="101" align="absmiddle" class="candidateImg"/></div><div class="content"  id="profileDiv">
+				 <table width="200" border="0" cellspacing="0" cellpadding="10" class="candidateDetailstbl">
+					 <tbody>
+					  <tr class="mockLoginIdSpan" style="display:none">
+                <td width="27%" align="right" id="login" class="head1 loginName" ></td>
+                <td align="left"  >:<strong> <span class="mockCandId">11111</span></strong></td>
+              </tr>
+              <tr class="assessmentCandidateIdSpan" style="display:none">
+                <td width="27%" align="right" class="head1 CandidateIdText" id=""></td>
+                <td align="left"  >:<strong> <span class="candId"></span></strong></td>
+              </tr>
+					 <tr>
+                <td width="27%" align="right" class="head1 candName" id="">Name  </td>
+                <td align="left" >:<strong> <span class="candOrigName"></span></strong></td>
+              </tr>
+              
+               <tr class="DOBSpan" style="display:none">
+                <td align="right" class="head1 dobText" id="">Date Of Birth</td>
+                <td align="left">:<strong> <span class="dob"></span></strong></td>
+                
+              </tr>	
+              
+              <tr class="LoginIdSpan" style="display:none">
+                <td align="right" class="head1 loginIdText" id="">Login Id</td>
+                <td align="left">:<strong> <span class="loginId"></span></strong></td>
+                
+              </tr>	
+					<tr class="EmailIdSpan" style="display:none">
+                <td align="right" class="head1 emailIdText">Email Id</td>
+                <td align="left">:<strong> <span class="emailId"></span></strong></td>
+                
+              </tr>	
+				<tr class="ContactNumSpan" style="display:none">
+                <td align="right" class="head1 contactNoText" id="">Contact Number</td>
+                <td align="left" >:<strong>  <span class="contactNo"></span></strong></td>
+              </tr>	
+					<tr class="multilingualDropdown"  style="display:none">
+						<td class="cngLang  head1" align="right">Change Language : </td>
+							<td>: <select align="right" id="languageSelect" onchange="selLang(this.value);" onmousedown="if(this.options.length>8){this.size=8;}"onchange='this.size=0;' onclick="this.size=0;"></select>
+						</td>
+					</tr>
+				<tr id="defaultLangDropdown"  style="display:none">
+						<td class="cngDefLang  head1" align="right">Change QP Language : </td>
+							<td>: <select align="right" id="defaultSelectedLanguage" onchange="changeDefaultLang(this.value);" onmousedown="if(this.options.length>8){this.size=8;}"onchange='this.size=0;' onclick="this.size=0;"></select>
+						</td>
+				</tr>
+            </tbody></table>
+          </div>
+          </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+
+<!-- mobile popup -->
+<div class="mpop"><a class="iconRemoveSign">&times;</a>
+  <div class="mContent"></div>
+</div>
+
+<!---------------------Popup Content Ends ----------------------->
+<div class="overlay" style="display:none;"></div>
+<div class="overlayForInterruption" style="display:none;"></div>
+	<!-------- warning popup starts --------------->
+<div class="warningPopup" id="warningPopup">
+		<div class="cnfPopHdr">
+			<div class="cnfPopHdrLbl" id="warning">
+			  Warning
+			</div>
+			<a class="fRight popCloseSubmitWarning" id="closeSubmitWarning" onclick="isOkClickedWarning()">Close</a>
+			<div class="float-clear"></div>
+		</div>
+		<div class="cnfPopBdy" >
+		<img src="images/warning-icon.png" style=" margin-right: 10px;" class="warning-icon"/><span class="warning-lbl" id="seterror"></span>
+		</div>
+		<div class="cnfPopBtnPnl">
+		<a  class="greenBtn cnfPopNo1" onclick="isOkClickedWarning()">Ok</a>
+		</div>
+	</div>
+<!----------
+<!---------------------Popup Content Ends ----------------------->
+<!-------- info popup starts --------------->
+	<div class="confrmPopup" id="InfoPopup">
+		<div class="cnfPopHdr">
+			<div class="cnfPopHdrLbl info">Info</div>
+			<a  class="fRight popClose">Close</a>
+			<div class="float-clear"></div>
+		</div>
+		<div class="cnfPopBdy">
+			<div><img src="images/info.gif" style=" margin-right: 10px;" class="info-icon"/><span id="infoMsg2" class="info-lbl" style="vertical-align: middle;"></span></div>
+		</div>
+		<div class="cnfPopBtnPnl">
+			<a  class="greenBtn cnfPopNo">Ok</a>
+		</div>
+	</div>
+<!-------- info popup ends --------------->
+<!-------- FileUpload popup starts --------------->
+	<div class="confrmPopup" id="fileUploadPopup" style="width:900px;">
+		<div class="cnfPopHdr">
+			<div class="cnfPopHdrLbl info">Info</div>
+			<a  class="fRight popClose">Close</a>
+			<div class="float-clear"></div>
+		</div>
+		<div class="cnfPopBdy" style="height:500px;overflow:auto">
+			<span id="infoMsg3" class="info-lbl"></span>
+		</div>
+		<div class="cnfPopBtnPnl">
+			<a  class="greenBtn cnfPopNo">Ok</a>
+		</div>
+	</div>
+<!-------- FileUpload popup ends --------------->
+<!-------- submit popup ends --------------->
+	<div class="confrmPopup" id="SubmitPopup">
+		<div class="cnfPopHdr">
+			<div class="cnfPopHdrLbl info">Info</div>
+			<a  class="fRight popCloseSubmit" onclick='submitMock("")'>Close</a>
+			<div class="float-clear"></div>
+		</div>
+		<div class="cnfPopBdy">
+			<img src="images/info.gif" style=" margin-right: 10px;" class="info-icon"/ ><span id="submitMsg" class="info-lbl" style="vertical-align: middle;"></span>
+		</div>
+		<div class="cnfPopBtnPnl">
+			<a  class="greenBtn" onclick='submitMock("")'>Ok</a>
+		</div>
+	</div>
+	<!-------- submit popup ends --------------->
+<!-------- saveBackup alert starts --------------->
+	<div class="confrmPopup" id="backupAlerts">
+		<div class="cnfPopHdr">
+			<div class="cnfPopHdrLbl info">Info</div>
+			<a  class="fRight popCloseSubmit" onclick="window.close()">Close</a>
+			<div class="float-clear"></div>
+		</div>
+		<div class="cnfPopBdy">
+			<img src="images/info.gif" style=" margin-right: 10px;" class="info-icon"/><span id="backupAlertMsg" class="info-lbl" style="vertical-align: middle;"></span>
+		</div>
+		<div class="cnfPopBtnPnl">
+			<a  class="greenBtn" onclick="window.close()">Ok</a>
+		</div>
+	</div>
+<!-------- saveBackup alert ends --------------->
+<!-------- Online submit popup ends --------------->
+	<div class="confrmPopup" id="submitOnlineAssessment">
+		<div class="cnfPopHdr">
+			<div class="cnfPopHdrLbl info">Info</div>
+			<a  class="fRight popCloseSubmit" onclick="submitOnlineAssessment()">Close</a>
+			<div class="float-clear"></div>
+		</div>
+		<div class="cnfPopBdy">
+			<img src="images/info.gif" style="margin-right: 10px;" class="info-icon"/><span id="submitOnlineMsg" class="info-lbl"></span>
+		</div>
+		<div class="cnfPopBtnPnl">
+			<a  class="greenBtn" onclick="submitOnlineAssessment()" style="vertical-align: middle;">Ok</a>
+		</div>
+	</div>
+	<!-------- Online submit popup ends --------------->
+<!-------- Clear Response popup starts --------------->
+	<div class="confrmPopup" id="ClearPopup">
+		<div class="cnfPopHdr">
+			<div class="cnfPopHdrLbl info">Warning</div>
+			<a href="javascript:void(0)" class="fRight popClose" >Close</a>
+			<div class="float-clear"></div>
+		</div>
+		<div class="cnfPopBdy">
+			<img src="images/warning.gif" style="margin-right: 10px;" class="info-icon" /><span id="ClearMsg" class="info-lbl" style="vertical-align: middle;">Are you sure you want to clear all responses in this section?</span>
+		</div>
+		<div class="cnfPopBtnPnl">
+			<a href="javascript:void(0)" class="greenBtn cnfPopNo" onclick='resetOptionGroup()'>Yes</a>
+			<a href="javascript:void(0)" class="greenBtn cnfPopNo" >No</a>
+		</div>
+	</div>
+	<!--------  Clear Response popup starts  --------------->
+	
+	
+<!--Scratch Pad Starts Here-->
+<div class="scratch-pad-container">
+<div class="scratch-pad-close" id="closeButton_scratchpad">X</div>
+<div class="tools">
+  <a href='#simple_sketch' data-tool="marker" data-color="#000000" title="Click to select Marker">Marker</a>
+</div>
+	<canvas id="simple_sketch"  width=800 height=300></canvas>
+</div>
+
+<script type="text/javascript">
+//$(document).ready(function() {
+function scratchPadiON(){
+	   $('.scratch-pad-container .tools').append("<a href='#simple_sketch' data-color='#fff' title='Click to select Eraser' style='background: " + this + ";'>Eraser</a> ");
+
+	if ( jQuery.browser.msie ){
+	    if($.browser.version == '7.0' || $.browser.version == '8.0')
+	    {  
+		 $('.scratch-pad-container .tools').append("<a href='#simple_sketch' data-color='#000' style='width: 10px; background: #000;'></a> ");
+
+	    }else
+		{
+
+		$.each(['#f00', '#ff0', '#0f0', '#0ff', '#00f', '#f0f', '#000'], function() {
+
+	      $('.scratch-pad-container .tools').append("<a href='#simple_sketch' data-color='" + this + "' style='width: 10px; background: " + this + ";'></a> ");
+
+	    });
+		}
+
+	}else
+	{
+		$.each(['#f00', '#ff0', '#0f0', '#0ff', '#00f', '#f0f', '#000'], function() {
+
+	      $('.scratch-pad-container .tools').append("<a href='#simple_sketch' data-color='" + this + "' style='width: 10px; background: " + this + ";'></a> ");
+
+	    });
+	}
+	    $.each([3, 5, 10, 15], function() {
+	      $('.scratch-pad-container .tools').append("<a  href='#simple_sketch' title='select the width for the selected tool' data-size='" + this + "' style='background: #ccc'>" + this + "</a> ");
+	    });
+	    $('#simple_sketch').sketch();
+		//});
+		}
+</script>  
+<!--Scratch Pad Ends Here-->
+<script type="text/javascript">
+            $(function() {
+				$('.tabs-nav li a').live('click',function(){
+							var cur_href=$(this).attr('href');
+							$('.fragmentDiv').css('display','none');
+							$(this).parent().siblings('li').removeClass('tabs-selected');
+							if(!($(this).parent().hasClass('tabs-selected')))
+							{
+								$(this).parent().addClass('tabs-selected')
+							}
+							if(cur_href=="#fragment1")
+							{
+								$('#fragment1').css('display','block');
+							}else
+							{
+								$('#fragment2').css('display','block');
+							}
+												   });
+			  });
+	    </script>
+<script  type="text/javascript">
+		$(document).ready(function () {
+		
+			$(document).on("click",".subject-name",function()
+			{
+				$(this).addClass("selectedsubject").siblings().removeClass("selectedsubject");
+			});
+			jQuery(document).on("click",".group-arrow-right",function()
+			{
+				var getlastindex=jQuery(".group-panel").find(".allSections:visible:last").index()+1;
+				var getfirstindex=jQuery(".group-panel").find(".allSections:visible:first").index()+1;
+				while(getfirstindex != (getlastindex+1))
+				{
+				jQuery(".group-panel").find(".allSections").eq(getfirstindex-1).hide();
+				getfirstindex++;
+				}
+				var calculategroupwidthcompare = $(window).width() - 275 - $('.components-section').width();
+				var innerwidth=0;
+				getlastindex=getlastindex-1;
+				jQuery("#groups .allSections:gt("+getlastindex+")").each(function(){
+					innerwidth += jQuery(this).outerWidth(true);
+					if(innerwidth<calculategroupwidthcompare)
+					{
+						jQuery(this).show();
+					}
+					else
+					{
+						return false;
+					}
+				});
+				jQuery(".group-arrow-left-disabled").attr("class","group-arrow-left");
+				if(jQuery(".group-panel").find(".allSections:last").is(":visible"))
+					jQuery(".group-arrow-right").attr("class","group-arrow-right-disabled");
+			});
+			
+					jQuery(document).on("click",".group-arrow-left",function()
+			{
+				var calculategroupwidthcompare = jQuery(".group-panel").outerWidth(true);
+				var innerwidth=0;
+				
+				var getlastindex=jQuery(".group-panel").find(".allSections:visible:last").index()+1;
+				var getfirstindex=jQuery(".group-panel").find(".allSections:visible:first").index()+1;
+				while(getfirstindex != (getlastindex+1))
+				{
+				jQuery(".group-panel").find(".allSections").eq(getlastindex-1).hide();
+				getlastindex--;
+				}
+				var calculategroupwidthcompare = $(window).width() - 250 - $('.components-section').width();
+				var innerwidth=0;
+				getfirstindex=getfirstindex-1;
+				$(jQuery("#groups .allSections:lt("+getfirstindex+")").get().reverse()).each(function(){
+					innerwidth += jQuery(this).outerWidth(true);
+					if(innerwidth<calculategroupwidthcompare)
+					{
+						jQuery(this).show();
+					}
+					else
+					{
+						return false;
+					}
+				});
+				jQuery(".group-arrow-right-disabled").attr("class","group-arrow-right");
+				if(jQuery(".group-panel").find(".allSections:first").is(":visible"))
+					jQuery(".group-arrow-left").attr("class","group-arrow-left-disabled");
+			});
+					jQuery(document).on("click",".subject-arrow-right",function()
+							{	
+								navSection = true;
+							    var getlastindex=jQuery(".subject-selection").find(".subject-name:visible:last").index()+1;
+								var getfirstindex=jQuery(".subject-selection").find(".subject-name:visible:first").index()+1;
+								while(getfirstindex != (getlastindex+1))
+								{
+								jQuery(".subject-selection .subject-name").eq(getfirstindex-1).hide();
+								getfirstindex++;
+								}
+								var calculategroupwidthcompare = $(window).width() - 250;
+								var innerwidth=0;
+								getlastindex=getlastindex-1;
+								jQuery(".subject-selection .subject-name:gt("+getlastindex+")").each(function(){
+									innerwidth += jQuery(this).outerWidth(true);
+									if(innerwidth<calculategroupwidthcompare)
+									{
+										jQuery(this).show();
+									}
+									else
+									{
+										return false;
+									}
+								});
+								jQuery(".subject-arrow-left-disabled").attr("class","subject-arrow-left");
+								if(jQuery(".subject-selection").find(".subject-name:last").is(":visible"))
+									jQuery(".subject-arrow-right").attr("class","subject-arrow-right-disabled");
+							});
+							jQuery(document).on("click",".subject-arrow-left",function()
+							{	
+								navSection = false;
+								var calculategroupwidthcompare = jQuery(".subject-selection").outerWidth(true);
+								var innerwidth=0;
+								var getlastindex=jQuery(".subject-selection").find(".subject-name:visible:last").index()+1;
+								var getfirstindex=jQuery(".subject-selection").find(".subject-name:visible:first").index()+1;
+								while(getfirstindex != (getlastindex+1))
+								{
+								jQuery(".subject-selection").find(".subject-name").eq(getlastindex-1).hide();
+								getlastindex--;
+								}
+								var calculategroupwidthcompare = $(window).width() - 250;
+								var innerwidth=0;
+								getfirstindex=getfirstindex;
+								getfirstindex=getfirstindex-1;
+								$(jQuery("#sections .subject-name:lt("+getfirstindex+")").get().reverse()).each(function(){
+									innerwidth += jQuery(this).outerWidth(true);
+									if(innerwidth<calculategroupwidthcompare)
+									{
+										jQuery(this).show();
+									}
+									else
+									{
+										return false;
+									}
+								});
+								jQuery(".subject-arrow-right-disabled").attr("class","subject-arrow-right");
+								if(jQuery(".subject-selection").find(".subject-name:first").is(":visible"))
+									jQuery(".subject-arrow-left").attr("class","subject-arrow-left-disabled");
+									
+							});
+			jQuery(document).click(function(e)
+			{
+				if(!(jQuery(e.target).hasClass("subject_instruction_icon")))
+					jQuery(".subject_information_div").remove();
+			});
+			jQuery(document).on("click",".calculator-icon-container",function()
+			{
+				if(jQuery(".calculator_div").css("display") == "block")
+				{
+					jQuery(".component-icon-container").removeClass("component-icon-container-selected");
+					  jQuery(".component-icon-container span").removeClass("icon-selected");
+					jQuery("#loadCalc").css("display","none");
+				}
+
+				else
+				{
+				jQuery(".protactor-div").css("display","none");
+				jQuery(".scratch-pad-container").css("display","none");
+				jQuery(".textarea-div").css("display","none");
+				jQuery(".ruler-div").css("display","none");
+				var getcalculatorposition=jQuery(this).offset();
+				var gettop=getcalculatorposition.top + jQuery(".nav-container").height();
+				var getright=jQuery(window).width()-(getcalculatorposition.left + jQuery(this).width());
+				jQuery(".calculator_div").css("right",getright).css("top",gettop).css("display","block");
+				jQuery(".component-icon-container").removeClass("component-icon-container-selected");
+			     jQuery(".component-icon-container span").removeClass("icon-selected");
+				 jQuery(this).addClass("component-icon-container-selected");
+			     jQuery(this).find("span").addClass("icon-selected");
+				}
+			});
+			
+				jQuery(document).on("click",".textarea-icon-container",function()
+			{
+				if(jQuery(".textarea-div").css("display") == "block")
+				{
+					jQuery(".textarea-div").css("display","none");
+					jQuery(".component-icon-container").removeClass("component-icon-container-selected");
+					jQuery(".component-icon-container span").removeClass("icon-selected");
+				}
+                else if( $(window).width()<1000 ){
+                jQuery(".protactor-div").css("display","none");
+                jQuery(".scratch-pad-container").css("display","none");
+                jQuery(".calculator_div").css("display","none");
+                jQuery(".ruler-div").css("display","none");
+                
+                        var  offset=jQuery(this).offset();
+                        //var gettop=offset.top + jQuery(".grup_components").height();
+                        var gettop = $(window).height() - $(".textarea-div").height(); 
+                        var actw=$(".textarea-div").width();
+                        var textwidth=jQuery(window).width()-actw;
+                        jQuery(".textarea-div").css("left",textwidth/2).css("top",gettop/2).css("display","block");
+                    }
+				else
+				{
+				jQuery(".protactor-div").css("display","none");
+				jQuery(".scratch-pad-container").css("display","none");
+				jQuery(".calculator_div").css("display","none");
+				jQuery(".ruler-div").css("display","none");
+				var getcalculatorposition=jQuery(this).offset();
+				var gettop=getcalculatorposition.top + jQuery(".nav-container").height();
+				var getright=jQuery(window).width()-(getcalculatorposition.left + jQuery(this).width());
+				jQuery(".textarea-div").css("right",getright).css("top",gettop).css("display","block");
+				jQuery(".component-icon-container").removeClass("component-icon-container-selected");
+			     jQuery(".component-icon-container span").removeClass("icon-selected");
+				 jQuery(this).addClass("component-icon-container-selected");
+			     jQuery(this).find("span").addClass("icon-selected");
+				}
+			});
+				jQuery(document).on("click","#clear-textarea",function()
+			{
+					jQuery("#texteditor").val("");
+			});
+				jQuery(document).on("click",".textarea_close",function()
+			{
+					jQuery(".textarea-div").hide();
+					jQuery(".component-icon-container").removeClass("component-icon-container-selected");
+			     jQuery(".component-icon-container span").removeClass("icon-selected");
+			});
+			
+			
+				jQuery(document).on("click",".scratchpad-icon-container",function()
+			{
+				if(jQuery(".scratch-pad-container").css("display") == "block")
+				{
+					jQuery(".scratch-pad-container").css("display","none");
+					jQuery(".component-icon-container").removeClass("component-icon-container-selected");
+					  jQuery(".component-icon-container span").removeClass("icon-selected");
+				}
+                else if( $(window).width()<1000 ){
+                jQuery(".protactor-div").css("display","none");
+                jQuery(".calculator_div").css("display","none");
+                jQuery(".textarea-div").css("display","none");
+                jQuery(".ruler-div").css("display","none");
+                
+                        var  offset=jQuery(this).offset();
+                        var gettop=offset.top + jQuery(".grup_components").height();
+                        //var gettop = $(window).height() - $(".scratch-pad-container").height(); alert(gettop);
+                        var actw=$(".scratch-pad-container").width();
+                        var textwidth=jQuery(window).width()-actw;
+                        jQuery(".scratch-pad-container").css("left",textwidth/2).css("top",gettop/2).css("display","block");
+                    }
+				else
+				{
+				jQuery(".protactor-div").css("display","none");
+				jQuery(".calculator_div").css("display","none");
+				jQuery(".textarea-div").css("display","none");
+				jQuery(".ruler-div").css("display","none");
+				var getcalculatorposition=jQuery(this).offset();
+				var gettop=getcalculatorposition.top + jQuery(".nav-container").height();
+				var getright=(jQuery(window).width()-(getcalculatorposition.left + jQuery(this).width()))/2;
+				jQuery(".scratch-pad-container").css("right",getright).css("top",gettop).css("display","block");
+				jQuery(".component-icon-container").removeClass("component-icon-container-selected");
+			     jQuery(".component-icon-container span").removeClass("icon-selected");
+				 jQuery(this).addClass("component-icon-container-selected");
+			     jQuery(this).find("span").addClass("icon-selected");
+				}
+			});
+			jQuery(document).on("click",".scratch-pad-close",function()
+			{
+					jQuery(".scratch-pad-container").hide();
+									jQuery(".component-icon-container").removeClass("component-icon-container-selected");
+			     jQuery(".component-icon-container span").removeClass("icon-selected");
+			});
+				jQuery(document).on("click",".ruler-icon-container",function()
+			{
+				if(jQuery(".ruler-div").css("display")  == "block")
+				{
+				jQuery(".ruler-div").css("display","none");
+									jQuery(".component-icon-container").removeClass("component-icon-container-selected");
+					  jQuery(".component-icon-container span").removeClass("icon-selected");
+				}
+				else
+				{
+
+					var getcalculatorposition=jQuery(this).offset();
+						 if( !( document.addEventListener ) )
+				var gettop=getcalculatorposition.top + jQuery(".nav-container").height(); 
+				else
+				var gettop=getcalculatorposition.top + jQuery(".nav-container").height(); 
+				var rulerleft=(jQuery(window).width() - jQuery(".ruler-div").width())/2;
+				jQuery(".ruler-div").css("left",rulerleft).css("top",gettop).css("display","block");
+					jQuery(".ruler-div").css("display","block");
+				jQuery(".component-icon-container").removeClass("component-icon-container-selected");
+			     jQuery(".component-icon-container span").removeClass("icon-selected");
+				 jQuery(this).addClass("component-icon-container-selected");
+			     jQuery(this).find("span").addClass("icon-selected");
+				}
+				jQuery(".calculator_div").css("display","none");
+				jQuery(".protactor-div").css("display","none");
+				jQuery(".scratch-pad-container").css("display","none");
+				jQuery(".textarea-div").css("display","none");
+				
+			});
+				jQuery(document).on("click",".protactor-icon-container",function()
+			{
+				if(jQuery(".protactor-div").css("display")  == "block")
+				{
+				jQuery(".protactor-div").css("display","none");
+									jQuery(".component-icon-container").removeClass("component-icon-container-selected");
+					  jQuery(".component-icon-container span").removeClass("icon-selected");
+				}
+				else
+				{
+					var getcalculatorposition=jQuery(this).offset();
+				var gettop=getcalculatorposition.top + jQuery(".nav-container").height(); //205 is the height of protactor
+					var protactorleft=(jQuery(window).width() - jQuery(".protactor-div").width())/2;
+				jQuery(".protactor-div").css("left",protactorleft).css("top",gettop).css("display","block");
+					jQuery(".protactor-div").css("display","block");
+				jQuery(".component-icon-container").removeClass("component-icon-container-selected");
+			     jQuery(".component-icon-container span").removeClass("icon-selected");
+				 jQuery(this).addClass("component-icon-container-selected");
+			     jQuery(this).find("span").addClass("icon-selected");
+				}
+				jQuery(".calculator_div").css("display","none");
+				jQuery(".scratch-pad-container").css("display","none");
+				jQuery(".textarea-div").css("display","none");
+				jQuery(".ruler-div").css("display","none");
+				
+			});
+			
+				var zoom = true;
+				jQuery(document).on("click",".zoomin-icon-container",function()
+						{	if(zoom == true){
+							jQuery(".Ans_Area").addClass("ZeroLevelZoom");
+							zoom = false;
+							}
+							if(jQuery(".Ans_Area").hasClass("ZeroLevelZoom"))
+							{
+								
+								jQuery(".SAAnswer").css("font-size","20px");
+								$(".leftDiv img").each(function(){
+									if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+										$(this).css("width",$(this).width()+10);
+									}
+								});
+							$(".rightDiv img").each(function(){
+								if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+									$(this).css("width",$(this).width()+10);
+								}
+								});
+								
+								jQuery(".Ans_Area,.divHeader").removeClass("ZeroLevelZoom");
+								jQuery(".Ans_Area,.divHeader").addClass("FirstLevelZoom");
+								jQuery(".rightDiv").removeClass("ZeroLevelZoom");
+								jQuery(".rightDiv").addClass("FirstLevelZoom");
+								$('.zoomout-icon-container span').removeClass("icon-9");
+								$('.zoomoutCursor').removeClass("disableCursor");
+								$('.zoomout-icon-container span').addClass("icon-7");
+								if(typeof(iOAP.secDetails[iOAP.curSection].groupAllQuestions) != "undefined" && iOAP.secDetails[iOAP.curSection].groupAllQuestions != "" && iOAP.secDetails[iOAP.curSection].groupAllQuestions == "true"  ){
+
+									jQuery("#quesOuterDiv").removeClass("ZeroLevelZoom");
+								jQuery("#quesOuterDiv").addClass("FirstLevelZoom");
+									$("#quesOuterDiv img").each(function(){
+										if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+											$(this).css("width",$(this).width()+10);
+										}
+								});
+									
+								}
+								
+							}
+							else if(jQuery(".Ans_Area").hasClass("FirstLevelZoom"))
+							{
+								jQuery(".SAAnswer").css("font-size","22px");
+								$(".leftDiv img").each(function(){
+									if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+										$(this).css("width",$(this).width()+10);
+									}
+								});
+								
+								$(".rightDiv img").each(function(){
+									if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+										$(this).css("width",$(this).width()+10);
+									}
+								})
+							
+								jQuery(".Ans_Area,.divHeader").removeClass("FirstLevelZoom");
+								jQuery(".Ans_Area,.divHeader").addClass("SecondLevelZoom");
+								jQuery(".rightDiv").removeClass("FirstLevelZoom");
+								jQuery(".rightDiv").addClass("SecondLevelZoom");
+								if(typeof(iOAP.secDetails[iOAP.curSection].groupAllQuestions) != "undefined" && iOAP.secDetails[iOAP.curSection].groupAllQuestions != "" && iOAP.secDetails[iOAP.curSection].groupAllQuestions == "true"  ){
+									jQuery("#quesOuterDiv").removeClass("FirstLevelZoom");
+								jQuery("#quesOuterDiv").addClass("SecondLevelZoom");
+									$("#quesOuterDiv img").each(function(){
+										if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+											$(this).css("width",$(this).width()+10);
+										}
+								});
+									
+								}
+							}
+								else if(jQuery(".Ans_Area").hasClass("SecondLevelZoom"))
+							{
+								
+								jQuery(".SAAnswer").css("font-size","24px");
+								$(".leftDiv img").each(function(){
+									if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+										$(this).css("width",$(this).width()+10);
+									}
+								});
+								
+								$(".rightDiv img").each(function(){
+									if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+										$(this).css("width",$(this).width()+10);
+									}
+								})
+								$(".progImg").css("width",20);
+								jQuery(".Ans_Area,.divHeader").removeClass("SecondLevelZoom");
+								jQuery(".Ans_Area,.divHeader").addClass("ThirdLevelZoom");
+								jQuery(".rightDiv").removeClass("SecondLevelZoom");
+								jQuery(".rightDiv").addClass("ThirdLevelZoom");
+								$('.zoomin-icon-container span').removeClass("icon-6");
+								$('.zoomin-icon-container span').addClass("icon-8");
+								$('.zoominCursor').addClass("disableCursor");
+								if(typeof(iOAP.secDetails[iOAP.curSection].groupAllQuestions) != "undefined" && iOAP.secDetails[iOAP.curSection].groupAllQuestions != "" && iOAP.secDetails[iOAP.curSection].groupAllQuestions == "true"  ){
+									jQuery("#quesOuterDiv").removeClass("SecondLevelZoom");
+								jQuery("#quesOuterDiv").addClass("ThirdLevelZoom");
+									$("#quesOuterDiv img").each(function(){
+										if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+											$(this).css("width",$(this).width()+10);
+										}
+								});
+								}
+								//jQuery(".zoomin-icon-container").hide();
+							}
+							
+					
+							jQuery(".protactor-div").css("display","none");
+							jQuery(".scratch-pad-container").css("display","none");
+							jQuery(".calculator_div").css("display","none");
+							jQuery(".ruler-div").css("display","none");
+							jQuery(".textarea-div").css("display","none");
+						});
+						jQuery(document).on("click",".zoomout-icon-container",function()
+						{
+							if(jQuery(".Ans_Area").hasClass("FirstLevelZoom"))
+							{
+								//jQuery(".leftDiv").css("font-size","1.2em !important");
+								//jQuery(".rightDiv").css("font-size","1.2em !important");
+								jQuery(".SAAnswer").css("font-size","1em");
+								jQuery(".Ans_Area,.divHeader").removeClass("FirstLevelZoom");
+								jQuery(".Ans_Area,.divHeader").addClass("ZeroLevelZoom");
+								jQuery(".rightDiv").removeClass("FirstLevelZoom");
+								jQuery(".rightDiv").addClass("ZeroLevelZoom");
+								$(".leftDiv img").each(function(){
+									if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+										$(this).css("width",$(this).width()-10);
+									}
+								});
+								$(".rightDiv img").each(function(){
+									if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+										$(this).css("width",$(this).width()-10);
+									}
+								})
+							
+								$('.zoomout-icon-container span').removeClass("icon-7");
+								$('.zoomout-icon-container span').addClass("icon-9");
+								$('.zoomoutCursor').addClass("disableCursor");
+								$('.zoomin-icon-container span').removeClass("icon-8");
+								$('.zoominCursor').removeClass("disableCursor");
+								$('.zoomin-icon-container span').addClass("icon-6");
+								if(typeof(iOAP.secDetails[iOAP.curSection].groupAllQuestions) != "undefined" && iOAP.secDetails[iOAP.curSection].groupAllQuestions != "" && iOAP.secDetails[iOAP.curSection].groupAllQuestions == "true"  ){
+								
+									jQuery("#quesOuterDiv").removeClass("FirstLevelZoom");
+								jQuery("#quesOuterDiv").addClass("ZeroLevelZoom");
+									$("#quesOuterDiv img").each(function(){
+										if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+											$(this).css("width",$(this).width()-10);
+										}
+								});
+								}
+							
+							}
+								else if(jQuery(".Ans_Area").hasClass("SecondLevelZoom"))
+							{
+								
+								jQuery(".SAAnswer").css("font-size","20px");
+								$(".leftDiv img").each(function(){
+									if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+										$(this).css("width",$(this).width()-10);
+									}
+								});
+								$(".rightDiv img").each(function(){
+									if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+										$(this).css("width",$(this).width()-10);
+									}
+								})
+								$(".progImg").css("width",20);
+								jQuery(".Ans_Area,.divHeader").removeClass("SecondLevelZoom");
+								jQuery(".Ans_Area,.divHeader").addClass("FirstLevelZoom");
+								jQuery(".rightDiv").removeClass("SecondLevelZoom");
+								jQuery(".rightDiv").addClass("FirstLevelZoom");
+									if(typeof(iOAP.secDetails[iOAP.curSection].groupAllQuestions) != "undefined" && iOAP.secDetails[iOAP.curSection].groupAllQuestions != "" && iOAP.secDetails[iOAP.curSection].groupAllQuestions == "true"  ){
+									jQuery("#quesOuterDiv").removeClass("SecondLevelZoom");
+								jQuery("#quesOuterDiv").addClass("FirstLevelZoom");
+									$("#quesOuterDiv img").each(function(){
+										if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+											$(this).css("width",$(this).width()-10);
+										}
+								});
+								}
+							}
+							else if(jQuery(".Ans_Area").hasClass("ThirdLevelZoom"))
+							{
+								jQuery(".SAAnswer").css("font-size","22px");
+								$(".leftDiv img").each(function(){
+									if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+										$(this).css("width",$(this).width()-10);
+									}
+								});
+								$(".rightDiv img").each(function(){
+									if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+										$(this).css("width",$(this).width()-10);
+									}
+								})
+								$(".progImg").css("width",20);
+								jQuery(".Ans_Area,.divHeader").removeClass("ThirdLevelZoom");
+								jQuery(".Ans_Area,.divHeader").addClass("SecondLevelZoom");
+								jQuery(".rightDiv").removeClass("ThirdLevelZoom");
+								jQuery(".rightDiv").addClass("SecondLevelZoom");
+								$('.zoomin-icon-container span').removeClass("icon-8");
+								$('.zoomin-icon-container span').addClass("icon-6");
+								if(typeof(iOAP.secDetails[iOAP.curSection].groupAllQuestions) != "undefined" && iOAP.secDetails[iOAP.curSection].groupAllQuestions != "" && iOAP.secDetails[iOAP.curSection].groupAllQuestions == "true"  ){
+									jQuery("#quesOuterDiv").removeClass("ThirdLevelZoom");
+								jQuery("#quesOuterDiv").addClass("SecondLevelZoom");
+									$("#quesOuterDiv img").each(function(){
+										if(mockVar.MagnifyingGlass!= undefined && mockVar.MagnifyingGlass != 1){
+											$(this).css("width",$(this).width()-10);
+										}
+								});
+									
+								}
+							}
+							
+					
+							jQuery(".protactor-div").css("display","none");
+							jQuery(".scratch-pad-container").css("display","none");
+							jQuery(".calculator_div").css("display","none");
+							jQuery(".ruler-div").css("display","none");
+							jQuery(".textarea-div").css("display","none");
+						});
+			jQuery(document).on("click","#closeButton",function()
+			{
+				jQuery(".calculator_div").css("display","none");
+								jQuery(".component-icon-container").removeClass("component-icon-container-selected");
+			     jQuery(".component-icon-container span").removeClass("icon-selected");
+			});
+			
+			jQuery(document).on("click",".collapse_icon",function(){
+  $(".collapsebel_panel").hide();
+  $(".expand_icon").show();
+			});
+					jQuery(document).on("click",".expand_icon",function(){
+  $(".collapsebel_panel").show();
+  $(".expand_icon").hide();
+  if (jQuery(window).width() > 1023) {
+        quizPageHeight();
+    } else {
+         setDIVHeight_resp(); 
+     }
+			});
+        });
+		</script>
+<div class="protactor-div">
+<div id="protactor"><img src="{%static 'images/1.png'%}" id="protactorid" /></div>
+</div>
+<script>
+function ionProtractor(){
+//$(document).ready(function(){
+	  if( !( document.addEventListener ) )
+	  {
+	  $('.protactor-div').draggable();
+			  var src = document.getElementById("protactorid").src,
+                    angle = 0;
+                document.getElementById("protactor").innerHTML = "";
+                var R = Raphael("protactor", 640, 480);
+                //R.circle(320, 240, 200).attr({fill: "#000", "fill-opacity": .5, "stroke-width": 5});
+                var img = R.image(src,50, 120, 360, 180);
+                var butt1 = R.set(),
+                    butt2 = R.set();
+                butt1.push(R.circle(24.833, 26.917, 26.667).attr({stroke: "#ccc", fill: "#fff", "fill-opacity": .4, "stroke-width": 2}),
+                           R.path("M12.582,9.551C3.251,16.237,0.921,29.021,7.08,38.564l-2.36,1.689l4.893,2.262l4.893,2.262l-0.568-5.36l-0.567-5.359l-2.365,1.694c-4.657-7.375-2.83-17.185,4.352-22.33c7.451-5.338,17.817-3.625,23.156,3.824c5.337,7.449,3.625,17.813-3.821,23.152l2.857,3.988c9.617-6.893,11.827-20.277,4.935-29.896C35.591,4.87,22.204,2.658,12.582,9.551z").attr({stroke: "none", fill: "#000"}),
+                           R.circle(24.833, 26.917, 26.667).attr({fill: "#fff", opacity: 0}));
+                butt2.push(R.circle(24.833, 26.917, 26.667).attr({stroke: "#ccc", fill: "#fff", "fill-opacity": .4, "stroke-width": 2}),
+                           R.path("M37.566,9.551c9.331,6.686,11.661,19.471,5.502,29.014l2.36,1.689l-4.893,2.262l-4.893,2.262l0.568-5.36l0.567-5.359l2.365,1.694c4.657-7.375,2.83-17.185-4.352-22.33c-7.451-5.338-17.817-3.625-23.156,3.824C6.3,24.695,8.012,35.06,15.458,40.398l-2.857,3.988C2.983,37.494,0.773,24.109,7.666,14.49C14.558,4.87,27.944,2.658,37.566,9.551z").attr({stroke: "none", fill: "#000"}),
+                           R.circle(24.833, 26.917, 26.667).attr({fill: "#fff", opacity: 0}));
+                butt1.translate(10, 181);
+                butt2.translate(10, 245);
+				angle =0;
+                butt1[2].click(function () {
+                    angle -= 1;
+                    img.stop().animate({transform: "r" + angle}, 1000, "<>");
+                }).mouseover(function () {
+                    butt1[1].animate({fill: "#fc0"}, 300);
+                }).mouseout(function () {
+                    butt1[1].stop().attr({fill: "#000"});
+                });
+                butt2[2].click(function () {
+                    angle += 1;
+                    img.animate({transform: "r" + angle}, 1000, "<>");
+                }).mouseover(function () {
+                    butt2[1].animate({fill: "#fc0"}, 300);
+                }).mouseout(function () {
+                    butt2[1].stop().attr({fill: "#000"});
+                });
+    }
+	else
+	{
+	$('.protactor-div').rotatable().draggable();
+	}
+
+//});
+}
+		</script>
+<div class="textarea-div">
+	<div id="closeButton" class="textarea_close">X</div>
+	<textarea id="texteditor" ></textarea> 
+	<div align="center"><div id="clear-textarea" class="clear-button-textarea">Clear</div>
+</div>
+</div>
+<div class="ruler-div">
+<div id="ruler"><img src="" id="rulerid"/></div>
+</div>
+
+
+<!--Changes for popup Window and Image Gallery-->
+<div id="modal-content" class="pop-up-display-content">
+    <div class="pop-up-header" style=""><span class="usefullDataHeader">Useful data </span><span class="maximizeicon" title="Maximize">&nbsp;</span></div>
+	<div class="usefulDataLangDiv"></div>
+	<div class="connected-carousels" id="connected-carousels" style="padding: 20px 0px 15px;">
+                    <div class="stage" id="stage">
+                        <div class="carousel carousel-stage useFulImagesImages" style="overflow:auto;overflow-x:hidden;">
+                           
+                        </div>
+                        <a href="#" class="prev prev-stage inactive navigationArrowPrev"><span>
+                        <img src="{%static 'images/previnactive.png'%}" width="32px" height="32px" />
+                        </span></a>
+                        <a href="#" class="next next-stage navigationArrowNext"><span>
+                        <img src="{%static 'images/nextactive.png'%}" width="32px" height="32px"  />
+                        </span></a>
+                    </div>
+    
+                    <div class="navigation">
+                        <a href="#" class="prev prev-navigation">Back</a>
+                        <a href="#" class="next next-navigation">Next</a>
+                        <div class="carousel carousel-navigation useFulImagesListing">
+                           
+                        </div>
+                    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+	//$(document).ready(function() {
+	function ionRuler(){
+		/* Enable ruler with all the options and their default values */
+		 if( !( document.addEventListener ) )
+	  {
+	  $('.ruler-div').draggable();
+			  var src = document.getElementById("rulerid").src,
+                    angle = 0;
+                document.getElementById("ruler").innerHTML = "";
+                var R = Raphael("ruler", 920, 480);
+                //R.circle(320, 240, 200).attr({fill: "#000", "fill-opacity": .5, "stroke-width": 5});
+                var img = R.image(src,70, 210, 802, 57);
+                var butt1 = R.set(),
+                    butt2 = R.set();
+                butt1.push(R.circle(24.833, 26.917, 26.667).attr({stroke: "#ccc", fill: "#fff", "fill-opacity": .4, "stroke-width": 2}),
+                           R.path("M12.582,9.551C3.251,16.237,0.921,29.021,7.08,38.564l-2.36,1.689l4.893,2.262l4.893,2.262l-0.568-5.36l-0.567-5.359l-2.365,1.694c-4.657-7.375-2.83-17.185,4.352-22.33c7.451-5.338,17.817-3.625,23.156,3.824c5.337,7.449,3.625,17.813-3.821,23.152l2.857,3.988c9.617-6.893,11.827-20.277,4.935-29.896C35.591,4.87,22.204,2.658,12.582,9.551z").attr({stroke: "none", fill: "#000"}),
+                           R.circle(24.833, 26.917, 26.667).attr({fill: "#fff", opacity: 0}));
+                butt2.push(R.circle(24.833, 26.917, 26.667).attr({stroke: "#ccc", fill: "#fff", "fill-opacity": .4, "stroke-width": 2}),
+                           R.path("M37.566,9.551c9.331,6.686,11.661,19.471,5.502,29.014l2.36,1.689l-4.893,2.262l-4.893,2.262l0.568-5.36l0.567-5.359l2.365,1.694c4.657-7.375,2.83-17.185-4.352-22.33c-7.451-5.338-17.817-3.625-23.156,3.824C6.3,24.695,8.012,35.06,15.458,40.398l-2.857,3.988C2.983,37.494,0.773,24.109,7.666,14.49C14.558,4.87,27.944,2.658,37.566,9.551z").attr({stroke: "none", fill: "#000"}),
+                           R.circle(24.833, 26.917, 26.667).attr({fill: "#fff", opacity: 0}));
+                butt1.translate(10, 181);
+                butt2.translate(10, 245);
+				angle =0;
+                butt1[2].click(function () {
+                    angle -= 1;
+                    img.stop().animate({transform: "r" + angle}, 1000, "<>");
+                }).mouseover(function () {
+                    butt1[1].animate({fill: "#fc0"}, 300);
+                }).mouseout(function () {
+                    butt1[1].stop().attr({fill: "#000"});
+                });
+                butt2[2].click(function () {
+                    angle += 1;
+                    img.animate({transform: "r" + angle}, 1000, "<>");
+                }).mouseover(function () {
+                    butt2[1].animate({fill: "#fc0"}, 300);
+                }).mouseout(function () {
+                    butt2[1].stop().attr({fill: "#000"});
+                });
+    }
+	else
+	{
+	$('.ruler-div').rotatable().draggable();
+	}
+	}
+	//});
+	</script>
+	
+	<script type="text/javascript">
+            $(function () {
+                $(".nextbtn").hover(function () {
+                    $("#forwordImage").attr("src", "{%static 'images/Forward-25-hover.png'%}");
+                }, function () {
+                    $("#forwordImage").attr("src", "{%static 'images/Forward-25.png'%}");
+                });               
+            });
+        </script>
+   		<script>
+$(document).ready(function() {
+changeFocus();
+ $("#answer").click(function(){
+  localStorage.setItem('txtObjectid', "answer");
+  changeFocus();
+  return false;
+ });
+
+ $("#texteditor").click(function(){
+  localStorage.setItem('txtObjectid', "texteditor");
+  changeFocus();
+  return false;
+ });
+});
+
+function changeFocus(){
+	if (localStorage.getItem('txtObjectid') == null)
+		id = "answer"
+			else
+				id = localStorage.getItem('txtObjectid');
+	var v = "#" + id;
+	$(v).focus();
+}
+					</script>
+
+
+
+</body>
+</html>
+
