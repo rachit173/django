@@ -103,7 +103,7 @@ def getdata_student(request):
         Sess = client.get(sesskey)
     except:
         pass
-    if Sess!=None: print"Sess present" ##Debug days
+    # if Sess!=None: print"Sess present" ##Debug days
     # print Sess.key.id
     for e in iter_lst:
         # print e.key.id
@@ -129,6 +129,10 @@ def getdata_student(request):
                 quests[mp[str(e['subject'])]+str(e['section'])].append(tmp)
         except: pass
     # print quests
+    ##PHASE 4 addtions
+    ########===>
+    quests["submit"] = Sess.get("submit",False)
+    ############
     return HttpResponse(json.dumps(quests),content_type="application/json")
 @login_required(login_url='/login')
 def savedata(request):
@@ -197,6 +201,12 @@ def savedatamarks(request):
                 except: pass
             if request.POST["ans"] !=None:
                 quest["ans"] = request.POST["ans"]
+            if request.POST.get("imgCheck")=='true':
+                quest["imgCheck"] = True
+            else:
+                quest["imgCheck"] = False
+            if request.POST.get("imgURL",None)!=None:
+                quest["imgURL"] = request.POST["imgURL"]
         except:
             return HttpResponse("Error from the cloud datastore")
         client.put(quest)
@@ -245,6 +255,14 @@ def getquest(request):
                 ret["section"] = quest["section"]
             except:
                 ret["section"] = None 
+            try:
+                ret["imgCheck"] = quest["imgCheck"]
+            except:
+                ret["imgCheck"] = False
+            try:
+                ret["imgURL"] = quest["imgURL"]
+            except:
+                ret["imgURL"] = None
         except:
             return HttpResponse("err")
         return HttpResponse(json.dumps(ret),content_type='application/json')
@@ -287,7 +305,15 @@ def getquest_student(request):
             try:
                 ret["section"] = quest["section"]
             except:
-                ret["section"] = None 
+                ret["section"] = None
+            try:
+                ret["imgCheck"] = quest["imgCheck"]
+            except:
+                ret["imgCheck"] = False
+            try:
+                ret["imgURL"] = quest["imgURL"]
+            except:
+                ret["imgURL"] = None 
         except:
             return HttpResponse("err")
         return HttpResponse(json.dumps(ret),content_type='application/json')
@@ -326,6 +352,8 @@ def createquest(request):
             "ans":None,
             "subject":None,
             "section":None,
+            "imgCheck":False,
+            "imgURL":None,
             'created': datetime.datetime.now()
         })
         client.put(e)

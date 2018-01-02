@@ -35,7 +35,8 @@ def studenthome(request):
         lst = e.key.__dict__['_path']
         temp = {}
         temp['start'] = e['created']
-        temp['submit'] = False
+        temp['submit'] = e.get('submit',False)
+        print e
         for li in lst:
             try:
                 temp[li['kind']] = li['name']
@@ -66,16 +67,17 @@ def testdashboard(request):
     if len(lst)>=1:
         if len(lst)>1: print "More than two sessions by a user"
         sess = lst[0]    
-        return render(request,'dashboard1.html',{'testID':testcode,'sesskey':sess.key.id})
+        return render(request,'dashboard1.html',{'testID':testcode,'sesskey':sess.key.id,'created':sess['created']})
     ##The Account is now created or accessed
     ##Now we needd to check if the test proxy object already exists
     ##or it needs to be created
     sesskey = client.key('Test',request.POST['testcode'],'Account',username,'Sess')
     sess = datastore.Entity(sesskey)
+    sess['submit'] = False
     sess['created'] = datetime.datetime.now()
     sess['user'] = username
     client.put(sess)
-    return render(request,'dashboard1.html',{'testID':testcode,'sesskey':sess.key.id})
+    return render(request,'dashboard1.html',{'testID':testcode,'sesskey':sess.key.id,'created':sess['created']})
 
 @login_required(login_url='/login/')
 def saveResponse(request):
@@ -109,11 +111,12 @@ def saveResponse(request):
     questIDbyte = str(questID)
     if sess.get(questIDbyte)==None:
         sess[questIDbyte] = {}
-    sess[questIDbyte]['attempt'] = attempt
-    sess[questIDbyte]['section'] = section
-    sess[questIDbyte]['number'] = number
-    client.put(sess)
-    print sess
+    if sess.get('submit',False)==False:
+        sess[questIDbyte]['attempt'] = attempt
+        sess[questIDbyte]['section'] = section
+        sess[questIDbyte]['number'] = number
+        client.put(sess)
+    # print sess
     return HttpResponse("Response Saved")
 @login_required(login_url='/login/')
 def submitSuccess(request):
@@ -225,3 +228,42 @@ def result(request,testcode,sesscode):
             haha['ob'] = calc(haha['response'],haha['correct'],tot,neg,par,int(quest_section))
             ret[complete_section].append(haha)
     return render(request,'result.html',ret)
+@login_required(login_url='/login/')
+def finalSubmit(request):
+    print finalSubmit
+    if request.method!='POST': return HttpResponse("Final Submit Not OK")
+    testID = None
+    sessID = None
+    submit = True
+    try:
+        testID = request.POST["testID"]
+        sessID = request.POST["sessID"]
+        submit = request.POST["submit"]
+    except:
+        pass
+    print testID
+    print sessID
+    print submit
+    if submit==False:
+        print "Someone has been trying to fool, by changing the JavaScript"
+        print "But by default the virtue of the final submit"
+        print "submit=True"
+    submit = True
+    user = User.objects.get(username = request.user)
+    ##Find the username
+    username = user.username
+    testkey = client.key('Test',testID)
+    test = client.get(testkey)
+    if test==None:
+        print "The test does not exist Some packet attack maybe"
+        return HttpResponse("Final Submit Not OK")
+    sesskey = client.key('Test',testID,'Account',username,'Sess',int(sessID))
+    Sess = client.get(sesskey)
+    if Sess==None:
+        print sesskey
+        return HttpResponse("Final Submit Not OK Session D.N.E.")
+    ##If the Test and the Session for the user also exists 
+    ##Then .. make the change Sess["submit"] = True
+    Sess["submit"] = True
+    client.put(Sess)
+    return HttpResponse("Final Submit Occured successfully")

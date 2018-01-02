@@ -22,7 +22,7 @@ def con(ans,section):
         try:
             num.append(int(ans))
         except:
-            pass
+            pass    
         return sorted(num)
     else:
         return None    
