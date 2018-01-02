@@ -46,34 +46,87 @@ def getdata(request,testcode='bothra001'):
     print quests
     return HttpResponse(json.dumps(quests),content_type="application/json")
 @login_required(login_url='/login')
-def getdata_student(request,testcode='bothra001'):
-    print 'getdata student'
+def getdata_student(request):
+    ##Phase One
+    ## The method obtains the data
+    ## for the particular testcode
+    ## for the student dashboard
+    ##Phase Two
+    ## From the sessId determine whether it exists
+    ## From it find the questions that have been attempted
+    ## The student response, attempt,marked or not is returned
+    ## the request method should be POST
+    print request
+    if request.method!='POST':
+        print 'getdata student data not post'
+        return HttpResponse("Get Data Student method is not POST")
+    testcode = request.POST['testID']
+    sessID = request.POST['sessID']
     testkey = client.key('Test',testcode)
     test = client.get(testkey)
-
     quests = {}
     if test==None:
-        test = datastore.Entity(key=testkey)
-        client.put(test)
-        return HttpResponse(json.dumps(quests),content_type='application/json')
+        return HttpResponse("Not OK")
+        # test = datastore.Entity(key=testkey)
+        # client.put(test)
+        # return HttpResponse(json.dumps(quests),content_type='application/json')
     questquery = client.query(kind='Quest',ancestor=testkey)
+    # questquery.keys_only()
     iter_lst = questquery.fetch()
     ##lst is an iterable 
-    # try:
+    ##initialising th mp dictionary with subject code
+    ## 1--> maths
+    ## 2-->physics
+    ## 3-->chemistry
+    ###
+    # print testcode
+    # print sessID
+
     subjects = ['1','2','3']
     sections = ['1','2','3']
     ##inititalise the lsts
     mp = {}
     mp['1'] = 'ma'
-    mp['2'] = 'ch'
-    mp['3'] = 'ph'
+    mp['2'] = 'ph'
+    mp['3'] = 'ch'
     for sub in subjects:
         for sect in sections:
             quests[mp[sub]+sect] = []
+    ###
+    ##Initialise the Sess object with the session
+    ##Now obtain necessary information from the session
+    Sess = {}
+    user = User.objects.get(username = request.user)
+    username = user.username
+    try:
+        sesskey = client.key('Test',testcode,'Account',username,'Sess',int(sessID))
+        Sess = client.get(sesskey)
+    except:
+        pass
+    if Sess!=None: print"Sess present" ##Debug days
+    # print Sess.key.id
     for e in iter_lst:
+        # print e.key.id
         try:
             if str(e['subject']) in subjects and str(e['section']) in sections: 
-                quests[mp[str(e['subject'])]+str(e['section'])].append(e.key.id)
+                tmp = {}
+                tmp['key'] = e.key.id
+                tmp['attempt'] = 0
+                tmp['num'] = 0
+                tmp['marked'] = 0
+                tmp['visited'] = 0
+                # print quests[mp[str(e['subject'])]+str(e['section'])] 
+                # print e.key.id
+                try:
+                    # print "find the question in Sess"
+                    if Sess.get(str(e.key.id))!=None:
+                        res = Sess.get(str(e.key.id))
+                        tmp['attempt'] = res.get('attempt',0)
+                        tmp['marked'] = res.get('marked',0)
+                        tmp['num'] = res.get('number',0)
+                        tmp['visited'] = res.get('visited',0)
+                except: pass
+                quests[mp[str(e['subject'])]+str(e['section'])].append(tmp)
         except: pass
     # print quests
     return HttpResponse(json.dumps(quests),content_type="application/json")

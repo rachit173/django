@@ -16,9 +16,13 @@ handlers:
 libraries:
 - name: MySQLdb
   version: 1.2.5
+- name: ssl
+  version: latest
 # [END django_app]
 builtins:
 - remote_api: on
+env_variables:
+  GAE_USE_SOCKETS_HTTPLIB : ''
 # Google App Engine limits application deployments to 10,000 uploaded files per
 # version. The skip_files section allows us to skip virtual environment files
 # to meet this requirement. The first 5 are the default regular expressions to

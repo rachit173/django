@@ -1,8 +1,8 @@
 def con(ans,section):
     # if section not in [1,2,3]: return None
     num=[]
+    ans = ans.lower()
     if section==1:
-        ans = ans.lower()
         num = []
         if 'a' in ans: num.append('a')
         elif 'b' in ans: num.append('b')
@@ -10,6 +10,7 @@ def con(ans,section):
         elif 'd' in ans: num.append('d')
         return sorted(num)
     elif section==2:
+        print "#ans",ans
         num = []
         if 'a' in ans: num.append('a')
         if 'b' in ans: num.append('b')
@@ -49,6 +50,7 @@ def decon(num,section):
 
 def calc(res,ans,tot,neg,par,section):
     if res==None: return 0
+    if section==2: print res,ans
     if ans==None: 
         print "Bonus"
         return tot

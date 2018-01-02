@@ -59,6 +59,14 @@ def testdashboard(request):
     username = user.username
     acc_key  = client.key('Account',username)
     Account = client.get(acc_key)
+    ##Check if the test does not already have
+    ## a session created by user
+    query = client.query(kind='Sess',ancestor=client.key('Test',request.POST['testcode'],'Account',username))
+    lst = list(query.fetch())
+    if len(lst)>=1:
+        if len(lst)>1: print "More than two sessions by a user"
+        sess = lst[0]    
+        return render(request,'dashboard1.html',{'testID':testcode,'sesskey':sess.key.id})
     ##The Account is now created or accessed
     ##Now we needd to check if the test proxy object already exists
     ##or it needs to be created
@@ -174,7 +182,7 @@ def result(request,testcode,sesscode):
         quest_subject = q.get('subject')
         ##
         complete_section = None
-        print mp.get(str(quest_subject)) + str(quest_section)
+        # print mp.get(str(quest_subject)) + str(quest_section)
         try:
             complete_section = mp.get(str(quest_subject)) + str(quest_section)
         except:

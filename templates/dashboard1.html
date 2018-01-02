@@ -323,25 +323,42 @@ $( document ).ready(function() {
 				},
 				readOnly: true,
 			});
-			var foo = '/test/getdata/student/'+testID; 
+			var foo = '/test/student/getdata/'; 
 			console.log(typeof testID);
 			console.log("here here here here here here here here here");
-		$.ajax({
-			url: foo,
-			success: function(result) {
-				console.log(result);
-				QP = result;
-				try{
-				document.getElementById('ma1').click();
-				$('.numberpanelQues').children()[0].click();
-				}
-				catch(err){
-					console.log(err);
-				}
-			},
-			error: function(result) {
+		// $.ajax({
+		// 	url: foo,
+		// 	success: function(result) {
+		// 		console.log(result);
+		// 		QP = result;
+		// 		try{
+		// 		document.getElementById('ma1').click();
+		// 		$('.numberpanelQues').children()[0].click();
+		// 		}
+		// 		catch(err){
+		// 			console.log(err);
+		// 		}
+		// 	},
+		// 	error: function(result) {
 				
-			},
+		// 	},
+		// });
+		$.post(foo,{
+			'testID':testID,
+			'sessID': localStorage.sesskey,
+			csrfmiddlewaretoken: '{{csrf_token}}',
+		}).done(function(result){
+			console.log("More Data");
+			console.log(result);
+			localStorage["cache"] = result;
+			QP = result;
+			try{
+			document.getElementById('ma1').click();
+			$('.numberpanelQues').children()[0].click();
+			}
+			catch(err){
+				console.log(err);
+			}
 		});
 		}
 		//Onclick function for different sections 
@@ -362,18 +379,18 @@ $( document ).ready(function() {
 			var $numberPanel = $('.numberpanelQues')[0];
 			$numberPanel.innerHTML='';
 			for(var i=0;i<QP[sectID].length;i++){
-					localStorage[String(QP[sectID][i])] = [sectID[0]+sectID[1],parseInt(sectID[2])];
+					localStorage[String(QP[sectID][i].key)] = [sectID[0]+sectID[1],parseInt(sectID[2])];
 					var $span = document.createElement('span');
 					$span.className = "not_visited notVisitedCount";
-					$span.id = QP[sectID][i];
+					$span.id = QP[sectID][i].key;
 					$span.innerHTML = i+1
 					$numberPanel.appendChild($span);
-					$span = $('#'+QP[sectID][i]);
-					$span.attr({'onclick':'switchQuestion(event,'+QP[sectID][i]+');'});
+					$span = $('#'+QP[sectID][i].key);
+					$span.attr({'onclick':'switchQuestion(event,'+QP[sectID][i].key+');'});
 				}
 			try{
-				console.log(QP[sectID][0]);
-				document.getElementById(QP[sectID][0]).click();
+				console.log(QP[sectID][0].key);
+				document.getElementById(QP[sectID][0].key).click();
 			}
 			catch(err){
 				console.log('The section seems to be empty');
@@ -397,9 +414,42 @@ $( document ).ready(function() {
 			//link the submit buttons 
 			$button_grp = $('.other_buttoncontainer')[0];
 			$button_grp.id = questID;
-			// $button_grp.val(result.section)
 			//fill the quest and options
-			console.log(result.opt0);
+			//Clear the values of the optionSets
+			try{
+				for(var i=0;i<4;i++){
+					$('input[name=grp1]')[i] = false;
+				}
+			}
+			catch(err){
+				console.log(err);
+			}
+			try{
+				for(var i=0;i<4;i++){
+					$('input[name=grp2]')[i] = false;
+				}
+			}
+			catch(err){
+				console.log(err);
+			}
+			try{
+				$('#numbertype').val(null);
+			}
+			catch(err){
+
+			}
+			var resp=null;
+				console.log(localStorage[String(questID)]);
+				var compSectID= localStorage[String(questID)][0]+localStorage[String(questID)][1]+localStorage[String(questID)][3];
+				console.log(compSectID);
+				for(var i=0;i<QP[compSectID].length;i++){
+					if(parseInt(QP[compSectID][i].key)==parseInt(questID))
+					{
+						resp = QP[compSectID][i];
+						break;
+					}
+			}
+			console.log(resp);
 			if(parseInt(result.section)==1){
 				//MCQ type Question 
 				//setting question
@@ -416,6 +466,33 @@ $( document ).ready(function() {
 				$('#MSQ').hide();
 				$('#IntegerType').hide();
 				$('#MCQ').show();
+
+				try{
+					// console.log(parseInt(resp.attempt));
+					if(resp==null||parseInt(resp.attempt)!=1){
+						console.log("The question has not been yet been attempted");
+
+					}
+					else
+					{
+						console.log("else");
+						var n = resp.num;
+						n = parseInt(n);
+						console.log(n);
+						var opt;
+						for(var i=0;i<4;i++){
+							if(n%2==1){
+								opt=i;
+								$('input[name=grp1]')[i].checked = true;
+								break;
+							}
+							n = n/2;
+						}
+					}
+				}
+				catch(err){
+					console.log("Thr ");
+				}
 			}
 			else if(parseInt(result.section)==2){
 				//MSQ type Question
@@ -433,6 +510,31 @@ $( document ).ready(function() {
 				$('#MCQ').hide();
 				$('#IntegerType').hide();
 				$('#MSQ').show();
+				try{
+					// console.log(parseInt(resp.attempt));
+					if(resp==null||parseInt(resp.attempt)!=1){
+						console.log("The question has not been yet been attempted");
+
+					}
+					else
+					{
+						var n = resp.num;
+						n = parseInt(n);
+						console.log(n);
+						var opt;
+						for(var i=0;i<4;i++){
+							console.log(n);
+							if(n%2==1){
+								opt=i;
+								$('input[name=grp2]')[i].checked = true;
+							}
+							n = n>>1;
+						}
+					}
+				}
+				catch(err){
+					console.log("Thr ");
+				}
 			}
 			else if(parseInt(result.section)==3){
 				//Integer Type Question
@@ -453,10 +555,29 @@ $( document ).ready(function() {
 			}
 			// $('#quest').innerHTML = quill.innerHTML;
 			$('#quest').show();
+			try{
+				// console.log(parseInt(resp.attempt));
+				if(resp==null||parseInt(resp.attempt)!=1){
+					console.log("The question has not been yet been attempted");
+
+				}
+				else
+				{
+					var n = resp.num;
+					n = parseInt(n);
+					var opt;
+					$('#numbertype').val(n);
+				}
+			}
+			catch(err){
+				console.log("Thr ");
+			}
+
 		}
 		function saveResponse(){
 			$button_grp = $('.other_buttoncontainer')[0];
 			var quest_ID = $button_grp.id;
+			var questID = quest_ID;
 			var sectID;
 			//find the sectID of the quest
 			// var vec = new Array(9);
@@ -468,6 +589,19 @@ $( document ).ready(function() {
 			// vec[0] = 1;
 			var attempt = 1;
 			var num = 0;
+			var resp=null;
+			var index=-1;
+				console.log(localStorage[String(questID)]);
+				var compSectID= localStorage[String(questID)][0]+localStorage[String(questID)][1]+localStorage[String(questID)][3];
+				console.log(compSectID);
+				for(var i=0;i<QP[compSectID].length;i++){
+					if(parseInt(QP[compSectID][i].key)==parseInt(questID))
+					{
+						resp = QP[compSectID][i];
+						index = i;
+						break;
+					}
+			}
 			try{
 				var sectID = localStorage[String(quest_ID)][3];
 				console.log(sectID);
@@ -523,6 +657,20 @@ $( document ).ready(function() {
 				csrfmiddlewaretoken: '{{csrf_token}}'
 			}).done(function(){
 				console.log('response saved');
+				//Change the local data in QP(var)
+				if(index!=-1&&resp!=null){
+					QP[compSectID][index].attempt = String(attempt);
+					QP[compSectID][index].num = String(num);
+					QP[compSectID][index].visit = String(1);
+				}
+				else{
+					var tmp = {};
+					tmp.key = quest_ID;
+					tmp.attempt = String(attempt);
+					tmp.num = String(num);
+					tmp.visit = String(1);
+					QP[compSectID].append(tmp);
+				}
 			}).error(function(){
 				alert('The answer could not be saved,try again');
 			});

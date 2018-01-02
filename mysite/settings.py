@@ -165,11 +165,12 @@ LOGIN_REDIRECT_URL = '/home/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
-
-STATIC_ROOT = 'static'
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static"),
-# ]
+if os.getenv('SERVER_SOFTWARE','').startswith('Google App Engine'):
+    STATIC_ROOT = 'static'
+else:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static"),
+    ]
 STATIC_URL = '/static/'
 # if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
 #     STATIC_ROOT = 'static'

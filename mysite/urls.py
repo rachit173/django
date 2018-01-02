@@ -37,7 +37,7 @@ urlpatterns = [
     url(r'^test/creator/$',testcreator),
     # url(r'^test/getdata/(\w+)/$',getdata),
     url(r'^test/getdata/(\w+)/$',getdata),
-    url(r'^test/getdata/student/(\w+)/$',getdata_student),
+    url(r'^test/student/getdata/$',getdata_student),
     url(r'^test/savedata/$',savedata),
     url(r'^test/getquest/$',getquest),
     url(r'^test/getquest/student/$',getquest_student),
