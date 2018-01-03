@@ -446,6 +446,16 @@ $( document ).ready(function() {
 			localStorage["cache"] = result;
 			QP = result;
 			try{
+				localStorage.created = new Date(QP["created"]).getTimezoneOffset();
+				localStorage.timeOffset = new Date().getTimezoneOffset();
+				localStorage.timeLim = QP["timeLim"];
+			}
+			catch(err){
+
+			}
+			console.log("created",localStorage.created);
+			console.log("timeLim",localStorage.timeLim);
+			try{
 				if(QP["submit"]==true){
 					alert("The paper has been already submitted.The changes you make will not be saved.");					
 					//hiding the save ,clear response,marked buttons
@@ -469,25 +479,76 @@ $( document ).ready(function() {
 			catch(err){
 				console.log(err);
 			}
+			console.log(QP["created"]);
+			console.log(localStorage.timeOffset);
+			var currTime = new Date().getTime();
+			var crt = new Date(QP['created']).getTime();
+			console.log(new Date(currTime-crt));
+			var remains = QP["remains"]||((60*1000)*60*3);
+			startTime(remains);
 		});
-		var starter = null;
-			startTime(starter);
+
 		}
-		function startTime() {
-			var today = new Date();
-			var h = today.getHours();
-			var m = today.getMinutes();
-			var s = today.getSeconds();
-			m = checkTime(m);
-			s = checkTime(s);
-			document.getElementById('timer').innerHTML =
-			'<h1>'+h + ":" + m + ":" + s+'</h1>';
-			var t = setTimeout(startTime, 500);
+		function startTime(remains){
+		// Set the date we're counting down to
+		var countDownDate = new Date().getTime()+remains;
+
+		// Update the count down every 1 second
+		var x = setInterval(function() {
+
+		// Get todays date and time
+		var now = new Date().getTime();
+
+		// Find the distance between now an the count down date
+		var distance = countDownDate - now;
+
+		// Time calculations for days, hours, minutes and seconds
+		var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+		var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+		// Display the result in the element with id="demo"
+		document.getElementById("timer").innerHTML =  '<h1>'+hours + "h "
+		+ minutes + "m " + seconds + "s "+'</h1>';
+
+		// If the count down is finished, write some text 
+		if (distance < 0) {
+			clearInterval(x);
+			submitConfirmation1();
+			document.getElementById("timer").innerHTML = "EXPIRED";
 		}
-		function checkTime(i) {
-			if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-			return i;
+		}, 1000);
 		}
+		// function checkTime(i) {
+		// 	if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+		// 	return i;
+		// }
+		// var created;
+		// try{
+		// 	created = new Date(QP["created"]);
+		// }
+		// catch(err){
+		// 	created=null;
+		// }
+		// 	var timeLim = QP["timeLim"];
+		// 	console.log("created",created);
+		// 	console.log("timeLim",timeLim);
+		// function startTime() {
+		// 	var currTime = new Date().getTime();
+		// 	var crt = new Date(QP['created']).getTime();
+		// 	// var crt = new Date(localStorage.created);
+		// 	var today = new Date(currTime-crt);
+		// 	var h = today.getHours();
+		// 	var m = today.getMinutes();
+		// 	var s = today.getSeconds();
+		// 	m = checkTime(m);
+		// 	s = checkTime(s);
+		// 	document.getElementById('timer').innerHTML =
+		// 	'<h1>'+h + ":" + m + ":" + s+'</h1>';
+		// 	var t = setTimeout(startTime, 500);
+		// }
+
 		//Onclick function for different sections 
 		//On clicking the particular section the
 		//Question Number Panel is initialized
@@ -1041,6 +1102,27 @@ $( document ).ready(function() {
 				console.log("The user wishes to check the answers once again");
 			}
 		}
+		function submitConfirmation1(){
+			console.log("The user wishes to submit");
+			// var retVal = confirm("Do you wish to submit");
+			// if(retVal== true){
+				$.post('/test/final/submit/',{
+					"submit": true,			
+					'testID': testID,
+					'sessID': localStorage.sesskey,
+					csrfmiddlewaretoken: '{{csrf_token}}',
+				}).done(function(result){
+					alert("Time UP!, the test has been submitted.");
+					window.location.href = '/test/submit/result/';
+				}).error(function(err){
+					alert("The test was not saved, Click the Submit buttom once again,");
+				});
+				
+			// }
+			// else{
+				// console.log("The user wishes to check the answers once again");
+			// }
+		}
 	</script>
 </head>
 <body onload="initialiseQP();" onselectstart="return true;">
@@ -1441,7 +1523,7 @@ $( document ).ready(function() {
         <div class="question_description_number_panel" id="rightDivision">
             <div class="Rght_Section column" id="col2">
 			  <div class="collapsebel_panel">
-				<span class="collapse_icon"></span>
+				<!-- <span class="collapse_icon"></span> -->
               <div class="diff_type_notation_area_outer">
                     <div class="diff_type_notation_area_inner">
                       <div class="notation_type_description">

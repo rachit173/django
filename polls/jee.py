@@ -7,6 +7,7 @@ from django.db import IntegrityError
 from .models import Test,MCQ,MCQProxy,TestProxy
 from google.cloud import datastore
 import datetime
+# from datetime import timezone
 import json
 client = datastore.Client()
 @login_required(login_url='/login/')
@@ -133,6 +134,15 @@ def getdata_student(request):
     ########===>
     quests["submit"] = Sess.get("submit",False)
     ############
+    ##PHASE 5 additions
+    ##
+    quests["created"] = Sess.get("created",datetime.datetime.now()).isoformat()
+    quests["timeLim"] = Sess.get("timeLim",180)
+    atm = Sess.get("created").replace(tzinfo=None)
+    btm = datetime.datetime.now()
+    c = btm-atm
+    M = 60*1000
+    quests["remains"] = quests["timeLim"]*(M)-(c.total_seconds()*1000)
     return HttpResponse(json.dumps(quests),content_type="application/json")
 @login_required(login_url='/login')
 def savedata(request):
