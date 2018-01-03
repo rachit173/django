@@ -57,7 +57,7 @@ def getdata_student(request):
     ## From it find the questions that have been attempted
     ## The student response, attempt,marked or not is returned
     ## the request method should be POST
-    print request
+    # print request
     if request.method!='POST':
         print 'getdata student data not post'
         return HttpResponse("Get Data Student method is not POST")
@@ -144,6 +144,52 @@ def getdata_student(request):
     M = 60*1000
     quests["remains"] = quests["timeLim"]*(M)-(c.total_seconds()*1000)
     return HttpResponse(json.dumps(quests),content_type="application/json")
+@login_required(login_url='/login')
+def gettime_student(request):
+    ##Phase One
+    ## The method obtains the data
+    ## for the particular testcode
+    ## for the student dashboard
+    ##Phase Two
+    ## From the sessId determine whether it exists
+    ## From it find the questions that have been attempted
+    ## The student response, attempt,marked or not is returned
+    ## the request method should be POST
+    # print request
+    if request.method!='POST':
+        # print 'getdata student data not post'
+        return HttpResponse("Get Data Student method is not POST")
+    testcode = request.POST['testID']
+    sessID = request.POST['sessID']
+    testkey = client.key('Test',testcode)
+    test = client.get(testkey)
+    Sess = {}
+    user = User.objects.get(username = request.user)
+    username = user.username
+    try:
+        sesskey = client.key('Test',testcode,'Account',username,'Sess',int(sessID))
+        Sess = client.get(sesskey)
+    except:
+        pass
+    submit = Sess.get("submit",False)
+    ############
+    ##PHASE 5 additions
+    ##
+    # quests["created"] = Sess.get("created",datetime.datetime.now()).isoformat()
+    # quests["timeLim"] = int(test.get("timeLim",180))
+    ret = {}
+    atm = Sess["created"].replace(tzinfo=None)
+    btm = datetime.datetime.now()
+    c = btm-atm
+    M = 60*1000
+    delta = 3*1000
+    timeLim = test["timeLim"]
+    # remains = quests["timeLim"]*(M)-(c.total_seconds()*1000)
+    if timeLim+delta<c.total_seconds():
+        Sess["submit"]=True
+        client.put(Sess)
+        ret["submit"] = True        
+    return HttpResponse(json.dumps(ret),content_type="application/json")
 @login_required(login_url='/login')
 def savedata(request):
     print 'savedata'

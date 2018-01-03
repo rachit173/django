@@ -463,6 +463,15 @@ $( document ).ready(function() {
 				else{
 					console.log("The paper has not been yet subitted.");
 					console.log("The candidate is starting/resuming the test.");
+					var temp = setInterval(function(){
+					$.post('/test/time/remain/',{
+							'testID':testID,
+							'sessID': localStorage.sesskey,
+							csrfmiddlewaretoken: '{{csrf_token}}',
+						}).done(function(result){
+							submitConfirmation1();
+						});		
+						},5*1000);
 				}
 			}
 			catch(err){
@@ -482,6 +491,7 @@ $( document ).ready(function() {
 			console.log(new Date(currTime-crt));
 			var remains = QP["remains"]||((60*1000)*60*3);
 			startTime(remains);
+			console.log(remains);
 		});
 
 		}
@@ -489,7 +499,7 @@ $( document ).ready(function() {
 		// Set the date we're counting down to
 		var countDownDate = new Date().getTime()+remains;
 
-		// Update the count down every 1 second
+		// Update the count down every 0.5 second
 		var x = setInterval(function() {
 
 		// Get todays date and time
@@ -511,10 +521,10 @@ $( document ).ready(function() {
 		// If the count down is finished, write some text 
 		if (distance < 0&&QP["Submit"]==false) {	
 			clearInterval(x);
-			submitConfirmation1();
+			// submitConfirmation1();
 			document.getElementById("timer").innerHTML = "EXPIRED";
 		}
-		}, 500);
+		}, 1000);
 		}
 		// function checkTime(i) {
 		// 	if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
