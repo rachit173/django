@@ -137,7 +137,7 @@ def getdata_student(request):
     ##PHASE 5 additions
     ##
     quests["created"] = Sess.get("created",datetime.datetime.now()).isoformat()
-    quests["timeLim"] = Sess.get("timeLim",180)
+    quests["timeLim"] = int(test.get("timeLim",180))
     atm = Sess.get("created").replace(tzinfo=None)
     btm = datetime.datetime.now()
     c = btm-atm
