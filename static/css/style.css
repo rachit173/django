@@ -4,12 +4,21 @@
 	padding: 0px;
 	margin: 0px;
 }
-html, body, p {
+p {
 	font-size:12px;
 	margin: 0px;
 	padding: 0px;
 	font-family: Arial, Helvetica, sans-serif;
-	overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+html,body {
+    font-size:12px;
+	margin: 0px;
+	padding: 0px;
+	font-family: Arial, Helvetica, sans-serif;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 a {
 	text-decoration: none;
@@ -156,7 +165,7 @@ input[type=radio],input[type=checkbox]{
 #currentQues {
 	
 	overflow-x: hidden;
-	overflow-y: hidden;
+	overflow-y: scroll;
 }
 .Centr_Contnr {
 	padding: 0px 0px 0px 0px;
@@ -341,13 +350,13 @@ background-color: #5cb85c;
 	float: right;
 	background: #FFF url(../images/Corner_Square_Bg.gif) no-repeat bottom right;
 	border: 1px solid #dbdbd9;
-	padding: 0px;
+	padding-bottom: 10px;
 	width: 95%;
 }
 .Buttn_Area_Innr {
 	background: #d7ecff;
-	padding: 7px 0px 7px 58px;
-	margin: 2px;
+	padding: 7px 5px 7px 58px;
+	margin-bottom: 12px;
 }
 .User_rght {
 	float: left;
@@ -710,7 +719,7 @@ border:1px solid #c3c3c1
 *position:static;
 	position: absolute;
 }
-#footer {position:fixed; bottom:0; min-width: 945px; font-size: 0.917em;background: #617B8C; color: #FFFFFF; display: block; height: 22px; width: 100%; text-align:center ;line-height:21px}
+#footer {position:fixed; bottom:0; min-width: 945px; font-size: 0.917em;background: #617B8C; color: #FFFFFF; display: none; height: 22px; width: 100%; text-align:center ;line-height:21px}
 #footer a { color: #fff; text-decoration: none; }
 #footer a:hover { color: #fff; text-decoration: underline; }
 #footer .footerTataLogo { float: right; margin: 8px 10px 0 0; }
