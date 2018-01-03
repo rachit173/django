@@ -69,7 +69,7 @@ margin-left:10px;
 }
 #wrapper {
 	display: block;
-	min-height: 100%;
+	min-height: 100vh;
 	min-width: 600px;
 	width: 100%;
 }
@@ -940,10 +940,10 @@ background:#e5f6fd;
 
 .finalSubmit {
    background: #e5f6fd none repeat scroll 0 0;
-    border-left: 1px solid #c3c3c1;
+    border-left: 2px solid black;
     clear: both;
     float: right;
-    width: 250px;
+    width: 261px;
 	position:absolute;
 	right:1px;
 	text-align: center;

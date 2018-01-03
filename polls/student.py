@@ -81,7 +81,7 @@ def testdashboard(request):
 
 @login_required(login_url='/login/')
 def saveResponse(request):
-    print request.POST
+    # print request.POST
     data = request.POST.dict()
     user = User.objects.get(username =request.user)
     username = user.username
@@ -107,7 +107,7 @@ def saveResponse(request):
     sesskey = client.key('Test',testID,'Account',username,'Sess',int(request.POST['sesskey']))
     sess = client.get(sesskey)
     # print sess
-    if sess==None: return redirect('/home/')
+    if sess==None: return HttpResponse("Session not present")
     questIDbyte = str(questID)
     if sess.get(questIDbyte)==None:
         sess[questIDbyte] = {}
@@ -115,12 +115,45 @@ def saveResponse(request):
         sess[questIDbyte]['attempt'] = attempt
         sess[questIDbyte]['section'] = section
         sess[questIDbyte]['number'] = number
+        # print attempt
+        zero = u"0"
+        if str(attempt)=="1":
+            # print "attempt 1"
+            try:
+                print "trying",section,number
+                if str(section)=="1" and str(number)=="0":
+                    sess[questIDbyte]['attempt']  = zero
+                    attempt = zero
+            except:
+                pass
+            try:
+                if str(section)=="2" and str(number)=="0":
+                    sess[questIDbyte]['attempt']  = zero
+                    attempt = zero
+            except:
+                pass
+            try:
+                if str(section)=="3" and number==None:
+                    sess[questIDbyte]['attempt']  = zero
+                    attempt = zero
+                elif str(section)=="3" and not str(number).isdigit():
+                    sess[questIDbyte]['attempt']  = zero
+                    attempt = zero
+            except:
+                pass    
         client.put(sess)
+    ret = {}
+    ret["attempt"] = attempt
+    ret["section"] = section
+    ret["number"] = number
+    ret["key"] = questID
+    print ret
+    ##Also to be added is that the time between the start and end is less than timeLim of test
     # print sess
-    return HttpResponse("Response Saved")
+    return HttpResponse(json.dumps(ret),content_type="application/json")
 @login_required(login_url='/login/')
 def submitSuccess(request):
-    return render(request,'message.html',{'mess':'Your responses were submitted successfully.Return to home page to view results'})
+    return render(request,'message.html',{'mess':'Return to home page to view results'})
 
 @login_required(login_url='/login/')
 def result(request,testcode,sesscode):

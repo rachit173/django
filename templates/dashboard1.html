@@ -205,11 +205,6 @@ function resetCarousel(){
 		$('.connected-carousels ul li img').css('height','400px').css('width','600px');
 		$('#stage .pop-up-close-triggerfull').remove();///fire your event
 		$('.maximizeicon, .pop-up-header, .connected-carousels .navigation, .pop-up-close-trigger').show();
-		if(hasNavigationBar){
-		$('.navigation').show();
-		}else{
-		$('.navigation').hide();
-		}
 		
 		if(isUsefullDataMedia){
 			$('.maximizeicon').hide();
@@ -463,6 +458,7 @@ $( document ).ready(function() {
 					$("#clearResponseBtn").hide();
 					$('#markReviewBtn').hide();
 					$('#finalSubmit').hide();
+					$('#timer').hide();
 				}
 				else{
 					console.log("The paper has not been yet subitted.");
@@ -509,16 +505,16 @@ $( document ).ready(function() {
 		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
 		// Display the result in the element with id="demo"
-		document.getElementById("timer").innerHTML =  '<h1>'+hours + "h "
-		+ minutes + "m " + seconds + "s "+'</h1>';
-
+		document.getElementById("timer").innerHTML =  '<h4>Time Left : '+hours + "h "
+		+ minutes + "m " + seconds + "s "+'</h4>';
+		
 		// If the count down is finished, write some text 
-		if (distance < 0) {
+		if (distance < 0&&QP["Submit"]==false) {	
 			clearInterval(x);
 			submitConfirmation1();
 			document.getElementById("timer").innerHTML = "EXPIRED";
 		}
-		}, 1000);
+		}, 500);
 		}
 		// function checkTime(i) {
 		// 	if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
@@ -580,7 +576,15 @@ $( document ).ready(function() {
 			for(var i=0;i<QP[sectID].length;i++){
 					localStorage[String(QP[sectID][i].key)] = [sectID[0]+sectID[1],parseInt(sectID[2])];
 					var $span = document.createElement('span');
-					$span.className = "not_visited notVisitedCount";
+					$span.className = "not_answered notAnsweredCount";
+					try{
+						if(parseInt(QP[sectID][i].attempt)==1){
+							$span.className = "answered answeredCount";
+						}
+					}
+					catch(err){
+
+					}
 					$span.id = QP[sectID][i].key;
 					$span.innerHTML = i+1
 					$numberPanel.appendChild($span);
@@ -721,10 +725,11 @@ $( document ).ready(function() {
 					// console.log(parseInt(resp.attempt));
 					if(resp==null||parseInt(resp.attempt)!=1){
 						console.log("The question has not been yet been attempted");
-
+						document.getElementById(String(questID)).className = "not_answered notAnsweredCount";
 					}
 					else
 					{
+						document.getElementById(String(questID)).className = "answered answeredCount";
 						console.log("else");
 						var n = resp.num;
 						n = parseInt(n);
@@ -778,10 +783,11 @@ $( document ).ready(function() {
 					// console.log(parseInt(resp.attempt));
 					if(resp==null||parseInt(resp.attempt)!=1){
 						console.log("The question has not been yet been attempted");
-
+						document.getElementById(String(questID)).className = "not_answered notAnsweredCount";
 					}
 					else
 					{
+						document.getElementById(String(questID)).className = "answered answeredCount";
 						var n = resp.num;
 						n = parseInt(n);
 						console.log(n);
@@ -840,10 +846,11 @@ $( document ).ready(function() {
 				// console.log(parseInt(resp.attempt));
 				if(resp==null||parseInt(resp.attempt)!=1){
 					console.log("The question has not been yet been attempted");
-
+					document.getElementById(String(questID)).className = "not_answered notAnsweredCount";
 				}
 				else
 				{
+					document.getElementById(String(questID)).className = "answered answeredCount";
 					var n = resp.num;
 					n = parseInt(n);
 					var opt;
@@ -871,6 +878,7 @@ $( document ).ready(function() {
 			var attempt = 1;
 			var num = 0;
 			var resp=null;
+			var section;
 			var index=-1;
 				console.log(localStorage[String(questID)]);
 				var compSectID= localStorage[String(questID)][0]+localStorage[String(questID)][1]+localStorage[String(questID)][3];
@@ -900,7 +908,9 @@ $( document ).ready(function() {
 				attempt = 1;
 				section = 1;
 				num = 0;
-				num = num|(1<<it);
+				if(it>=0){
+					num = num|(1<<it);
+				}
 			}
 			else if(sectID==2){
 				// for(var i=0;i<vec.length;i++) vec[i] = 0;
@@ -909,19 +919,22 @@ $( document ).ready(function() {
 				num = 0;
 				$('input[name=grp2]:checked').each(function(){
 					var tmp = parseInt($(this).val())-1;
-					num = num|(1<<tmp);
+					if(tmp>=0){
+						num = num|(1<<tmp);
+					}
 				});
 			}
 			else if(sectID==3){
 				var it = $('#numbertype').val();
 				attempt = 1;
-				section = 2;
+				section = 3;
 				num = 0;
 				try{
 					num = parseInt(it);
 
 				}
 				catch(err){
+					num = null;
 					console.log("The entered value is bot a number");
 				}
 			}	
@@ -936,19 +949,31 @@ $( document ).ready(function() {
 				section: section,
 				number: num,
 				csrfmiddlewaretoken: '{{csrf_token}}'
-			}).done(function(){
+			}).done(function(result){
 				console.log('response saved');
 				//Change the local data in QP(var)
 				if(index!=-1&&resp!=null){
-					QP[compSectID][index].attempt = String(attempt);
-					QP[compSectID][index].num = String(num);
+					console.log("herererere");
+					console.log(result);
+					QP[compSectID][index].attempt = String(result.attempt||attempt);
+					QP[compSectID][index].num = String(result.number||num);
 					QP[compSectID][index].visit = String(1);
+					// console.log();
+					// attempt = QP[compSectID][index].attempt;
+					// if(parseInt(attempt)==1){
+					// 	document.getElementById(String(questID)).className = "answered answeredCount";
+
+					// }
+					// else{
+					// 	document.getElementById(String(questID)).className = "not_answered notAnsweredCount";
+					// }
+					document.getElementById(quest_ID).click();
 				}
 				else{
 					var tmp = {};
-					tmp.key = quest_ID;
-					tmp.attempt = String(attempt);
-					tmp.num = String(num);
+					tmp.key = result.key||quest_ID;
+					tmp.attempt = String(result.attempt||attempt);
+					tmp.num = String(result.number||num);
 					tmp.visit = String(1);
 					QP[compSectID].append(tmp);
 				}
@@ -1001,7 +1026,10 @@ $( document ).ready(function() {
 				attempt = 1;
 				section = 1;
 				num = 0;
-				num = num|(1<<it);
+				if(it>=0){
+					num = num|(1<<it);
+				}
+
 			}
 			else if(sectID==2){
 				// for(var i=0;i<vec.length;i++) vec[i] = 0;
@@ -1010,7 +1038,9 @@ $( document ).ready(function() {
 				num = 0;
 				$('input[name=grp2]:checked').each(function(){
 					var tmp = parseInt($(this).val())-1;
-					num = num|(1<<tmp);
+					if(tmp>=0){
+						num = num|(1<<tmp);
+					}
 				});
 			}
 			else if(sectID==3){
@@ -1023,6 +1053,7 @@ $( document ).ready(function() {
 
 				}
 				catch(err){
+					num = null
 					console.log("The entered value is bot a number");
 				}
 			}	
@@ -1046,6 +1077,19 @@ $( document ).ready(function() {
 					// console.log("clearing values");
 					$('input[name=grp1]')[i].checked = false;
 					// console.log("cleared")
+				}
+				try{
+				QP[compSectID][index].attempt = "1";
+				localStorage[compSectID][index].attempt = "1";
+				}
+				catch(err){
+					console.log("saved the attempt in local storage");
+				}
+				try{
+					document.getElementById(String(questID)).click();
+				}
+				catch(err){
+					console.log('unable to click the button',questID);
 				}
 			}
 			catch(err){
@@ -1249,7 +1293,7 @@ $( document ).ready(function() {
 			
 					<div align="left" id="bannerImage" style="float:left">
 						<div id="bannerImg" style="float:left"></div>
-						<div id="bannerText" align="center" style="margin-top:10px; font-weight:bold;"><p><font size="4" color="#ffffff">	Bothra Classes </font></p></div>
+						<div id="bannerText" align="center" style="margin-top:10px; font-weight:bold;"><font size="6" color="#ffffff"><p style="text-indent: 5em;font-size:14;">Bothra Classes </p></font></div>
 					</div>
 					<div class="hamburgerBar"> <i class="hamicon"></i></div>
 				 
@@ -1415,88 +1459,21 @@ $( document ).ready(function() {
                       <div class="nav-container">
 					    
 						<div class="group-panel">
-			<div class="group-arrow-left-disabled"></div>
-			<div id="groups">
-				<div>
-					<div class="allSections" data-normGrpSec="false" id="ma1" onclick="switchSection(event,'ma1')" title="Maths Section 1">
-						<span style="vertical-align:middle">Maths Sec 1</span>
-						<div class="subject_instruction_icon1"></div>
-					</div>
-					<div class="allSections" data-normGrpSec="false" id="ma2" onclick="switchSection(event,'ma2')" title="Maths Section 2">
-							<span style="vertical-align:middle">Maths Sec 2</span>
-							<div class="subject_instruction_icon1"></div>
-						</div>
-						<div class="allSections" data-normGrpSec="false" id="ma3" onclick="switchSection(event,'ma3')" title="Maths Section 3">
-								<span style="vertical-align:middle">Maths Sec 3</span>
-								<div class="subject_instruction_icon1"></div>
-							</div>
-							<!-- <div class="allSections" data-normGrpSec="false" id="ma4" title="Maths Section 4">
-									<span style="vertical-align:middle">Maths Sec 4</span>
-									<div class="subject_instruction_icon1"></div>
-								</div>
-								<div class="allSections" data-normGrpSec="false" id="ma5" title="Maths Section 5">
-										<span style="vertical-align:middle">Maths Sec 5</span>
-										<div class="subject_instruction_icon1"></div>
-									</div> -->
-						
-						<div class="allSections" data-normGrpSec="false" id="ph1" onclick="switchSection(event,'ph1')" title="Physics Section 1">
-							<span style="vertical-align:middle">Physics Sec 1</span>
-							<div class="subject_instruction_icon1"></div>
-						</div>
-						<div class="allSections" data-normGrpSec="false" id="ph2" onclick="switchSection(event,'ph2')" title="Physics Section 2">
-								<span style="vertical-align:middle">Physics Sec 2</span>
-								<div class="subject_instruction_icon1"></div>
-							</div>
-							<div class="allSections" data-normGrpSec="false" id="ph3" onclick="switchSection(event,'ph3')" title="Physics Section 3">
-									<span style="vertical-align:middle">Physics Sec 3</span>
-									<div class="subject_instruction_icon1"></div>
-								</div>
-								<!-- <div class="allSections" data-normGrpSec="false" id="ph4" title="Maths Section 4">
-										<span style="vertical-align:middle">Physics Sec 4</span>
-										<div class="subject_instruction_icon1"></div>
-									</div>
-									<div class="allSections" data-normGrpSec="false" id="ph5" title="Maths Section 5">
-											<span style="vertical-align:middle">Physics Sec 5</span>
-											<div class="subject_instruction_icon1"></div>
-										</div> -->
-							<div class="allSections" data-normGrpSec="false" id="ch1" onclick="switchSection(event,'ch1')" title="Chemistry Section 1">
-								<span style="vertical-align:middle">Chemistry Sec 1</span>
-								<div class="subject_instruction_icon1"></div>
-							</div>
-							<div class="allSections" data-normGrpSec="false" id="ch2" onclick="switchSection(event,'ch2')" title="Chemistry Section 2">
-									<span style="vertical-align:middle">Chemistry Sec 2</span>
-									<div class="subject_instruction_icon1"></div>
-								</div>
-								<div class="allSections" data-normGrpSec="false" id="ch3" onclick="switchSection(event,'ch3')" title="Chemistry Section 3">
-										<span style="vertical-align:middle">Chemistry Sec 3</span>
-										<div class="subject_instruction_icon1"></div>
-									</div>
-									<!-- <div class="allSections" data-normGrpSec="false" id="ch4" title="Chemistry Section 4">
-											<span style="vertical-align:middle">Chemistry Sec 4</span>
-											<div class="subject_instruction_icon1"></div>
-										</div>
-										<div class="allSections" data-normGrpSec="false" id="ch5" title="Chemistry Section 5">
-												<span style="vertical-align:middle">Chemistry Sec 5</span>
-												<div class="subject_instruction_icon1"></div>
-											</div> -->
-								
-						</div>
-			</div>
-						</div>
-						<div class="group-panel-mobile">
-							<div class="group-arrow-right-disabled"></div>
-						</div>
+			<!-- <div class="group-arrow-left-disabled"></div> -->
+						<!-- <div id="groups">
+
+						</div> -->
 					 <div class="components-section">
-							<div class="group-arrow-right-disabled"></div>
+							<!-- <div class="group-arrow-right-disabled"></div> -->
 							
 							<div class="component-icon-container textarea-icon-container" style="display:none;"><div align="center"><span class="icon-1"></span></div></div>
 							<div class="component-icon-container scratchpad-icon-container"  style="display:none;"><div align="center"><span class="icon-2"></span></div></div>
-							<div class="component-icon-container ruler-icon-container"  style="display:none;"><div align="center"><span class="icon-3"></span></div></div>
-							<div class="component-icon-container protactor-icon-container"  style="display:none;"><div align="center"><span class="icon-4"></span></div></div>
 							<div class="component-icon-container zoom-icon-container" title="Zoom" style="display:none;"><div align="center"><span class="icon-5"></span></div></div>
 							<div class="component-icon-container zoomin-icon-container"  style="display:none;"><div align="center" class="zoominCursor"><span class="icon-6"></span></div></div>
 							<div class="component-icon-container zoomout-icon-container"  style="display:none;" ><div align="center" class="zoomoutCursor disableCursor"><span class="icon-9"></span></div></div>
-							<div class="component-icon-container calculator-icon-container"  onclick="loadCalculator()" style="display:none;"><div align="center"><span class="icon-0"></span></div></div>
+					   </div>
+					   <div class="clear">
+
 					   </div>
                       </div>
 					  <div class="section-timepanel">
@@ -1509,7 +1486,73 @@ $( document ).ready(function() {
 					  </div>
                     <div class="subject-selection">
 						 <div class="subject-arrow-left-disabled"></div>
-						<div  id="sections"></div>
+						<div  id="sections">
+							<div>
+								<div class="allSections" data-normGrpSec="false" id="ma1" onclick="switchSection(event,'ma1')" title="Maths Section 1">
+									<span style="vertical-align:middle">Maths Sec 1</span>
+									<div class="subject_instruction_icon1"></div>
+								</div>
+								<div class="allSections" data-normGrpSec="false" id="ma2" onclick="switchSection(event,'ma2')" title="Maths Section 2">
+										<span style="vertical-align:middle">Maths Sec 2</span>
+										<div class="subject_instruction_icon1"></div>
+									</div>
+									<div class="allSections" data-normGrpSec="false" id="ma3" onclick="switchSection(event,'ma3')" title="Maths Section 3">
+											<span style="vertical-align:middle">Maths Sec 3</span>
+											<div class="subject_instruction_icon1"></div>
+										</div>
+										<!-- <div class="allSections" data-normGrpSec="false" id="ma4" title="Maths Section 4">
+												<span style="vertical-align:middle">Maths Sec 4</span>
+												<div class="subject_instruction_icon1"></div>
+											</div>
+											<div class="allSections" data-normGrpSec="false" id="ma5" title="Maths Section 5">
+													<span style="vertical-align:middle">Maths Sec 5</span>
+													<div class="subject_instruction_icon1"></div>
+												</div> -->
+									
+									<div class="allSections" data-normGrpSec="false" id="ph1" onclick="switchSection(event,'ph1')" title="Physics Section 1">
+										<span style="vertical-align:middle">Physics Sec 1</span>
+										<div class="subject_instruction_icon1"></div>
+									</div>
+									<div class="allSections" data-normGrpSec="false" id="ph2" onclick="switchSection(event,'ph2')" title="Physics Section 2">
+											<span style="vertical-align:middle">Physics Sec 2</span>
+											<div class="subject_instruction_icon1"></div>
+										</div>
+										<div class="allSections" data-normGrpSec="false" id="ph3" onclick="switchSection(event,'ph3')" title="Physics Section 3">
+												<span style="vertical-align:middle">Physics Sec 3</span>
+												<div class="subject_instruction_icon1"></div>
+											</div>
+											<!-- <div class="allSections" data-normGrpSec="false" id="ph4" title="Maths Section 4">
+													<span style="vertical-align:middle">Physics Sec 4</span>
+													<div class="subject_instruction_icon1"></div>
+												</div>
+												<div class="allSections" data-normGrpSec="false" id="ph5" title="Maths Section 5">
+														<span style="vertical-align:middle">Physics Sec 5</span>
+														<div class="subject_instruction_icon1"></div>
+													</div> -->
+										<div class="allSections" data-normGrpSec="false" id="ch1" onclick="switchSection(event,'ch1')" title="Chemistry Section 1">
+											<span style="vertical-align:middle">Chemistry Sec 1</span>
+											<div class="subject_instruction_icon1"></div>
+										</div>
+										<div class="allSections" data-normGrpSec="false" id="ch2" onclick="switchSection(event,'ch2')" title="Chemistry Section 2">
+												<span style="vertical-align:middle">Chemistry Sec 2</span>
+												<div class="subject_instruction_icon1"></div>
+											</div>
+											<div class="allSections" data-normGrpSec="false" id="ch3" onclick="switchSection(event,'ch3')" title="Chemistry Section 3">
+													<span style="vertical-align:middle">Chemistry Sec 3</span>
+													<div class="subject_instruction_icon1"></div>
+												</div>
+												<!-- <div class="allSections" data-normGrpSec="false" id="ch4" title="Chemistry Section 4">
+														<span style="vertical-align:middle">Chemistry Sec 4</span>
+														<div class="subject_instruction_icon1"></div>
+													</div>
+													<div class="allSections" data-normGrpSec="false" id="ch5" title="Chemistry Section 5">
+															<span style="vertical-align:middle">Chemistry Sec 5</span>
+															<div class="subject_instruction_icon1"></div>
+														</div> -->
+											
+									</div>
+						</div>
+						</div>
 					</div>
 					<div class="subject-section-rightarrow">
 						<div class="subject-arrow-right-disabled"></div>
@@ -1531,12 +1574,12 @@ $( document ).ready(function() {
 						<div class="notation_typeDiv"> <span class="not_answered notAnsweredCount" id=""></span> <span class="type_title notAnsweredLabel" id=""> Not Answered </span> </div>
 					
                         <div class="clear"></div>
-						   <div class="notation_typeDiv leftdiv_notation"> <span class="not_visited notVisitedCount" id=""></span> <span class="type_title notVisitedLabel" id="">Not Visited </span> </div>
-						    <div class="notation_typeDiv"> <span class="review markedCount" id=""></span> <span class="type_title markedLabel" id=""> Marked for Review</span> </div>
+						   <!-- <div class="notation_typeDiv leftdiv_notation"> <span class="not_visited notVisitedCount" id=""></span> <span class="type_title notVisitedLabel" id="">Not Visited </span> </div> -->
+						    <!-- <div class="notation_typeDiv"> <span class="review markedCount" id=""></span> <span class="type_title markedLabel" id=""> Marked for Review</span> </div> -->
 						   
 							 <div class="clear"></div>
-							    <div class="notation_typeDiv answered_review_container review_mark" id=""> <span class="review_marked markedReviewCount" id=""></span> <span class="type_title markedAndAnsweredLabel" id="">Answered & Marked for Review</span> </div>
-								 <div class="notation_typeDiv answered_review_container review_answer" id=""> <span class="review_answered markedAnsweredCount" id=""></span> <span class="type_title markedAndAnsweredLabel" id="">Answered & Marked for Review</span> </div>
+							    <!-- <div class="notation_typeDiv answered_review_container review_mark" id=""> <span class="review_marked markedReviewCount" id=""></span> <span class="type_title markedAndAnsweredLabel" id="">Answered & Marked for Review</span> </div>
+								 <div class="notation_typeDiv answered_review_container review_answer" id=""> <span class="review_answered markedAnsweredCount" id=""></span> <span class="type_title markedAndAnsweredLabel" id="">Answered & Marked for Review</span> </div> -->
 							<div class="clear"></div>
              </div>
                     </div>
@@ -1544,14 +1587,14 @@ $( document ).ready(function() {
               <div class="rightSectionDiv" id="rightSectionDiv1">
                
                 <div class="content">
-                  
+                  <!-- <p></p> -->
                 </div>
               </div>
               <div class="rightSectionDiv" id="rightSectionDiv2">
                 <div class="header">&nbsp;<span  class="viewSection"><b></b> </span>
 				</div>
                 <div class="subheader" id="chooseQuestion">Choose a Question</div>
-                <div class="content nano" id="question_area" style="height: 200px;" >
+                <div class="content nano" id="question_area" style="height: 500px;" >
                   <div class="question_area nano-content" > 
                      <div class="numberpanelQues"></div> 
                   </div>
@@ -1606,9 +1649,9 @@ $( document ).ready(function() {
 		<div id="currentQues" >
 			<h4>
 				<div id="marks">
-					<p>Marks for this Question : </p><p id="tmarks"></p>
-					<p>Negative Marking for this Question : </p><p id="nmarks"></p>
-					<p>Partial Marking for this Question : </p><p id="pmarks"></p>
+					<p><span>&nbsp;&nbsp;&nbsp;</span>Marks for this Question : <span id="tmarks" style="color:green;"></span></p>
+					<p><span>&nbsp;&nbsp;&nbsp;</span>Negative Marking for this Question : <span id="nmarks" style="color:red;"></span></p>
+					<p><span>&nbsp;&nbsp;&nbsp;</span>Partial Marking for this Question : <span id="pmarks" style="color:black;"></span></p>
 				</div>
 			<div id="quest" style="">
 
