@@ -502,7 +502,17 @@ $( document ).ready(function() {
 				$("#opt2").hide();
 				$("#opt3").hide();
 				$("#opt4").hide();	
-				$("#imgDiv").hide();			
+				$("#imgDiv").hide();
+			try{
+				$("#nmarks")[0].innerHTML ="";
+			$("#pmarks")[0].innerHTML = "";
+			$("#tmarks")[0].innerHTML = "";
+				$('#marks').hide();			
+			}
+			catch(err){
+				$("#marks").hide();
+			}
+
 			console.log(QP[sectID]);
 			var $numberPanel = $('.numberpanelQues')[0];
 			$numberPanel.innerHTML='';
@@ -537,6 +547,9 @@ $( document ).ready(function() {
 		}
 		function setQuestion(result,questID){
 			console.log(result);
+			$("#nmarks")[0].innerHTML ="";
+			$("#pmarks")[0].innerHTML = "";
+			$("#tmarks")[0].innerHTML = "";
 			var $questionArea = $('#Questn_Area');
 			var $currQuest = document.getElementById('currentQues');
 			//link the submit buttons 
@@ -579,6 +592,7 @@ $( document ).ready(function() {
 						break;
 					}
 			}
+			console.log("--------------------------------------------------------------------");
 			console.log(resp);
 			console.log(result.nmarks);
 				console.log(result.pmarks);
@@ -587,6 +601,25 @@ $( document ).ready(function() {
 				console.log(result.imgURL);
 			var imgCheck = result.imgCheck||false;
 			var imgURL = result.imgURL||null;
+			$('#marks').show();
+			try{
+				document.getElementById("tmarks").innerHTML = result.tmarks||'Not Assigned Yet';
+			}
+			catch(err){
+				console.log("Unable to display total marks");
+			}
+			try{
+				document.getElementById("pmarks").innerHTML = result.pmarks||"0";
+			}
+			catch(err){
+				console.log("Unable to display partial marks for the Question");
+			}
+			try{
+				document.getElementById("nmarks").innerHTML = result.nmarks||"0";
+			}
+			catch(err){
+				console.log("Unable to display negative marks for the Question");
+			}
 			if(parseInt(result.section)==1){
 				//MCQ type Question 
 				//setting question
@@ -1490,6 +1523,11 @@ $( document ).ready(function() {
 	 	<!-- <span class="expand_icon"></span> -->
 		<div id="currentQues" >
 			<h4>
+				<div id="marks">
+					<p>Marks for this Question : </p><p id="tmarks"></p>
+					<p>Negative Marking for this Question : </p><p id="nmarks"></p>
+					<p>Partial Marking for this Question : </p><p id="pmarks"></p>
+				</div>
 			<div id="quest" style="">
 
 			</div>
