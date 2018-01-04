@@ -321,6 +321,47 @@ $( document ).ready(function() {
 <!-- Script created by Rachit Tibrewal -->
 {% csrf_token %}
 <script>
+	//-------------------------------------------------------------
+					function showInstruction(){
+					$('<iframe />');  // Create an iframe element
+					$('<iframe />', {
+						name: 'frame1',
+						id: 'iframeId',
+						src: '/test/instr/'
+					}).appendTo('.mContent');
+					//$('.mContent').html('<iframe id="frame1" src="iframesQuiz.html" style="height:95%;width:100%;border:none;border-bottom:1px #CCC solid;"></iframe>')
+					$(".mpop").fadeIn('slow');
+					$('.overlay').show();
+					$(".mpop table").css({'text-align':'left'});
+				}
+				function activeLink(linkId){
+					// for(var i=0;i<mockVar.activeLinkList.length;i++){
+					// 	if(mockVar.activeLinkList[i]==linkId){
+					// 		//$("#"+mockVar.activeLinkList[i]).css("background","#2F72B7");
+					// 		$("#"+mockVar.activeLinkList[i]).css("color","white");
+					// 	}else{
+					// 		$("#"+mockVar.activeLinkList[i]).removeAttr('style');
+					// 	}
+					// }
+
+						// if(iframeCount === 0){
+							$('<iframe />');  // Create an iframe element
+										$('<iframe />', {
+											name: 'frame1',
+											id: 'iframeId',
+											src: '/test/instr/'
+										}).appendTo('#quizInstruDiv');
+										iframeCount = 1;
+										// }
+										showModule('instructionsDiv');
+							var url =".TB_inline2?height=auto&max-height=100%&min-height=100&width=520&inlineId=hiddenModal1&modal=true";
+							tb_show("Server URL", url);
+
+							//$('#instructionsDiv').append('Some text')
+						
+		}
+
+		
 		///------------------------------------------------
 		///------------------------------------------------
 		document.onfullscreenchange = function ( event ) { 
@@ -343,6 +384,8 @@ $( document ).ready(function() {
 			if(typeof(Storage)=='undefined'){
 				alert('This browser does not support local storage please try with some other browser');
 			}
+			alert("The site is in development phase.Click Save after every answer,only this will save the response.To unattempt any question click clear response.Saving answers after time duration,will only have effects in front of you,but they will not be saved ..Timer has started.All the best");
+
 			document.fullscreenElement;
 			document.onfullscreenchange = function ( event ) { 
 			console.log("FULL SCREEN CHANGE");
@@ -1317,7 +1360,8 @@ $( document ).ready(function() {
 		<div class="helpinstruction_div"><div class="help_div usefulDataDiv" id="usefulDataDiv" style="display:none;"><span class="help_icon"></span><a class="test-instruct" onclick="showHelpContent(event);"><span  class="auditlogButton UF" id="usefulData">Useful Data</span></a>
 		</div>
 		<div class="instruction_div" title=""><span class="instruction_icon">
-		</span><a class="test-instruct thickbox"  onclick="activeLink('VI')"><span  id="VI" class="auditlogButton" >View Instruction</span></a>
+		</span>
+		<a class="test-instruct thickbox"  onclick="activeLink('VI')"><span  id="VI" class="auditlogButton" >View Instruction</span></a>
 		</div>
 		<div class="viewquestion_div" id="viewQPTD"><span class="questionpaper_icon"></span><a class="test-instruct thickbox"  onclick="showQP();activeLink('viewQPButton')"><span id="viewQPButton" class="auditlogButton" title="View Entire Question Paper">Question Paper</span></a></div></div>
     </div>

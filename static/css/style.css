@@ -820,7 +820,7 @@ border:1px solid #c3c3c1
     text-align: center;
 }
 #User_Hldr {
-	border-left:1px solid #c3c3c1;
+	border-left:2px solid black;
     height: 112px;
     position: relative;
 }
@@ -939,8 +939,8 @@ background:#e5f6fd;
 }
 
 .finalSubmit {
-   background: #e5f6fd none repeat scroll 0 0;
-    border-left: 2px solid black;
+   background: white none repeat scroll 0 0;
+    /* border-left: 0px solid black; */
     clear: both;
     float: right;
     width: 261px;

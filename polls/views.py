@@ -41,3 +41,5 @@ def testjson(request):
     sandy_key = sandy.put()
     print sandy_key
     return HttpResponse(json.dumps(json_dic),content_type='application/json')
+def instr(request):
+    return HttpResponse("OK")
