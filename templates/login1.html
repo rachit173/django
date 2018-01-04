@@ -1,5 +1,6 @@
 <html>
 <head>
+	{%load static%}
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
 
 	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">  
@@ -200,7 +201,7 @@ table {
 <body>		
 		<div class="row" id="header">
 			<div id="left" class="col s6">
-			Bothra Classes
+					<img src="{% static "images/bothralogo.png"%}" style="max-height: 50;" alt="Bothra Classes"/>					
 			</div>
 			<div id="right" class="col s6">
 			</div>
@@ -244,8 +245,9 @@ table {
 		<div class="col s2 m2 l3">
 		</div>
 		<div id="footer">
-			Created by <b>Bothra Alumni</b>
-		</div>
+                Developed by <b>Rachit Tibrewal</b><br>
+                <i>For any queries and suggestions, email at rachittibrewal@gmail.com</i>
+            </div>
 <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="js/materialize.min.js"></script>
 	<script type="text/javascript" src="js/materialize.js"></script>

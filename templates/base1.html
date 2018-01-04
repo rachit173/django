@@ -1,7 +1,9 @@
 <html>
     <head>
+        {%load static%}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-    
+        <title>
+        </title>
         <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">  
         <!-- <link type="text/css" rel="stylesheet" href="css/sitemap.css"/> -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -199,9 +201,10 @@
     </head>
     
     <body>		
+        {%load static%}
             <div class="row" id="header">
                 <div id="left" class="col s6">
-                Bothra Classes
+                        <img src="{% static "images/bothralogo.png"%}" style="max-height: 50;" alt="Bothra Classes"/>
                 </div>
                 <div id="right" class="col s6">
                 </div>
@@ -256,11 +259,12 @@
             </div>
             {%block footer%}
             <div id="footer">
-                Created by <b>Bothra Alumni</b>
+                Developed by <b>Rachit Tibrewal</b><br>
+                <i>For any queries and suggestions, email at rachittibrewal@gmail.com</i>
             </div>
             {%endblock%}
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="js/materialize.min.js"></script>
-        <script type="text/javascript" src="js/materialize.js"></script>
+        <!-- <script type="text/javascript" src="js/materialize.min.js"></script> -->
+        <!-- <script type="text/javascript" src="js/materialize.js"></script> -->
     </body>
     </html>

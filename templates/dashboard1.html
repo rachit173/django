@@ -563,10 +563,12 @@ $( document ).ready(function() {
 		+ minutes + "m " + seconds + "s "+'</h4>';
 		
 		// If the count down is finished, write some text 
-		if (distance < 0&&QP["Submit"]==false) {	
+		if (distance < 0&&QP["submit"]==false) {	
 			clearInterval(x);
 			// submitConfirmation1();
 			document.getElementById("timer").innerHTML = "EXPIRED";
+			alert("Press the Submit button. Changes will not be saved after this point.");
+			
 		}
 		}, 1000);
 		}
@@ -1347,7 +1349,14 @@ $( document ).ready(function() {
 			
 					<div align="left" id="bannerImage" style="float:left">
 						<div id="bannerImg" style="float:left"></div>
-						<div id="bannerText" align="center" style="margin-top:10px; font-weight:bold;"><font size="6" color="#ffffff"><p style="text-indent: 5em;font-size:14;">Bothra Classes </p></font></div>
+						<!-- <font size="250" align=right> -->
+								
+								<!-- <p>Search Results</p>                             -->
+						  <!-- </font> -->
+						<div id="bannerText" align="center" style="margin-top:10px; font-weight:bold;">
+							&nbsp;	<img src="{% static "images/bothralogo.png"%}" height="30" alt="Bothra Classes"/>									
+							<!-- <font size="6" color="#ffffff"><p style="text-indent: 5em;font-size:14;">Bothra Classes </p></font> -->
+						</div>
 					</div>
 					<div class="hamburgerBar"> <i class="hamicon"></i></div>
 				 
@@ -2747,7 +2756,8 @@ function scratchPadiON(){
         });
 		</script>
 <div class="protactor-div">
-<div id="protactor"><img src="{%static 'images/1.png'%}" id="protactorid" /></div>
+<div id="protactor">
+	<!-- <img src="{%static 'images/1.png'%}" id="protactorid" /></div> -->
 </div>
 <script>
 function ionProtractor(){
