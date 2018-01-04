@@ -23,7 +23,7 @@ import json
 import datetime
 from polls.ndbmodels import *
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    return redirect('/login/')
 @login_required()
 def home(request):
         user = User.objects.get(username=request.user)
