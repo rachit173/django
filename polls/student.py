@@ -100,13 +100,24 @@ def saveResponse(request):
     except:
         print "The test ID is not present"
         pass
+    test = client.get(client.key('Test',testID))
+    timeLim = test["timeLim"]
+    M = 60*1000
     # print testID
     # print questID
     # print ans
     # print int(request.POST['sesskey'])
     sesskey = client.key('Test',testID,'Account',username,'Sess',int(request.POST['sesskey']))
     sess = client.get(sesskey)
-    # print sess
+    atm = sess["created"].replace(tzinfo=None)
+    btm = datetime.datetime.now()
+    c = btm-atm
+    elapsed = c.total_seconds()*1000
+    print elapsed
+    if elapsed>=timeLim*M:
+        sess["submit"]=True
+        client.put(sess)
+        return HttpResponse("The test is over...")
     if sess==None: return HttpResponse("Session not present")
     questIDbyte = str(questID)
     if sess.get(questIDbyte)==None:
@@ -140,7 +151,11 @@ def saveResponse(request):
                     sess[questIDbyte]['attempt']  = zero
                     attempt = zero
             except:
-                pass    
+                pass 
+        ## before saving we will check the time remaining
+        # If there is no remainin time we will not save the query and 
+        # make sess.submit=True
+           
         client.put(sess)
     ret = {}
     ret["attempt"] = attempt
@@ -150,6 +165,7 @@ def saveResponse(request):
     print ret
     ##Also to be added is that the time between the start and end is less than timeLim of test
     # print sess
+    ##All the timings are in microseconds
     return HttpResponse(json.dumps(ret),content_type="application/json")
 @login_required(login_url='/login/')
 def submitSuccess(request):
@@ -192,6 +208,8 @@ def result(request,testcode,sesscode):
     ret['ch1'] = []
     ret['ch2'] = []
     ret['ch3'] = []
+    ret["totMarks"] = 0
+    ret["obMarks"] = 0
     sections = ['ma1','ma2','ma3','ph1','ph2','ph3','ch1','ch2','ch3']
     mp = {}
     mp['1'] = 'ma'
@@ -237,8 +255,20 @@ def result(request,testcode,sesscode):
         haha['neg'] = neg 
         haha['par'] = par
         haha['ob'] = 0
+        haha['imgURL'] = q.get('imgURL')
+        ret['totMarks']+=tot
         ##Check is the candidate even saved the question once
-        if Sess.get(quest_id)==None: continue
+        if Sess.get(quest_id)==None:
+            haha['questID'] = quest_id
+            haha['response'] = 'Did not attempt'
+            try:
+                haha['correct'] = con(q.get('ans'),int(quest_section))
+            except:
+                print "con() method could not convert the ans to list representation"
+            if haha.get('correct') ==None: 
+                continue
+            ret[complete_section].append(haha)
+            continue    
         ##If not the quests reponse key would not have 
         ##created in the session 
         ##
@@ -259,6 +289,7 @@ def result(request,testcode,sesscode):
             except:
                 haha['response'] = None
             haha['ob'] = calc(haha['response'],haha['correct'],tot,neg,par,int(quest_section))
+            ret['obMarks']+=haha['ob']
             ret[complete_section].append(haha)
     return render(request,'result.html',ret)
 @login_required(login_url='/login/')

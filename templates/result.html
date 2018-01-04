@@ -1,14 +1,17 @@
 {%extends 'base1.html'%}
 {%block body%}
 <script>
-    console.log({{ma1}});
+    // console.log({{ma1}});
 </script>
 <div class="container">
+    <h4>Total Marks:    </h4><span style="color:black;">{{totMarks}}</span>
+    <h4>Obtained Marks: </h4><span style="color:black;">{{obMarks}}</span>
     {%if ma1%}
-    <h2 style="color:grey;">Maths Section : Multiple Choice Question</h2>
+    <h5 style="color:grey;">Maths Section : Multiple Choice Question</h5>
     <table class="table table-fixed">
             <thead bgcolor="#29394A">
                 <tr>
+                    <th>Question Link</th>
                     <th>Total Marks Assigned</th>
                     <th>Negative Marks Assigned</th>
                     <th>Marks Obtained</th>
@@ -19,6 +22,7 @@
             <tbody style="color:black;">
                 {%for q in ma1%}
                 <tr>
+                        <td><a href="{{q.imgURL}}">Q></a></td>
                     <td>{{q.tot}}</td>
                     <td>{{q.neg}}</td>
                     <td>{{q.ob}}</td>
@@ -31,10 +35,11 @@
         <br>
     {%endif%}
     {%if ma2%}
-    <h2 style="color:grey;">Maths Section : Multiple Answer Question</h2>
+    <h5 style="color:grey;">Maths Section : Multiple Answer Question</h5>
     <table class="table table-fixed">
             <thead bgcolor="#29394A">
                 <tr>
+                        <th>Question Link</th>
                     <th>Total Marks Assigned</th>
                     <th>Negative Marks Assigned</th>
                     <th>Partial Marks Assigned</th>
@@ -46,6 +51,7 @@
             <tbody style="color:black;">
                 {%for q in ma2%}
                 <tr>
+                        <td><a href="{{q.imgURL}}">Q></a></td>
                     <td>{{q.tot}}</td>
                     <td>{{q.neg}}</td>
                     <td>{{q.par}}</td>
@@ -59,10 +65,11 @@
         <br>
     {%endif%}
     {%if ma3%}
-    <h2 style="color:grey;">Maths Section : Integer Type</h2>
+    <h5 style="color:grey;">Maths Section : Integer Type</h5>
     <table class="table table-fixed">
             <thead bgcolor="#29394A">
                 <tr>
+                        <th>Question Link</th>
                     <th>Total Marks Assigned</th>
                     <th>Negative Marks Assigned</th>
                     <th>Marks Obtained</th>
@@ -73,6 +80,7 @@
             <tbody style="color:black;">
                 {%for q in ma3%}
                 <tr>
+                        <td><a href="{{q.imgURL}}">Q></a></td>
                     <td>{{q.tot}}</td>
                     <td>{{q.neg}}</td>
                     <td>{{q.ob}}</td>
@@ -85,10 +93,11 @@
         <br>
     {%endif%}
     {%if ph1%}
-    <h2 style="color:grey;">Physics Section : Multiple Choice Question</h2>
+    <h5 style="color:grey;">Physics Section : Multiple Choice Question</h5>
     <table class="table table-fixed">
             <thead bgcolor="#29394A">
                 <tr>
+                        <th>Question Link</th>
                     <th>Total Marks Assigned</th>
                     <th>Negative Marks Assigned</th>
                     <th>Marks Obtained</th>
@@ -99,6 +108,7 @@
             <tbody style="color:black;">
                 {%for q in ph1%}
                 <tr>
+                        <td><a href="{{q.imgURL}}">Q></a></td>
                     <td>{{q.tot}}</td>
                     <td>{{q.neg}}</td>
                     <td>{{q.ob}}</td>
@@ -110,11 +120,12 @@
         </table>
         <br>
     {%endif%}
-    {%if ph2%}
-    <h2 style="color:grey;">Physics Section : Multiple Answer Question</h2>
+    {%if ph5%}
+    <h5 style="color:grey;">Physics Section : Multiple Answer Question</h5>
     <table class="table table-fixed">
             <thead bgcolor="#29394A">
                 <tr>
+                        <th>Question Link</th>
                     <th>Total Marks Assigned</th>
                     <th>Negative Marks Assigned</th>
                     <th>Partial Marks Assigned</th>
@@ -124,8 +135,9 @@
                 </tr>
             </thead>
             <tbody style="color:black;">
-                {%for q in ph2%}
+                {%for q in ph5%}
                 <tr>
+                        <td><a href="{{q.imgURL}}">Q></a></td>
                     <td>{{q.tot}}</td>
                     <td>{{q.neg}}</td>
                     <td>{{q.par}}</td>
@@ -139,10 +151,11 @@
         <br>
     {%endif%}
     {%if ph3%}
-    <h2 style="color:grey;">Physics Section : Integer Type</h2>
+    <h5 style="color:grey;">Physics Section : Integer Type</h5>
     <table class="table table-fixed">
             <thead bgcolor="#29394A">
                 <tr>
+                        <th>Question Link</th>
                     <th>Total Marks Assigned</th>
                     <th>Negative Marks Assigned</th>
                     <th>Marks Obtained</th>
@@ -153,6 +166,7 @@
             <tbody style="color:black;">
                 {%for q in ph3%}
                 <tr>
+                        <td><a href="{{q.imgURL}}">Q></a></td>
                     <td>{{q.tot}}</td>
                     <td>{{q.neg}}</td>
                     <td>{{q.ob}}</td>
@@ -165,10 +179,11 @@
         <br>
     {%endif%}
     {%if ch1%}
-    <h2 style="color:grey;">Chemistry Section : Multiple Choice Question</h2>
+    <h5 style="color:grey;">Chemistry Section : Multiple Choice Question</h5>
     <table class="table table-fixed">
             <thead bgcolor="#29394A">
                 <tr>
+                        <th>Question Link</th>
                     <th>Total Marks Assigned</th>
                     <th>Negative Marks Assigned</th>
                     <th>Marks Obtained</th>
@@ -179,6 +194,7 @@
             <tbody style="color:black;">
                 {%for q in ch1%}
                 <tr>
+                        <td><a href="{{q.imgURL}}">Q></a></td>
                     <td>{{q.tot}}</td>
                     <td>{{q.neg}}</td>
                     <td>{{q.ob}}</td>
@@ -190,11 +206,12 @@
         </table>
         <br>
     {%endif%}
-    {%if ch2%}
-    <h2 style="color:grey;">Chemistry Section : Multiple Answer Question</h2>
+    {%if ch5%}
+    <h5 style="color:grey;">Chemistry Section : Multiple Answer Question</h5>
     <table class="table table-fixed">
             <thead bgcolor="#29394A">
                 <tr>
+                        <th>Question Link</th>
                     <th>Total Marks Assigned</th>
                     <th>Negative Marks Assigned</th>
                     <th>Partial Marks Assigned</th>
@@ -204,8 +221,9 @@
                 </tr>
             </thead>
             <tbody style="color:black;">
-                {%for q in ch2%}
+                {%for q in ch5%}
                 <tr>
+                        <td><a href="{{q.imgURL}}">Q></a></td>
                     <td>{{q.tot}}</td>
                     <td>{{q.neg}}</td>
                     <td>{{q.par}}</td>
@@ -219,10 +237,11 @@
         <br>
     {%endif%}
     {%if ch3%}
-    <h2 style="color:grey;">Chemistry Section : Integer Type</h2>
+    <h5 style="color:grey;">Chemistry Section : Integer Type</h5>
     <table class="table table-fixed">
             <thead bgcolor="#29394A">
                 <tr>
+                        <th>Question Link</th>
                     <th>Total Marks Assigned</th>
                     <th>Negative Marks Assigned</th>
                     <th>Marks Obtained</th>
@@ -233,6 +252,7 @@
             <tbody style="color:black;">
                 {%for q in ch3%}
                 <tr>
+                    <td><a href="{{q.imgURL}}">Q></a></td>
                     <td>{{q.tot}}</td>
                     <td>{{q.neg}}</td>
                     <td>{{q.ob}}</td>

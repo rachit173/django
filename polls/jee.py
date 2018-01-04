@@ -21,6 +21,8 @@ def testcreator(request):
         test = client.get(key)
         if test==None:
             test = datastore.Entity(key=key)
+            test["timeLim"] = request.POST.get("timeLim",180)
+            client.put(test)
         return render(request,'testgen.html',{"testcode":testcode})
     return redirect('/login/')
 @login_required(login_url='/login')

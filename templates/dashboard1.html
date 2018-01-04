@@ -463,15 +463,16 @@ $( document ).ready(function() {
 				else{
 					console.log("The paper has not been yet subitted.");
 					console.log("The candidate is starting/resuming the test.");
-					var temp = setInterval(function(){
-					$.post('/test/time/remain/',{
-							'testID':testID,
-							'sessID': localStorage.sesskey,
-							csrfmiddlewaretoken: '{{csrf_token}}',
-						}).done(function(result){
-							submitConfirmation1();
-						});		
-						},5*1000);
+					// var temp = setInterval(function(){
+					// $.post('/test/time/remain/',{
+					// 		'testID':testID,
+					// 		'sessID': localStorage.sesskey,
+					// 		csrfmiddlewaretoken: '{{csrf_token}}',
+					// 	}).done(function(result){
+					// 		clearInterval(temp);
+					// 		submitConfirmation1();
+					// 	});		
+					// 	},5*1000);
 				}
 			}
 			catch(err){
@@ -1156,27 +1157,27 @@ $( document ).ready(function() {
 				console.log("The user wishes to check the answers once again");
 			}
 		}
-		function submitConfirmation1(){
-			console.log("The user wishes to submit");
-			// var retVal = confirm("Do you wish to submit");
-			// if(retVal== true){
-				$.post('/test/final/submit/',{
-					"submit": true,			
-					'testID': testID,
-					'sessID': localStorage.sesskey,
-					csrfmiddlewaretoken: '{{csrf_token}}',
-				}).done(function(result){
-					alert("Time UP!, the test has been submitted.");
-					window.location.href = '/test/submit/result/';
-				}).error(function(err){
-					alert("The test was not saved, Click the Submit buttom once again,");
-				});
+		// function submitConfirmation1(){
+		// 	console.log("The user wishes to submit");
+		// 	// var retVal = confirm("Do you wish to submit");
+		// 	// if(retVal== true){
+		// 		$.post('/test/final/submit/',{
+		// 			"submit": true,			
+		// 			'testID': testID,
+		// 			'sessID': localStorage.sesskey,
+		// 			csrfmiddlewaretoken: '{{csrf_token}}',
+		// 		}).done(function(result){
+		// 			alert("Time UP!, the test has been submitted.");
+		// 			window.location.href = '/test/submit/result/';
+		// 		}).error(function(err){
+		// 			alert("The test was not saved, Click the Submit buttom once again,");
+		// 		});
 				
-			// }
-			// else{
-				// console.log("The user wishes to check the answers once again");
-			// }
-		}
+		// 	// }
+		// 	// else{
+		// 		// console.log("The user wishes to check the answers once again");
+		// 	// }
+		// }
 	</script>
 </head>
 <body onload="initialiseQP();" onselectstart="return true;">
