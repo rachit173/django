@@ -15,7 +15,7 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from polls.jee import testcreator,getdata,savedata,getquest,createquest,deletequest,savedatamarks,getdata_student,getquest_student,gettime_student
+from polls.jee import testcreator,getdata,savedata,getquest,createquest,deletequest,savedatamarks,getdata_student,getquest_student,gettime_student,rankList
 from polls.views import index,home,testjson,instr
 from polls.student import testdashboard,saveResponse,submitSuccess,result,finalSubmit
 from polls.testgen import startpage,dashboard,dashboard01,submit,submitresponse
@@ -47,6 +47,7 @@ urlpatterns = [
     url(r'^test/save/response/$',saveResponse),
     url(r'^test/submit/result/$',submitSuccess),
     url(r'^result/(\w+)/(\w+)/$',result),
+    url(r'^ranklist/(\w+)/$',rankList),
     url(r'^test/final/submit/$',finalSubmit),
     url(r'^test/time/remain/$',gettime_student),
     url(r'^test/instr/$',instr),

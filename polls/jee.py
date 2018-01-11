@@ -6,7 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from .models import Test,MCQ,MCQProxy,TestProxy
 from google.cloud import datastore
+from utility import con,decon,calc,resultRowDict
 import datetime
+import csv
 # from datetime import timezone
 import json
 client = datastore.Client()
@@ -419,3 +421,42 @@ def createquest(request):
         ret = {}
         ret['questID'] = complete_id
         return HttpResponse(json.dumps(ret),content_type='application/json')
+@login_required(login_url='/login/')
+def rankList(request,testcode):
+    staff = User.objects.get(username=request.user)
+    if staff==None:
+        return HttpResponse("Staff username D.N.E.")
+    if staff.is_staff == False:
+        return HttpResponse("User is not staff")
+    Test = None
+    # testcode = str(testcode)
+    # print type(testcode) ,testcode   
+    try:
+        Test = client.get(client.key('Test',testcode))
+    except:
+        print "The test is not present"
+        print "The test code is ",testcode
+        return HttpResponse("Nothing to be downloaded")
+    if Test == None:
+        return HttpResponse("Such a test D.N.E.")
+    ##First obtain the question List
+    qgen = client.query(kind='Quest',ancestor=client.key('Test',testcode))
+    iter_query = qgen.fetch()
+    lst_query = list(iter_query)
+    ##obtain the list of Users
+    ugen = client.query(kind='Sess',ancestor=client.key('Test',testcode))
+    iter_users = ugen.fetch()
+    X = []
+    for Sess in iter_users:
+        tmp = resultRowDict(Sess,lst_query)
+        print "tmp",Sess['user'],tmp
+        if tmp!=None:
+            X.append(tmp)
+    print X
+    csv_response = HttpResponse(content_type='text/csv')
+    csv_response['Content-Disposition'] = 'attachment; filename="ranklist.csv"'
+    writer = csv.writer(csv_response)
+    writer.writerow(['Roll Number','Batch','Maths','Physics','Chemistry'])
+    for x in X:
+        writer.writerow(x)
+    return HttpResponse(csv_response)

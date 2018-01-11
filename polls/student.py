@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from .models import Test,MCQ,MCQProxy,TestProxy
+# from .models import Test,MCQ,MCQProxy,TestProxy
 from google.cloud import datastore
 from utility import con,decon,calc
 import datetime
@@ -62,12 +62,14 @@ def testdashboard(request):
     Account = client.get(acc_key)
     ##Check if the test does not already have
     ## a session created by user
-    query = client.query(kind='Sess',ancestor=client.key('Test',request.POST['testcode'],'Account',username))
+    query = client.query(kind='Sess',\
+        ancestor=client.key('Test',request.POST['testcode'],'Account',username))
     lst = list(query.fetch())
-    if len(lst)>=1:
-        if len(lst)>1: print "More than two sessions by a user"
-        sess = lst[0]    
-        return render(request,'dashboard1.html',{'testID':testcode,'sesskey':sess.key.id,'created':sess['created']})
+    if len(lst) >= 1:
+        if len(lst) > 1: print "More than two sessions by a user"
+        sess = lst[0]
+        return render(request, 'dashboard1.html', \
+                {'testID':testcode, 'sesskey':sess.key.id, 'created':sess['created']})
     ##The Account is now created or accessed
     ##Now we needd to check if the test proxy object already exists
     ##or it needs to be created
