@@ -453,10 +453,28 @@ def rankList(request,testcode):
         if tmp!=None:
             X.append(tmp)
     print X
+    mp = {}
+    mp['1'] = 'ma'
+    mp['2'] = 'ph'
+    mp['3'] = 'ch'
+    ## calculate the total Marks for different subjects
+    total = {}
+    total['ma'] = 0
+    total['ph'] = 0
+    total['ch'] = 0
+    for q in lst_query:
+        quest_subject = q.get('subject')
+        print q['tmarks']
+        if mp.get(quest_subject)==None:
+            continue
+        try:
+            total[mp[quest_subject]] += q.get('tmarks',0)
+        except:
+            pass
     csv_response = HttpResponse(content_type='text/csv')
     csv_response['Content-Disposition'] = 'attachment; filename="ranklist.csv"'
     writer = csv.writer(csv_response)
-    writer.writerow(['Roll Number','Batch','Maths','Physics','Chemistry'])
+    writer.writerow(['Name','Roll Number','Batch','Maths'+' ( '+str(total['ma'])+' )','Physics'+' ( '+str(total['ph'])+' )','Chemistry'+' ( '+str(total['ch'])+' )'])
     for x in X:
         writer.writerow(x)
     return HttpResponse(csv_response)

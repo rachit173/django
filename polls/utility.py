@@ -110,6 +110,11 @@ def resultRowDict(Sess,lst_query):
     except:
         batch = None
     ret = {}
+    ret['name'] = None
+    try:
+        ret['name'] = user.first_name+" "+user.last_name
+    except:
+        ret['none'] = None
     ret['roll_number'] = username
     ret['batch'] = batch
     ret['ma'] = 0
@@ -180,4 +185,4 @@ def resultRowDict(Sess,lst_query):
 def convertToRow(haha):
     if haha==None:
         return None
-    return [haha.get('roll_number',None),haha.get('batch',None),haha.get('ma',None),haha.get('ph',None),haha.get('ch',None)]
+    return [haha.get('name',None),haha.get('roll_number',None),haha.get('batch',None),haha.get('ma',None),haha.get('ph',None),haha.get('ch',None)]
